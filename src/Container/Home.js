@@ -1,5 +1,8 @@
 import React from 'react';
 //import Script from 'react-load-script'
+import {Link,Route} from 'react-router-dom';
+import Login from "./Login";
+
 
 class Home extends React.Component{
 
@@ -144,13 +147,15 @@ class Home extends React.Component{
         return(
             <div>
                 <nav className="navbar navbar-light bg-light">
-                    <a className="navbar-brand">
-                    <i className="fa fa-lg fa-music" />&nbsp;&nbsp;BeatDrop</a>
+                    <Link to="/"><a className="navbar-brand">
+                        <i className="fa fa-lg fa-music" />&nbsp;&nbsp;BeatDrop</a></Link>
                     <form className="form-inline">
                         <input className="form-control mr-sm-2" type="search" style={{marginRight:"20px"}} placeholder="Search tracks"
                                ref={node=>searchElement=node} onChange={()=>this.setState({query:searchElement.value})}/>
                         <button className="btn btn-dark" style={{marginRight:"25px"}} onClick={()=>this.searchAll()} type="button">Search</button>
-                        <button className="btn btn-outline-primary" style={{marginRight:"10px"}} type="button">Login</button>
+
+                        <Link to="/login"><button className="btn btn-outline-primary" style={{marginRight:"10px"}} type="button">Login</button></Link>
+
                         <button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">SignUp</button>
                     </form>
                 </nav>
