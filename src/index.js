@@ -10,12 +10,18 @@ import SignUp from "./Container/SignUp"
 ReactDOM.render(
     <Router>
         <div>
-            <Route path='/'
-                   component={Home}/>
-            <Route path='/login'
-                   component={Login}/>
-            <Route path='/signup'
-                   component={SignUp}/>
+            <div className="row">
+                <div className="col-8" style={{marginTop:"5%"}}>
+                    <Route path='/'
+                           component={Home}/>
+                </div>
+                <div className="col-4" style={{marginTop:"5%"}}>
+                    <Route path='/login'
+                           component={Login}/>
+                    <Route path='/signup'
+                           component={SignUp}/>
+                </div>
+            </div>
         </div>
     </Router>,
     document.getElementById('root')

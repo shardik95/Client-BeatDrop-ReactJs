@@ -17,7 +17,8 @@ class Home extends React.Component{
             albumIndex:3,
             albumButton:'See All',
             artistIndex:3,
-            artistButton:'See All'
+            artistButton:'See All',
+            isSearchEmpty:false
         }
         this.searchAll=this.searchAll.bind(this);
         this.millisToMinutesAndSeconds=this.millisToMinutesAndSeconds.bind(this);
@@ -36,6 +37,7 @@ class Home extends React.Component{
             )).then(response=>(
                 this.setState({accessToken:response.access_token})
         ))
+
         /*window.onSpotifyWebPlaybackSDKReady = () => {
             const token = 'BQCG2AVa-ag2EjVG1wzPRVAo4XgnxK8xeXKbwZfMTY27h7SY3zFVAUa9KNMXTAva3DreZUFo8oAeOoHJI7LFJ63HKScxnezoOOGHnAP5haXhRvud8PNaTXcPBIELoYRReroszKQMhT9sVkFB9s5aeEePVIXXeNcG1NEx-AhCeUteb9OvtmdjVw';
             const player = new window.Spotify.Player({
@@ -103,8 +105,18 @@ class Home extends React.Component{
         )).then(object=>(
             this.setState({albums:object.albums.items})
         ))
-    }
 
+        if(this.state.tracks.length===0&&this.state.albums.length===0&&this.state.artists.length===0){
+            this.setState({isSearchEmpty:true})
+        }
+        else {
+            this.setState({isSearchEmpty: false})
+        }
+
+
+
+
+    }
 
 
     millisToMinutesAndSeconds(millis) {
@@ -144,7 +156,7 @@ class Home extends React.Component{
         let searchElement;
         return(
             <div>
-                <nav className="navbar navbar-light bg-light">
+                <nav className="navbar fixed-top navbar-light bg-light">
                     <Link to="/"><a className="navbar-brand">
                         <i className="fa fa-lg fa-music" />&nbsp;&nbsp;BeatDrop</a></Link>
                     <form className="form-inline">
@@ -290,10 +302,6 @@ class Home extends React.Component{
                         </tbody>
                     </table>
                 </div>}
-
-
-
-
             </div>
         )
     }

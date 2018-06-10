@@ -20,6 +20,17 @@ class UserService{
             body:JSON.stringify(user)
         })
     }
+
+    loginUser(user){
+        return fetch("http://localhost:8080/api/login",{
+            method:'post',
+            headers:{
+                'content-type':'application/json'
+            },
+            body:JSON.stringify(user)
+        })
+    }
+
 }
 
 export default UserService;
