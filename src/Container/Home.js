@@ -2,7 +2,7 @@ import React from 'react';
 //import Script from 'react-load-script'
 import {Link,Route} from 'react-router-dom';
 import Login from "./Login";
-
+import SignUp from "./SignUp";
 
 class Home extends React.Component{
 
@@ -156,7 +156,7 @@ class Home extends React.Component{
 
                         <Link to="/login"><button className="btn btn-outline-primary" style={{marginRight:"10px"}} type="button">Login</button></Link>
 
-                        <button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">SignUp</button>
+                        <Link to="/signup"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">SignUp</button></Link>
                     </form>
                 </nav>
                 {/*<Script
