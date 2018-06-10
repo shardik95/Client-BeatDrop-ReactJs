@@ -1,8 +1,6 @@
 import React from 'react';
 //import Script from 'react-load-script'
-import {Link,Route} from 'react-router-dom';
-import Login from "./Login";
-import SignUp from "./SignUp";
+import {Link} from 'react-router-dom';
 
 class Home extends React.Component{
 
