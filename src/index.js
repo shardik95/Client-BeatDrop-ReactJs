@@ -7,10 +7,12 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 import Login from "./Container/Login";
 import SignUp from "./Container/SignUp"
 import UserPublicProfile from "./Container/UserPublicProfile";
+import Redirect from "react-router-dom/es/Redirect";
 
 ReactDOM.render(
     <Router>
         <div>
+            <Redirect from="/" to="/home"/>
             <div>
                 <Route path='/profile'
                        component={UserPublicProfile}/>

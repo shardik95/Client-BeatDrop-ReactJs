@@ -15,9 +15,10 @@ class UserService{
         return fetch("http://localhost:8080/api/signup",{
             method:'post',
             headers:{
-                'content-type':'application/json'
+                'content-type':'application/json',
             },
-            body:JSON.stringify(user)
+            body:JSON.stringify(user),
+            credentials: "same-origin"
         })
     }
 
@@ -27,7 +28,8 @@ class UserService{
             headers:{
                 'content-type':'application/json'
             },
-            body:JSON.stringify(user)
+            body:JSON.stringify(user),
+            credentials: "same-origin"
         })
     }
 

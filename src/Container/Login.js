@@ -23,7 +23,9 @@ class Login extends React.Component{
 
         this.userService.loginUser(user)
             .then(response=> {
-                return response.json()
+                var json=response.json()
+                //console.log(json.credentials)
+                return json
             })
             .then(json=> {
                 if (json.userName === 'CANNOT FIND')

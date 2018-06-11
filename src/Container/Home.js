@@ -159,7 +159,7 @@ class Home extends React.Component{
         return(
             <div>
                 <nav className="navbar fixed-top navbar-light bg-light">
-                    <Link to="/"><a className="navbar-brand">
+                    <Link to="/home"><a className="navbar-brand">
                         <i className="fa fa-lg fa-music" />&nbsp;&nbsp;BeatDrop</a></Link>
                     <form className="form-inline">
                         <input className="form-control mr-sm-2" type="search" style={{marginRight:"20px"}} placeholder="Search tracks"

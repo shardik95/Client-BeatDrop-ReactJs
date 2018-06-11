@@ -10,14 +10,33 @@ import Feed from "./Feed";
 
 class UserPublicProfile extends React.Component{
 
+
+    constructor(props){
+        super(props)
+        this.state={
+            userName:''
+        }
+    }
+
+    componentDidMount(){
+        return fetch("http://localhost:8080/api/profile",{
+            method: 'GET',
+            credentials: 'same-origin',
+        })
+            .then(response=>(
+                console.log(response.json())
+            ))
+    }
+
     render(){
 
         let songs=['Song 1','Song 2','Song 3','Song 4','Song 5','Song 6','Song 7','Song 8']
 
         return(
             <div>
+                {console.log(this.state.userName)}
                 <nav class="navbar fixed-top navbar-light bg-light">
-                    <Link to="/"><a className="navbar-brand">
+                    <Link to="/home"><a className="navbar-brand">
                         <i class="fa fa-lg fa-music" />&nbsp;&nbsp;BeatDrop</a></Link>
                 </nav>
                 <div style={{marginTop:"3%"}} className="row container-fluid">
