@@ -53,9 +53,9 @@ class Login extends React.Component{
 
                     <form className="form-control">
 
-                            <label>Username</label>
+                            <label>Username/Email</label>
                             <input type="text" className="form-control"
-                                   placeholder="Enter Username" onChange={(e)=>this.setState({userName:e.target.value})}/>
+                                   placeholder="Enter Username / Email" onChange={(e)=>this.setState({userName:e.target.value})}/>
                             <label>Password</label>
                             <input type="password" className="form-control" placeholder="Password"
                                    onChange={(e)=>this.setState({password:e.target.value})}/>
