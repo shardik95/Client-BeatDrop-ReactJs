@@ -86,7 +86,7 @@ class SignUp extends React.Component{
                     .then(response => (
                         <div>
                             {alert("user created")}
-                            {this.props.history.push("/")}
+                            {this.props.history.push("/home")}
                         </div>
                     ))
                 this.setState({firstnamereq:false})

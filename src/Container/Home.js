@@ -1,6 +1,8 @@
 import React from 'react';
 //import Script from 'react-load-script'
 import {Link} from 'react-router-dom';
+import Route from "react-router-dom/es/Route";
+import UserPublicProfile from "./UserPublicProfile";
 
 class Home extends React.Component{
 
@@ -164,9 +166,11 @@ class Home extends React.Component{
                                ref={node=>searchElement=node} onChange={()=>this.setState({query:searchElement.value})}/>
                         <button className="btn btn-dark" style={{marginRight:"25px"}} onClick={()=>this.searchAll()} type="button">Search</button>
 
-                        <Link to="/login"><button className="btn btn-outline-primary" style={{marginRight:"10px"}} type="button">Login</button></Link>
+                        <Link to="/home/login"><button className="btn btn-outline-primary" style={{marginRight:"10px"}} type="button">Login</button></Link>
 
-                        <Link to="/signup"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">SignUp</button></Link>
+                        <Link to="/home/signup"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">SignUp</button></Link>
+
+                        <Link to="/profile"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Profile</button></Link>
                     </form>
                 </nav>
                 {/*<Script

@@ -6,19 +6,25 @@ import '../node_modules/font-awesome/css/font-awesome.css';
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import Login from "./Container/Login";
 import SignUp from "./Container/SignUp"
+import UserPublicProfile from "./Container/UserPublicProfile";
 
 ReactDOM.render(
     <Router>
         <div>
+            <div>
+                <Route path='/profile'
+                       component={UserPublicProfile}/>
+
+            </div>
             <div className="row">
                 <div className="col-8" style={{marginTop:"5%"}}>
-                    <Route path='/'
+                    <Route path='/home'
                            component={Home}/>
                 </div>
                 <div className="col-4" style={{marginTop:"5%"}}>
-                    <Route path='/login'
+                    <Route path='/home/login'
                            component={Login}/>
-                    <Route path='/signup'
+                    <Route path='/home/signup'
                            component={SignUp}/>
                 </div>
             </div>

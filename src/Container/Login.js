@@ -30,7 +30,7 @@ class Login extends React.Component{
                     alert("Username / Password incorrect")
                 else {
                     alert("User Logged In")
-                    this.props.history.push("/")
+                    this.props.history.push("/home")
                 }
             })
 
