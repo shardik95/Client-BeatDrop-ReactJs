@@ -3,6 +3,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import Route from "react-router-dom/es/Route";
 import UserPublicProfile from "./UserPublicProfile";
+import UserService from "../Services/UserService";
 
 class Home extends React.Component{
 
@@ -20,14 +21,17 @@ class Home extends React.Component{
             albumButton:'See All',
             artistIndex:3,
             artistButton:'See All',
-            isSearchEmpty:false
+            isSearchEmpty:false,
+            user:'',
+            session:false
         }
         this.searchAll=this.searchAll.bind(this);
         this.millisToMinutesAndSeconds=this.millisToMinutesAndSeconds.bind(this);
         this.setTrackButton=this.setTrackButton.bind(this);
         this.setAlbumButton=this.setAlbumButton.bind(this);
         this.setArtistButton=this.setArtistButton.bind(this);
-
+        this.logout=this.logout.bind(this);
+        this.userService=UserService.instance;
     }
 
 
@@ -39,6 +43,16 @@ class Home extends React.Component{
             )).then(response=>(
                 this.setState({accessToken:response.access_token})
         ))
+
+        fetch("http://localhost:8080/api/profile",{
+            credentials: 'include',
+        }).then(response=> (
+            response.json()
+        )).then(json=> {
+                if (json.userName !== 'CANNOT FIND'){
+                    this.setState({user:json,session:true})
+                    //window.location.reload()
+                }})
 
         /*window.onSpotifyWebPlaybackSDKReady = () => {
             const token = 'BQCG2AVa-ag2EjVG1wzPRVAo4XgnxK8xeXKbwZfMTY27h7SY3zFVAUa9KNMXTAva3DreZUFo8oAeOoHJI7LFJ63HKScxnezoOOGHnAP5haXhRvud8PNaTXcPBIELoYRReroszKQMhT9sVkFB9s5aeEePVIXXeNcG1NEx-AhCeUteb9OvtmdjVw';
@@ -74,6 +88,15 @@ class Home extends React.Component{
             })
         }*/
 
+    }
+
+    componentWillReceiveProps(newProps){
+        window.location.reload()
+    }
+
+    logout(){
+        this.userService.logout();
+        this.setState({user:'',session:false})
     }
 
     searchAll(){
@@ -114,9 +137,6 @@ class Home extends React.Component{
         else {
             this.setState({isSearchEmpty: false})
         }
-
-
-
 
     }
 
@@ -164,13 +184,18 @@ class Home extends React.Component{
                     <form className="form-inline">
                         <input className="form-control mr-sm-2" type="search" style={{marginRight:"20px"}} placeholder="Search tracks"
                                ref={node=>searchElement=node} onChange={()=>this.setState({query:searchElement.value})}/>
-                        <button className="btn btn-dark" style={{marginRight:"25px"}} onClick={()=>this.searchAll()} type="button">Search</button>
+                        <button className="btn btn-dark" style={{marginRight:"5px"}} onClick={()=>this.searchAll()} type="button">Search</button>
 
-                        <Link to="/home/login"><button className="btn btn-outline-primary" style={{marginRight:"10px"}} type="button">Login</button></Link>
+                        <div hidden={this.state.session}>
+                        <Link to="/home/login"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Login</button></Link>
 
-                        <Link to="/home/signup"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">SignUp</button></Link>
-
-                        <Link to="/profile"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Profile</button></Link>
+                        <Link to="/home/signup"><button className="btn btn-outline-primary" style={{marginRight:"10px"}} type="button">SignUp</button></Link>
+                        </div>
+                        <h3 style={{color:"#000",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}</h3>
+                        <div hidden={!this.state.session}>
+                            <Link to="/user/profile"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Profile</button></Link>
+                            <button className="btn btn-outline-primary" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
+                        </div>
                     </form>
                 </nav>
                 {/*<Script
@@ -306,7 +331,6 @@ class Home extends React.Component{
                         </tbody>
                     </table>
                 </div>}
-                {console.log(this.state)}
             </div>
         )
     }

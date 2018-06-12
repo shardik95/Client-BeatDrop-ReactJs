@@ -26,16 +26,15 @@ class UserPublicProfile extends React.Component{
         let userId=this.props.match.params.userId
         this.setUserId(userId);
 
-        this.userService.findUserById(userId)
+        /*this.userService.findUserById(userId)
             .then(response=>(
                 this.setState({user:response})
-            ))
+            ))*/
 
-
-        /*return fetch("http://localhost:8080/api/profile",{
-            method: 'GET',
-            credentials: 'same-origin',
-        })*/
+        fetch("http://localhost:8080/api/profile",{
+            credentials: 'include',
+        }).then((response)=>response.json())
+            .then((json)=>(this.setState({user:json,userId:json.id})))
     }
 
     componentWillReceiveProps(newProps){
@@ -54,6 +53,7 @@ class UserPublicProfile extends React.Component{
 
         return(
             <div>
+                {/*{console.log(this.state.user)}*/}
                 <nav class="navbar fixed-top navbar-light bg-light">
                     <Link to="/home"><a className="navbar-brand">
                         <i class="fa fa-lg fa-music" />&nbsp;&nbsp;BeatDrop</a></Link>

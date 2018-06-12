@@ -16,9 +16,12 @@ class UserService{
             method:'post',
             headers:{
                 'content-type':'application/json',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Credentials':true,
+                'Access-Control-Allow-Origin':true
             },
             body:JSON.stringify(user),
-            credentials: "same-origin"
+            credentials: 'include',
         })
     }
 
@@ -26,10 +29,15 @@ class UserService{
         return fetch("http://localhost:8080/api/login",{
             method:'post',
             headers:{
-                'content-type':'application/json'
+                'content-type':'application/json',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Credentials':true,
+                'Access-Control-Allow-Origin':true
+
             },
             body:JSON.stringify(user),
-            credentials: "same-origin"
+            credentials: 'include',
+
         })
     }
 
@@ -38,6 +46,12 @@ class UserService{
             .then(response =>(
                 response.json()
             ))
+    }
+
+    logout(){
+        fetch("http://localhost:8080/api/logout",{
+            credentials: 'include'
+        })
     }
 
 }
