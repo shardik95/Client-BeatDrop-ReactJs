@@ -12,9 +12,9 @@ import Redirect from "react-router-dom/es/Redirect";
 ReactDOM.render(
     <Router>
         <div>
-            <Redirect from="/" to="/home"/>
+            {/*<Redirect from="/" to="/home"/>*/}
             <div>
-                <Route path='/profile'
+                <Route path='/user/:userId/profile'
                        component={UserPublicProfile}/>
 
             </div>

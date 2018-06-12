@@ -4,13 +4,27 @@ import StarRatings from "react-star-ratings";
 
 class Feed extends React.Component{
 
+
     constructor(props){
         super(props);
         this.state={
             rating:0,
+            userId:''
             //changeRating:3
         }
     }
+
+
+    componentDidMount(){
+        let userId=this.props.match.params.userId
+        this.setState({userId:userId})
+    }
+
+    componentWillReceiveProps(newProps){
+        let userId=newProps.match.params.userId
+        this.setState({userId:userId})
+    }
+
 
     render(){
         return(
@@ -59,6 +73,7 @@ class Feed extends React.Component{
                         </div>
                         <br/>
                     </div>
+                    <h1>{this.state.userId}</h1>
                 </div>
             </div>
         )

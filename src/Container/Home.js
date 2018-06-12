@@ -306,6 +306,7 @@ class Home extends React.Component{
                         </tbody>
                     </table>
                 </div>}
+                {console.log(this.state)}
             </div>
         )
     }

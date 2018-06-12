@@ -33,6 +33,13 @@ class UserService{
         })
     }
 
+    findUserById(id){
+        return fetch("http://localhost:8080/api/user/"+id)
+            .then(response =>(
+                response.json()
+            ))
+    }
+
 }
 
 export default UserService;
