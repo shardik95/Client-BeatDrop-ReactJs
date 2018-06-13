@@ -8,6 +8,7 @@ import Login from "./Container/Login";
 import SignUp from "./Container/SignUp"
 import UserPublicProfile from "./Container/UserPublicProfile";
 import Redirect from "react-router-dom/es/Redirect";
+import Playlist from "./Container/Playlist";
 
 ReactDOM.render(
     <Router>
@@ -18,15 +19,17 @@ ReactDOM.render(
 
             </div>
             <div className="row">
-                <div className="col-8" style={{marginTop:"5%"}}>
+                <div className="col-7" style={{marginTop:"5%"}}>
                     <Route path='/home'
                            component={Home}/>
                 </div>
-                <div className="col-4" style={{marginTop:"5%"}}>
+                <div className="col-5" style={{marginTop:"5%"}}>
                     <Route path='/home/login'
                            component={Login}/>
                     <Route path='/home/signup'
                            component={SignUp}/>
+                    <Route path='/home/playlist/:trackId'
+                           component={Playlist}/>
                 </div>
             </div>
         </div>

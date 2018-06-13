@@ -91,7 +91,15 @@ class Home extends React.Component{
     }
 
     componentWillReceiveProps(newProps){
-        window.location.reload()
+        fetch("http://localhost:8080/api/profile",{
+            credentials: 'include',
+        }).then(response=> (
+            response.json()
+        )).then(json=> {
+            if (json.userName !== 'CANNOT FIND'){
+                this.setState({user:json,session:true})
+                //window.location.reload()
+            }})
     }
 
     logout(){
@@ -223,6 +231,7 @@ class Home extends React.Component{
                                 <th>
                                     Duration
                                 </th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -243,6 +252,9 @@ class Home extends React.Component{
                                             </td>
                                             <td>
                                                 {this.millisToMinutesAndSeconds(track.duration_ms)}
+                                            </td>
+                                            <td>
+                                                <Link to={`/home/playlist/${track.id}`}><button className="btn" ><i className="fa fa-plus"></i></button></Link>
                                             </td>
                                         </tr>
                                         ))}
@@ -331,6 +343,7 @@ class Home extends React.Component{
                         </tbody>
                     </table>
                 </div>}
+
             </div>
         )
     }

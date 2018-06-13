@@ -18,18 +18,10 @@ class UserPublicProfile extends React.Component{
             userId:'',
             user:''
         }
-        this.setUserId=this.setUserId.bind(this);
         this.userService=UserService.instance;
     }
 
     componentDidMount(){
-        let userId=this.props.match.params.userId
-        this.setUserId(userId);
-
-        /*this.userService.findUserById(userId)
-            .then(response=>(
-                this.setState({user:response})
-            ))*/
 
         fetch("http://localhost:8080/api/profile",{
             credentials: 'include',
@@ -38,13 +30,10 @@ class UserPublicProfile extends React.Component{
     }
 
     componentWillReceiveProps(newProps){
-        let userId=newProps.match.params.userId
-        this.setUserId(userId);
-
-    }
-
-    setUserId(userId){
-        this.setState({userId:userId})
+        fetch("http://localhost:8080/api/profile",{
+            credentials: 'include',
+        }).then((response)=>response.json())
+            .then((json)=>(this.setState({user:json,userId:json.id})))
     }
 
     render(){
@@ -78,26 +67,26 @@ class UserPublicProfile extends React.Component{
                     </div>
                     <div className="col-9">
                         <ul className="nav nav-tabs" style={navtabstyle}>
-                           <Link to={`/user/${this.state.userId}/profile/followers`}><li className="nav-item" style={{padding:"15px"}}>
+                           <Link to={`/user/profile/followers`}><li className="nav-item" style={{padding:"15px"}}>
                                 <button className="btn-primary btn">Followers</button>
                            </li></Link>
-                            <Link to={`/user/${this.state.userId}/profile/following`}><li className="nav-item" style={{padding:"15px"}}>
+                            <Link to={`/user/profile/following`}><li className="nav-item" style={{padding:"15px"}}>
                                 <button className="btn-primary btn">Following</button>
                             </li></Link>
-                            <Link to={`/user/${this.state.userId}/profile/feed`}><li className="nav-item" style={{padding:"15px"}}>
+                            <Link to={`/user/profile/feed`}><li className="nav-item" style={{padding:"15px"}}>
                                 <button className="btn-primary btn">Feed</button>
                             </li></Link>
-                            <Link to={`/user/${this.state.userId}/profile/playlist`}><li className="nav-item" style={{padding:"15px"}}>
+                            <Link to={`/user/profile/playlist`}><li className="nav-item" style={{padding:"15px"}}>
                                 <button className="btn-primary btn">Playlist</button>
                             </li></Link>
                         </ul>
-                        <Route path="/user/:userId/profile/followers"
+                        <Route path="/user/profile/followers"
                                component={Followers} />
-                        <Route path="/user/:userId/profile/following"
+                        <Route path="/user/profile/following"
                                component={Following}/>
-                        <Route path="/user/:userId/profile/feed"
+                        <Route path="/user/profile/feed"
                                component={Feed}/>
-                        <Route path="/user/:userId/profile/playlist"
+                        <Route path="/user/profile/playlist"
                                component={Playlist}/>
                     </div>
                 </div>

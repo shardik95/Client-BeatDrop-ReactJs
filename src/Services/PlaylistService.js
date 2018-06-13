@@ -31,5 +31,9 @@ class PlaylistService{
             ))
     }
 
+    addSongToPlaylist(playlistId,trackId){
+
+    }
+
 }
 export default PlaylistService
