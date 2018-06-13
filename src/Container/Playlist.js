@@ -10,7 +10,10 @@ class Playlist extends React.Component{
             playlists:[],
             plName:'',
             user:'',
-            showAdd:false
+            showAdd:false,
+            accessToken:'',
+            trackId:'',
+            song:''
         }
         this.createPlaylist=this.createPlaylist.bind(this);
         this.deletePlaylist=this.deletePlaylist.bind(this);
@@ -20,6 +23,14 @@ class Playlist extends React.Component{
     }
 
     componentDidMount(){
+
+        fetch("http://localhost:8080/api/accessToken")
+            .then(response=>(
+                response.json()
+            )).then(response=>(
+            this.setState({accessToken:response.access_token})
+        ))
+
         fetch("http://localhost:8080/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
@@ -27,7 +38,7 @@ class Playlist extends React.Component{
 
         let trackId=this.props.match.params.trackId;
         if(trackId!==undefined){
-            this.setState({showAdd:true})
+            this.setState({showAdd:true,trackId:trackId})
         }
     }
 
@@ -43,7 +54,26 @@ class Playlist extends React.Component{
     }
 
     addSong(playlistId){
-        console.log("plus clicked")
+
+
+        fetch("https://api.spotify.com/v1/tracks/ID".replace("ID",this.state.trackId),{
+            headers:{
+                'Authorization':'Bearer '+this.state.accessToken
+            }
+        })
+            .then(response=>(
+                response.json()
+            )).then(json=>(
+            this.setState({song:{
+                    songName:json.name,
+                    duration:json.duration_ms,
+                    imgUrl:json.album.images[0].url,
+                    spotifySongId:json.id
+                }})
+        )).then(()=>(
+            this.playlistService.addSongToPlaylist(playlistId,this.state.trackId,this.state.song)
+        ))
+
     }
 
     renderSong(playlistId){

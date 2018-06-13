@@ -31,8 +31,15 @@ class PlaylistService{
             ))
     }
 
-    addSongToPlaylist(playlistId,trackId){
-
+    addSongToPlaylist(playlistId,trackId,song){
+        return fetch("http://localhost:8080/api/playlist/PID/track/TID".replace("PID",playlistId)
+            .replace("TID",trackId),{
+            method:'post',
+            headers:{
+                'content-type':'application/json'
+            },
+            body:JSON.stringify(song)
+        })
     }
 
 }
