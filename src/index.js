@@ -9,10 +9,17 @@ import SignUp from "./Container/SignUp"
 import UserPublicProfile from "./Container/UserPublicProfile";
 import Redirect from "react-router-dom/es/Redirect";
 import Playlist from "./Container/Playlist";
+import LandingPage from "./Container/LandingPage";
 
 ReactDOM.render(
     <Router>
+
         <div>
+            <div>
+                <Redirect exact from="/" to="/index" />
+                <Route path='/index'
+                       component={LandingPage}/>
+            </div>
             <div>
                 <Route path='/user/profile'
                        component={UserPublicProfile}/>

@@ -42,5 +42,10 @@ class PlaylistService{
         })
     }
 
+    getSongsForPlaylist(playlistId){
+        return fetch("http://localhost:8080/api/playlist/PID/song".replace("PID",playlistId))
+            .then(response=>(response.json()))
+    }
+
 }
 export default PlaylistService

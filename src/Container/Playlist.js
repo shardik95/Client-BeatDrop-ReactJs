@@ -13,7 +13,8 @@ class Playlist extends React.Component{
             showAdd:false,
             accessToken:'',
             trackId:'',
-            song:''
+            song:'',
+            songs:''
         }
         this.createPlaylist=this.createPlaylist.bind(this);
         this.deletePlaylist=this.deletePlaylist.bind(this);
@@ -72,12 +73,16 @@ class Playlist extends React.Component{
                 }})
         )).then(()=>(
             this.playlistService.addSongToPlaylist(playlistId,this.state.trackId,this.state.song)
-        ))
+        )).then(()=>this.playlistService.getSongsForPlaylist(playlistId)
+            .then((response)=>(this.setState({songs:JSON.parse(JSON.stringify(response))}))))
 
     }
 
     renderSong(playlistId){
-        console.log("playlist clicked")
+
+        this.playlistService.getSongsForPlaylist(playlistId)
+            .then((response)=>(this.setState({songs:JSON.parse(JSON.stringify(response))})))
+
     }
 
     createPlaylist(){
@@ -131,6 +136,9 @@ class Playlist extends React.Component{
                         <ul className="list-group">
                             <li className="list-group-item active">Songs</li>
 
+                            {this.state.songs.length>0 && this.state.songs.map((song,index)=>(
+                                <li key={index} className="list-group-item">{song.songName}</li>
+                            ))}
                         </ul>
                         <br/>
                     </div>
