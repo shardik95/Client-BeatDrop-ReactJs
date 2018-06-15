@@ -27,7 +27,8 @@ class Home extends React.Component{
             radio:'',
             newReleases:'',
             featuredPlaylist:'',
-            searchTrue:false
+            searchTrue:false,
+            isQuery:true
         }
         this.searchAll=this.searchAll.bind(this);
         this.millisToMinutesAndSeconds=this.millisToMinutesAndSeconds.bind(this);
@@ -149,7 +150,6 @@ class Home extends React.Component{
                 //window.location.reload()
             }})
 
-
     }
 
     logout(){
@@ -159,43 +159,50 @@ class Home extends React.Component{
 
     searchAll(){
 
-        fetch("https://api.spotify.com/v1/search?q=QUERY&type=track".replace("QUERY",this.state.query),{
-            headers:{
-                'Authorization':'Bearer '+this.state.accessToken
-            }
-        }).then(response=>(
-            response.json()
-        )).then(object=>(
-            this.setState({tracks:object.tracks.items})
-        ))
+        if(this.state.query!=='') {
 
-        fetch("https://api.spotify.com/v1/search?q=QUERY&type=artist".replace("QUERY",this.state.query),{
-            headers:{
-                'Authorization':'Bearer '+this.state.accessToken
-            }
-        }).then(response=>(
-            response.json()
-        )).then(object=>(
-            this.setState({artists:object.artists.items})
-        ))
+            fetch("https://api.spotify.com/v1/search?q=QUERY&type=track".replace("QUERY", this.state.query), {
+                headers: {
+                    'Authorization': 'Bearer ' + this.state.accessToken
+                }
+            }).then(response => (
+                response.json()
+            )).then(object => (
+                this.setState({tracks: object.tracks.items})
+            ))
 
-        fetch("https://api.spotify.com/v1/search?q=QUERY&type=album".replace("QUERY",this.state.query),{
-            headers:{
-                'Authorization':'Bearer '+this.state.accessToken
-            }
-        }).then(response=>(
-            response.json()
-        )).then(object=>(
-            this.setState({albums:object.albums.items})
-        ))
+            fetch("https://api.spotify.com/v1/search?q=QUERY&type=artist".replace("QUERY", this.state.query), {
+                headers: {
+                    'Authorization': 'Bearer ' + this.state.accessToken
+                }
+            }).then(response => (
+                response.json()
+            )).then(object => (
+                this.setState({artists: object.artists.items})
+            ))
 
-        if(this.state.tracks.length===0&&this.state.albums.length===0&&this.state.artists.length===0){
-            this.setState({isSearchEmpty:true})
+            fetch("https://api.spotify.com/v1/search?q=QUERY&type=album".replace("QUERY", this.state.query), {
+                headers: {
+                    'Authorization': 'Bearer ' + this.state.accessToken
+                }
+            }).then(response => (
+                response.json()
+            )).then(object => (
+                this.setState({albums: object.albums.items})
+            ))
+
+            if (this.state.tracks.length === 0 && this.state.albums.length === 0 && this.state.artists.length === 0) {
+                this.setState({isSearchEmpty: true})
+            }
+            else {
+                this.setState({isSearchEmpty: false})
+            }
+            this.setState({searchTrue: true})
+            this.setState({isQuery:true})
         }
-        else {
-            this.setState({isSearchEmpty: false})
+        else{
+            this.setState({isQuery:false})
         }
-        this.setState({searchTrue:true})
     }
 
 
@@ -241,7 +248,7 @@ class Home extends React.Component{
                     <Link to="/home" className="navbar-brand">
                         <i className="fa fa-lg fa-music" style={{color:'blue'}}/>&nbsp;&nbsp;BeatDrop</Link>
                     <form className="form-inline">
-                        <input className="form-control mr-sm-2" type="search" style={{marginRight:"20px"}} placeholder="Search tracks"
+                        <span style={{color:'red'}} hidden={this.state.isQuery}>Type Something*</span><input className="form-control mr-sm-2" type="search" style={{marginRight:"20px"}} placeholder="Search tracks"
                                ref={node=>searchElement=node} onChange={()=>this.setState({query:searchElement.value})}/>
                         <button className="btn btn-dark" style={{marginRight:"5px"}} onClick={()=>this.searchAll()} type="button">Search</button>
 
@@ -340,7 +347,7 @@ class Home extends React.Component{
                                             </td>
                                             <td>
                                                 {track.artists.map((artist,index)=>(
-                                                    <Link to={`/home/artist/${artist.id}`} key={index}>{artist.name}</Link>
+                                                    <Link to={`/home/artist/${artist.id}`} key={index}>{artist.name}&nbsp;</Link>
                                                 ))}
                                             </td>
                                             <td>
@@ -386,7 +393,7 @@ class Home extends React.Component{
                                     <img src={artist.images[0].url} alt="artists" height="60px" width="60px"/>}
                                 </td>
                                 <td>
-                                    <Link to={`/home/artist/${artist.id}`}>{artist.name}</Link>
+                                    <Link to={`/home/artist/${artist.id}`}>{artist.name}&nbsp;</Link>
                                 </td>
                             </tr>
                         ))}
@@ -430,7 +437,7 @@ class Home extends React.Component{
                                 </td>
                                 <td>
                                     {album.artists.map((artist,index)=>(
-                                        <Link to={`/home/artist/${artist.id}`} key={index}>{artist.name}</Link>
+                                        <Link to={`/home/artist/${artist.id}`} key={index}>{artist.name}&nbsp;</Link>
                                     ))}
                                 </td>
                                 <td>

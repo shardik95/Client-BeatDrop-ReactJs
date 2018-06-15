@@ -73,7 +73,7 @@ class Song extends React.Component{
                         <tr>
                             <td><b>Artists:</b></td>
                             <td>{this.state.song.artists!==undefined && this.state.song.artists.map((artist,index)=>(
-                                <Link to={`/home/artist/${artist.id}`} key={index}>{artist.name}</Link>
+                                <Link to={`/home/artist/${artist.id}`} key={index}>{artist.name}&nbsp;</Link>
                             ))}</td>
                         </tr>
                         <tr>

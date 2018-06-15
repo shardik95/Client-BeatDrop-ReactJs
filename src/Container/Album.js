@@ -66,7 +66,7 @@ class Album extends React.Component{
                     <tr>
                         <td><b>Artists:</b></td>
                         <td>{this.state.album.artists!==undefined && this.state.album.artists.map((artist,index)=>(
-                            <Link to={`/home/artist/${artist.id}`} key={index}>{artist.name}</Link>
+                            <Link to={`/home/artist/${artist.id}`} key={index}>{artist.name}&nbsp;</Link>
                         ))}</td>
                     </tr>
                     <tr>
