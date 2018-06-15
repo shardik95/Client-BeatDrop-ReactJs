@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from "react-router-dom/es/Link";
 
 class Song extends React.Component{
 
@@ -71,8 +72,8 @@ class Song extends React.Component{
                         </tr>
                         <tr>
                             <td><b>Artists:</b></td>
-                            <td>{this.state.song.artists!==undefined && this.state.song.artists.map(artist=>(
-                                artist.name
+                            <td>{this.state.song.artists!==undefined && this.state.song.artists.map((artist,index)=>(
+                                <Link to={`/home/artist/${artist.id}`} key={index}>{artist.name}</Link>
                             ))}</td>
                         </tr>
                         <tr>

@@ -75,8 +75,6 @@ class Playlist extends React.Component{
 
     addSong(playlistId){
 
-        console.log(this.state.trackId)
-
         fetch("https://api.spotify.com/v1/tracks/ID".replace("ID",this.state.trackId),{
             headers:{
                 'Authorization':'Bearer '+this.state.accessToken

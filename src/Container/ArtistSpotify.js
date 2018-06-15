@@ -1,6 +1,7 @@
 import React from 'react';
 import TopTracks from "../Components/TopTracks";
 import TopAlbums from "../Components/TopAlbums";
+import RelatedArtists from "../Components/RelatedArtists";
 
 class ArtistSpotify extends React.Component{
 
@@ -13,7 +14,9 @@ class ArtistSpotify extends React.Component{
             toptracks:'',
             albums:'',
             ttavail:false,
-            accessToken:''
+            accessToken:'',
+            trackbtn:5,
+            albumbtn:5
         }
         this.showTopTracks=this.showTopTracks.bind(this);
     }
@@ -99,6 +102,10 @@ class ArtistSpotify extends React.Component{
                         </ul>
                     </div>
                 </div>
+                <br/>
+                <h3>Related Artists</h3>
+                <RelatedArtists accessToken={this.state.accessToken} artistId={this.state.artistId}/>
+                <br/>
             </div>
         )
 

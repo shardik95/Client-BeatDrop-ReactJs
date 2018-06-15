@@ -344,7 +344,15 @@ class Home extends React.Component{
                                                 ))}
                                             </td>
                                             <td>
-                                                <Link to={`/home/playlist/${track.id}`}><button className="btn" ><i className="fa fa-plus"></i></button></Link>
+                                                {this.state.user.userName!==undefined &&
+                                                <Link to={`/home/playlist/${track.id}`}>
+                                                    <button className="btn" ><i className="fa fa-plus"></i></button>
+                                                </Link>}
+                                                {this.state.user.userName===undefined &&
+                                                <Link to={`/home/login`}>
+                                                    <button className="btn" ><i className="fa fa-plus"></i></button>
+                                                </Link>}
+
                                             </td>
                                         </tr>
                                         ))}
@@ -418,11 +426,11 @@ class Home extends React.Component{
                                     <img src={album.images[0].url} alt="album" height="60px" width="60px"/>}
                                 </td>
                                 <td>
-                                    {album.name}
+                                    <Link to={`/home/album/${album.id}`}>{album.name}</Link>
                                 </td>
                                 <td>
                                     {album.artists.map(artist=>(
-                                        artist.name
+                                        <Link to={`/home/artist/${artist.id}`}>{artist.name}</Link>
                                     ))}
                                 </td>
                                 <td>
