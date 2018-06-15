@@ -78,7 +78,9 @@ class Song extends React.Component{
                         </tr>
                         <tr>
                             <td><b>Album:</b></td>
-                            <td>{this.state.song.album!==undefined && this.state.song.album.name}</td>
+                            <td>{this.state.song.album!==undefined &&
+                            <Link to={`/home/album/${this.state.song.album.id}`}>{this.state.song.album.name}</Link>
+                            }</td>
                         </tr>
                         <tr>
                             <td><b>Duration:</b></td>

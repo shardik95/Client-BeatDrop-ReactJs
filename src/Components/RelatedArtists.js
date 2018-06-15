@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from "react-router-dom/es/Link";
 
 class RelatedArtists extends  React.Component{
 
@@ -16,7 +17,7 @@ class RelatedArtists extends  React.Component{
         let artistId_=this.props.artistId;
         this.setState({accessToken:accessToken_,artistId:artistId_})
 
-        return fetch("https://api.spotify.com/v1/artists/AID/related-artists".replace("AID",artistId_),{
+        fetch("https://api.spotify.com/v1/artists/AID/related-artists".replace("AID",artistId_),{
             headers:{
                 'Authorization':'Bearer '+accessToken_
             }
@@ -29,7 +30,7 @@ class RelatedArtists extends  React.Component{
         let artistId_=newProps.artistId;
         this.setState({accessToken:accessToken_,artistId:artistId_})
 
-        return fetch("https://api.spotify.com/v1/artists/AID/related-artists".replace("AID",artistId_),{
+         fetch("https://api.spotify.com/v1/artists/AID/related-artists".replace("AID",artistId_),{
             headers:{
                 'Authorization':'Bearer '+accessToken_
             }
@@ -44,7 +45,9 @@ class RelatedArtists extends  React.Component{
                     <tbody>
                         <tr>
                             {this.state.relatedArtist.artists!==undefined && this.state.relatedArtist.artists.map((artist,index)=>(
-                               index < 5&& <td><img src={artist.images[2].url} key={index} width="85px" height="85px"/><br/>{artist.name}</td>
+                               index < 5 && <td  key={index}><img src={artist.images[2].url} width="85px" height="85px"/><br/>
+                                   <Link to={`/home/artist/${artist.id}`} key={index}> {artist.name}</Link>
+                                   </td>
                             ))}
                         </tr>
                     </tbody>

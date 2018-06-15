@@ -30,7 +30,7 @@ class ArtistSpotify extends React.Component{
                 response.json()
             )).then(response=> {
             return this.setState({accessToken: response.access_token})
-        }).then(()=>fetch('https://api.spotify.com/v1/artists/'+this.state.artistId,{
+        }).then(()=>fetch('https://api.spotify.com/v1/artists/'+artistId,{
             headers:{
                 'Authorization':'Bearer '+this.state.accessToken
             }
@@ -48,7 +48,7 @@ class ArtistSpotify extends React.Component{
                 response.json()
             )).then(response=> {
             return this.setState({accessToken: response.access_token})
-        }).then(()=>fetch('https://api.spotify.com/v1/artists/'+this.state.artistId,{
+        }).then(()=>fetch('https://api.spotify.com/v1/artists/'+artistId,{
             headers:{
                 'Authorization':'Bearer '+this.state.accessToken
             }

@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from "react-router-dom/es/Link";
 
 class TopAlbums extends React.Component{
 
@@ -42,7 +43,7 @@ class TopAlbums extends React.Component{
         return(
             <div>
                 {this.state.albums.items!==undefined && this.state.albums.items.map((item,index)=>(
-                    index< 7 &&  <li key={index} className="list-group-item">{item.name}</li>
+                    index< 7 &&  <Link to={`/home/album/${item.id}`}  key={index}><li className="list-group-item">{item.name}</li></Link>
                 ))}
             </div>
         )

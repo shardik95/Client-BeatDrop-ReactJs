@@ -339,8 +339,8 @@ class Home extends React.Component{
                                                 <Link to={`/home/song/${track.id}`}>{track.name}</Link>
                                             </td>
                                             <td>
-                                                {track.artists.map(artist=>(
-                                                    artist.name
+                                                {track.artists.map((artist,index)=>(
+                                                    <Link to={`/home/artist/${artist.id}`} key={index}>{artist.name}</Link>
                                                 ))}
                                             </td>
                                             <td>
@@ -429,8 +429,8 @@ class Home extends React.Component{
                                     <Link to={`/home/album/${album.id}`}>{album.name}</Link>
                                 </td>
                                 <td>
-                                    {album.artists.map(artist=>(
-                                        <Link to={`/home/artist/${artist.id}`}>{artist.name}</Link>
+                                    {album.artists.map((artist,index)=>(
+                                        <Link to={`/home/artist/${artist.id}`} key={index}>{artist.name}</Link>
                                     ))}
                                 </td>
                                 <td>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from "react-router-dom/es/Link";
 
 class TopTracks extends React.Component{
 
@@ -42,7 +43,7 @@ class TopTracks extends React.Component{
         return(
             <div>
                 {this.state.topTracks.tracks!==undefined && this.state.topTracks.tracks.map((track,index)=>(
-                    index< 7 && <li key={index} className="list-group-item">{track.name}</li>
+                    index< 7 && <Link to={`/home/song/${track.id}`}  key={index}><li className="list-group-item">{track.name}</li></Link>
                 ))}
             </div>
         )
