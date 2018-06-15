@@ -324,30 +324,24 @@ class Home extends React.Component{
                                 <th>
                                     Artist
                                 </th>
-                                <th>
-                                    Duration
-                                </th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
                                     {this.state.tracks.map((track,index) => (
                                         index<this.state.TrackIndex &&
-                                        <tr key={index}>
+                                       <tr key={index}>
                                             <td>
                                                 {track.album.images.length>0 &&
                                                     <img src={track.album.images[0].url} alt="tracks" height="60px" width="60px"/>}
                                             </td>
                                             <td>
-                                                {track.name}
+                                                <Link to={`/home/song/${track.id}`}>{track.name}</Link>
                                             </td>
                                             <td>
                                                 {track.artists.map(artist=>(
                                                     artist.name
                                                 ))}
-                                            </td>
-                                            <td>
-                                                {this.millisToMinutesAndSeconds(track.duration_ms)}
                                             </td>
                                             <td>
                                                 <Link to={`/home/playlist/${track.id}`}><button className="btn" ><i className="fa fa-plus"></i></button></Link>

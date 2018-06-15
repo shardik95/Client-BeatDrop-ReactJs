@@ -10,6 +10,7 @@ import UserPublicProfile from "./Container/UserPublicProfile";
 import Redirect from "react-router-dom/es/Redirect";
 import Playlist from "./Container/Playlist";
 import LandingPage from "./Container/LandingPage";
+import Song from "./Container/Song";
 
 ReactDOM.render(
     <Router>
@@ -37,6 +38,8 @@ ReactDOM.render(
                            component={SignUp}/>
                     <Route path='/home/playlist/:trackId'
                            component={Playlist}/>
+                    <Route path='/home/song/:trackId'
+                           component={Song}/>
                 </div>
             </div>
         </div>
