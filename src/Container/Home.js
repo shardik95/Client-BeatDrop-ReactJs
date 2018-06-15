@@ -238,8 +238,8 @@ class Home extends React.Component{
             <div>
                 {/*{console.log(this.state.radio)}*/}
                 <nav className="navbar fixed-top navbar-light bg-light">
-                    <Link to="/home"><a className="navbar-brand">
-                        <i className="fa fa-lg fa-music" />&nbsp;&nbsp;BeatDrop</a></Link>
+                    <Link to="/home" className="navbar-brand">
+                        <i className="fa fa-lg fa-music" style={{color:'blue'}}/>&nbsp;&nbsp;BeatDrop</Link>
                     <form className="form-inline">
                         <input className="form-control mr-sm-2" type="search" style={{marginRight:"20px"}} placeholder="Search tracks"
                                ref={node=>searchElement=node} onChange={()=>this.setState({query:searchElement.value})}/>
@@ -378,7 +378,7 @@ class Home extends React.Component{
                                     <img src={artist.images[0].url} alt="artists" height="60px" width="60px"/>}
                                 </td>
                                 <td>
-                                    {artist.name}
+                                    <Link to={`/home/artist/${artist.id}`}>{artist.name}</Link>
                                 </td>
                             </tr>
                         ))}

@@ -43,6 +43,25 @@ class Playlist extends React.Component{
         }
     }
 
+    componentWillReceiveProps(newProps){
+        fetch("http://localhost:8080/api/accessToken")
+            .then(response=>(
+                response.json()
+            )).then(response=>(
+            this.setState({accessToken:response.access_token})
+        ))
+
+        fetch("http://localhost:8080/api/profile",{
+            credentials: 'include',
+        }).then((response)=>response.json())
+            .then((json)=>(this.setState({user:json,userId:json.id,playlists:json.playlists})))
+
+        let trackId=newProps.match.params.trackId;
+        if(trackId!==undefined){
+            this.setState({showAdd:true,trackId:trackId})
+        }
+    }
+
     deletePlaylist(playlistId){
         fetch("http://localhost:8080/api/playlist/"+playlistId,{
             method:'delete'
@@ -56,6 +75,7 @@ class Playlist extends React.Component{
 
     addSong(playlistId){
 
+        console.log(this.state.trackId)
 
         fetch("https://api.spotify.com/v1/tracks/ID".replace("ID",this.state.trackId),{
             headers:{
