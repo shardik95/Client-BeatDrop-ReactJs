@@ -91,6 +91,7 @@ class Home extends React.Component{
                     //window.location.reload()
                 }})
 
+
         //console.log(this.state.accessToken)
 
 
@@ -149,6 +150,7 @@ class Home extends React.Component{
                 this.setState({user:json,session:true})
                 //window.location.reload()
             }})
+
 
     }
 
@@ -291,7 +293,7 @@ class Home extends React.Component{
                             </li>
                             {this.state.newReleases.length>0 && this.state.newReleases.map((name,index)=>(
                                 index < 8 && <li className="list-group-item" key={index}>
-                                    {name.name}
+                                    <Link to={`/home/album/${name.id}`}> {name.name}</Link>
                                 </li>
                             ))}
                         </ul>
@@ -304,7 +306,7 @@ class Home extends React.Component{
                             </li>
                             {this.state.featuredPlaylist.length>0 && this.state.featuredPlaylist.map((name,index)=>(
                                 index < 8 && <li className="list-group-item" key={index}>
-                                    {name.name}
+                                    <Link to={`/home/featured-playlist/${name.id}`}>{name.name}</Link>
                                 </li>
                             ))}
                         </ul>

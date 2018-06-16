@@ -13,6 +13,7 @@ import LandingPage from "./Container/LandingPage";
 import Song from "./Container/Song";
 import ArtistSpotify from "./Container/ArtistSpotify";
 import Album from "./Container/Album";
+import FeaturedPlaylists from "./Components/FeaturedPlaylists";
 
 ReactDOM.render(
     <Router>
@@ -45,6 +46,8 @@ ReactDOM.render(
                            component={ArtistSpotify}/>
                     <Route path='/home/album/:albumId'
                            component={Album}/>
+                    <Route path='/home/featured-playlist/:playlistId'
+                           component={FeaturedPlaylists}/>
                 </div>
             </div>
         </div>
