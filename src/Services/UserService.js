@@ -54,6 +54,11 @@ class UserService{
         })
     }
 
+    findByUsernameOrFirstName(query){
+        return fetch("http://localhost:8080/api/user/search/q="+query)
+            .then(response=>response.json())
+    }
+
 }
 
 export default UserService;

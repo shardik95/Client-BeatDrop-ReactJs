@@ -6,7 +6,7 @@ import '../node_modules/font-awesome/css/font-awesome.css';
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import Login from "./Container/Login";
 import SignUp from "./Container/SignUp"
-import UserPublicProfile from "./Container/UserPublicProfile";
+import UserPrivateProfile from "./Container/UserPrivateProfile";
 import Redirect from "react-router-dom/es/Redirect";
 import Playlist from "./Container/Playlist";
 import LandingPage from "./Container/LandingPage";
@@ -14,6 +14,7 @@ import Song from "./Container/Song";
 import ArtistSpotify from "./Container/ArtistSpotify";
 import Album from "./Container/Album";
 import FeaturedPlaylists from "./Components/FeaturedPlaylists";
+import UserPublicProfile from "./Container/UserPublicProfile";
 
 ReactDOM.render(
     <Router>
@@ -26,6 +27,8 @@ ReactDOM.render(
             </div>
             <div>
                 <Route path='/user/profile'
+                       component={UserPrivateProfile}/>
+                <Route path='/user/:userId/profile'
                        component={UserPublicProfile}/>
             </div>
             <div className="row">

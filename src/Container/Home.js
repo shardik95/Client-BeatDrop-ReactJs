@@ -2,7 +2,7 @@ import React from 'react';
 //import Script from 'react-load-script'
 import {Link} from 'react-router-dom';
 import Route from "react-router-dom/es/Route";
-import UserPublicProfile from "./UserPublicProfile";
+import UserPrivateProfile from "./UserPrivateProfile";
 import UserService from "../Services/UserService";
 
 class Home extends React.Component{
@@ -28,7 +28,9 @@ class Home extends React.Component{
             newReleases:'',
             featuredPlaylist:'',
             searchTrue:false,
-            isQuery:true
+            isQuery:true,
+            userSearch:false,
+            searchedUsers:[],
         }
         this.searchAll=this.searchAll.bind(this);
         this.millisToMinutesAndSeconds=this.millisToMinutesAndSeconds.bind(this);
@@ -36,6 +38,7 @@ class Home extends React.Component{
         this.setAlbumButton=this.setAlbumButton.bind(this);
         this.setArtistButton=this.setArtistButton.bind(this);
         this.logout=this.logout.bind(this);
+        this.searchUsers=this.searchUsers.bind(this);
         this.userService=UserService.instance;
     }
 
@@ -150,8 +153,6 @@ class Home extends React.Component{
                 this.setState({user:json,session:true})
                 //window.location.reload()
             }})
-
-
     }
 
     logout(){
@@ -159,52 +160,65 @@ class Home extends React.Component{
         this.setState({user:'',session:false})
     }
 
+    searchUsers(query){
+        //console.log(this.state.query)
+        this.userService.findByUsernameOrFirstName(query.replace("@",""))
+            .then(users=>this.setState({searchedUsers:users}));
+    }
+
     searchAll(){
 
-        if(this.state.query!=='') {
-
-            fetch("https://api.spotify.com/v1/search?q=QUERY&type=track".replace("QUERY", this.state.query), {
-                headers: {
-                    'Authorization': 'Bearer ' + this.state.accessToken
-                }
-            }).then(response => (
-                response.json()
-            )).then(object => (
-                this.setState({tracks: object.tracks.items})
-            ))
-
-            fetch("https://api.spotify.com/v1/search?q=QUERY&type=artist".replace("QUERY", this.state.query), {
-                headers: {
-                    'Authorization': 'Bearer ' + this.state.accessToken
-                }
-            }).then(response => (
-                response.json()
-            )).then(object => (
-                this.setState({artists: object.artists.items})
-            ))
-
-            fetch("https://api.spotify.com/v1/search?q=QUERY&type=album".replace("QUERY", this.state.query), {
-                headers: {
-                    'Authorization': 'Bearer ' + this.state.accessToken
-                }
-            }).then(response => (
-                response.json()
-            )).then(object => (
-                this.setState({albums: object.albums.items})
-            ))
-
-            if (this.state.tracks.length === 0 && this.state.albums.length === 0 && this.state.artists.length === 0) {
-                this.setState({isSearchEmpty: true})
-            }
-            else {
-                this.setState({isSearchEmpty: false})
-            }
-            this.setState({searchTrue: true})
-            this.setState({isQuery:true})
+        if(this.state.query.match('@')){
+          //
         }
         else{
-            this.setState({isQuery:false})
+            if(this.state.query!=='') {
+
+                fetch("https://api.spotify.com/v1/search?q=QUERY&type=track".replace("QUERY", this.state.query), {
+                    headers: {
+                        'Authorization': 'Bearer ' + this.state.accessToken
+                    }
+                }).then(response => (
+                    response.json()
+                )).then(object => (
+                    this.setState({tracks: object.tracks.items})
+                ))
+
+                fetch("https://api.spotify.com/v1/search?q=QUERY&type=artist".replace("QUERY", this.state.query), {
+                    headers: {
+                        'Authorization': 'Bearer ' + this.state.accessToken
+                    }
+                }).then(response => (
+                    response.json()
+                )).then(object => (
+                    this.setState({artists: object.artists.items})
+                ))
+
+                fetch("https://api.spotify.com/v1/search?q=QUERY&type=album".replace("QUERY", this.state.query), {
+                    headers: {
+                        'Authorization': 'Bearer ' + this.state.accessToken
+                    }
+                }).then(response => (
+                    response.json()
+                )).then(object => (
+                    this.setState({albums: object.albums.items})
+                ))
+
+                if (this.state.tracks.length === 0 && this.state.albums.length === 0 && this.state.artists.length === 0) {
+                    this.setState({isSearchEmpty: true})
+                }
+                else {
+                    this.setState({isSearchEmpty: false})
+                }
+                this.setState({searchTrue: true})
+                this.setState({isQuery:true})
+            }
+            else{
+                this.setState({isQuery:false})
+            }
         }
+
+
     }
 
 
@@ -250,8 +264,32 @@ class Home extends React.Component{
                     <Link to="/home" className="navbar-brand">
                         <i className="fa fa-lg fa-music" style={{color:'blue'}}/>&nbsp;&nbsp;BeatDrop</Link>
                     <form className="form-inline">
-                        <span style={{color:'red'}} hidden={this.state.isQuery}>Type Something*</span><input className="form-control mr-sm-2" type="search" style={{marginRight:"20px"}} placeholder="Search tracks"
-                               ref={node=>searchElement=node} onChange={()=>this.setState({query:searchElement.value})}/>
+
+                        <div>
+                            <span style={{color:'red'}} hidden={this.state.isQuery}>Type Something*</span>
+                            <input className="form-control mr-sm-2" type="search" style={{marginRight:"20px"}} placeholder="Song / @User"
+                                   ref={node=>searchElement=node} onChange={()=>{
+                                       var query = searchElement.value;
+                                       if(query.match("@")){
+                                           this.setState({userSearch:true})
+                                           this.searchUsers(query)
+                                       }
+                                       else {
+                                           this.setState({userSearch:false})
+                                           return this.setState({query:searchElement.value})
+                                       }
+                                   }}/>
+                            <ul style={{zIndex:"+1",position:"absolute"}} className="list-group" hidden={!this.state.userSearch}>
+                                {this.state.searchedUsers.map((user,index)=>(
+                                    <li className="list-group-item" key={index}>
+                                        <i className="fa fa-user-circle"/> <Link to={`/user/${user.id}/profile`}>{user.firstName}</Link>
+                                    </li>
+                                ))}
+
+                            </ul>
+                        </div>
+
+
                         <button className="btn btn-dark" style={{marginRight:"5px"}} onClick={()=>this.searchAll()} type="button">Search</button>
 
                         <div hidden={this.state.session}>
@@ -266,6 +304,9 @@ class Home extends React.Component{
                         </div>
                     </form>
                 </nav>
+
+
+
                 {/*<Script
                     url="https://sdk.scdn.co/spotify-player.js"
                 />*/}
