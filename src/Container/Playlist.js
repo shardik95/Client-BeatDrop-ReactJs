@@ -14,7 +14,8 @@ class Playlist extends React.Component{
             accessToken:'',
             trackId:'',
             song:'',
-            songs:''
+            songs:'',
+            showSongList:false
         }
         this.createPlaylist=this.createPlaylist.bind(this);
         this.deletePlaylist=this.deletePlaylist.bind(this);
@@ -99,7 +100,7 @@ class Playlist extends React.Component{
     renderSong(playlistId){
 
         this.playlistService.getSongsForPlaylist(playlistId)
-            .then((response)=>(this.setState({songs:JSON.parse(JSON.stringify(response))})))
+            .then((response)=>(this.setState({songs:JSON.parse(JSON.stringify(response)),showSongList:true})))
 
     }
 
@@ -150,7 +151,7 @@ class Playlist extends React.Component{
                         <br/>
                     </div>
                     </div>
-                    <div className="col-6">
+                    <div className="col-6" hidden={!this.state.showSongList}>
                         <ul className="list-group">
                             <li className="list-group-item active">Songs</li>
 

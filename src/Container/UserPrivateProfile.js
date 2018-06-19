@@ -1,13 +1,12 @@
 import React from 'react';
 import Link from "react-router-dom/es/Link";
-import {DropdownButton, MenuItem} from 'react-bootstrap';
-import Home from "./Home";
 import Route from "react-router-dom/es/Route";
 import Followers from "./Followers";
 import Playlist from "./Playlist";
 import Following from "./Following";
 import Feed from "./Feed";
 import UserService from "../Services/UserService";
+import Account from "./Account";
 
 class UserPrivateProfile extends React.Component{
 
@@ -16,7 +15,8 @@ class UserPrivateProfile extends React.Component{
         super(props)
         this.state={
             userId:'',
-            user:''
+            user:'',
+            session:false
         }
         this.userService=UserService.instance;
         this.logout=this.logout.bind(this);
@@ -26,15 +26,23 @@ class UserPrivateProfile extends React.Component{
 
         fetch("http://localhost:8080/api/profile",{
             credentials: 'include',
-        }).then((response)=>response.json())
-            .then((json)=>(this.setState({user:json,userId:json.id})))
+        }).then(response=> (
+            response.json()
+        )).then(json=> {
+            if (json.userName !== 'CANNOT FIND'){
+                this.setState({user:json,session:true,userId:json.id})
+            }})
     }
 
     componentWillReceiveProps(newProps){
         fetch("http://localhost:8080/api/profile",{
             credentials: 'include',
-        }).then((response)=>response.json())
-            .then((json)=>(this.setState({user:json,userId:json.id})))
+        }).then(response=> (
+            response.json()
+        )).then(json=> {
+            if (json.userName !== 'CANNOT FIND'){
+                this.setState({user:json,session:true,userId:json.id})
+            }})
     }
 
     logout(){
@@ -50,17 +58,26 @@ class UserPrivateProfile extends React.Component{
 
         return(
             <div>
-                {/*{console.log(this.state.user)}*/}
-                <nav class="navbar fixed-top navbar-light bg-light">
+                <nav className="navbar fixed-top navbar-light bg-light">
                     <Link to="/home"><a className="navbar-brand">
-                        <i class="fa fa-lg fa-music" />&nbsp;&nbsp;BeatDrop</a></Link>
-                    <button className="btn btn-outline-primary" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
+                        <i className="fa fa-lg fa-music"/>&nbsp;&nbsp;BeatDrop</a></Link>
+                    <form className="form-inline">
+                        <div hidden={this.state.session}>
+                            <Link to="/home/login"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Login</button></Link>
+
+                            <Link to="/home/signup"><button className="btn btn-outline-primary" style={{marginRight:"10px"}} type="button">SignUp</button></Link>
+                        </div>
+                        <h3 style={{color:"#000",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}</h3>
+                        <div hidden={!this.state.session}>
+                            <Link to="/user/profile"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Profile</button></Link>
+                            <button className="btn btn-outline-primary" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
+                        </div>
+                    </form>
                 </nav>
                 <div style={{marginTop:"3%"}} className="row container-fluid">
                     <div className="col-3" style={divStyle}>
                         <i className="fa fa-5x fa-user-circle" style={{marginTop:'45px',color:'#fff'}}></i>
                         <h3>@{this.state.user.userName}</h3>
-                        <button className="btn btn-primary">Follow</button>
                         <br/>
                         <br/>
                         Recently Played Songs
@@ -76,19 +93,24 @@ class UserPrivateProfile extends React.Component{
                     </div>
                     <div className="col-9">
                         <ul className="nav nav-tabs" style={navtabstyle}>
-                           <Link to={`/user/profile/followers`}><li className="nav-item" style={{padding:"15px"}}>
-                                <button className="btn-primary btn">Followers</button>
-                           </li></Link>
-                            <Link to={`/user/profile/following`}><li className="nav-item" style={{padding:"15px"}}>
-                                <button className="btn-primary btn">Following</button>
-                            </li></Link>
-                            <Link to={`/user/profile/feed`}><li className="nav-item" style={{padding:"15px"}}>
-                                <button className="btn-primary btn">Feed</button>
-                            </li></Link>
-                            <Link to={`/user/profile/playlist`}><li className="nav-item" style={{padding:"15px"}}>
-                                <button className="btn-primary btn">Playlist</button>
-                            </li></Link>
+                            <li className="nav-item active" style={{padding:"15px"}}>
+                                <Link to={`/user/profile/account`}> Account </Link>
+                            </li>
+                            <li className="nav-item" style={{padding:"15px"}}>
+                              <Link to={`/user/profile/followers`}>Followers</Link>
+                            </li>
+                            <li className="nav-item" style={{padding:"15px"}}>
+                                <Link to={`/user/profile/following`}> Following</Link>
+                            </li>
+                            <li className="nav-item" style={{padding:"15px"}}>
+                                <Link to={`/user/profile/feed`}>Feed</Link>
+                            </li>
+                            <li className="nav-item" style={{padding:"15px"}}>
+                                <Link to={`/user/profile/playlist`}>  Playlist</Link>
+                            </li>
                         </ul>
+                        <Route path="/user/profile/account"
+                               component={Account} />
                         <Route path="/user/profile/followers"
                                component={Followers} />
                         <Route path="/user/profile/following"

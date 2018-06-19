@@ -259,10 +259,9 @@ class Home extends React.Component{
         let searchElement;
         return(
             <div>
-                {/*{console.log(this.state.radio)}*/}
                 <nav className="navbar fixed-top navbar-light bg-light">
-                    <Link to="/home" className="navbar-brand">
-                        <i className="fa fa-lg fa-music" style={{color:'blue'}}/>&nbsp;&nbsp;BeatDrop</Link>
+                    <button className="navbar-brand btn" onClick={()=>window.location.reload()}>
+                        <i className="fa fa-lg fa-music" style={{color:'blue'}}/>&nbsp;&nbsp;BeatDrop</button>
                     <form className="form-inline">
 
                         <div>
@@ -281,6 +280,7 @@ class Home extends React.Component{
                                    }}/>
                             <ul style={{zIndex:"+1",position:"absolute"}} className="list-group" hidden={!this.state.userSearch}>
                                 {this.state.searchedUsers.map((user,index)=>(
+                                    this.state.user.id!==user.id &&
                                     <li className="list-group-item" key={index}>
                                         <i className="fa fa-user-circle"/> <Link to={`/user/${user.id}/profile`}>{user.firstName}</Link>
                                     </li>
