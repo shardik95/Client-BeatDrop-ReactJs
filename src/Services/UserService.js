@@ -70,6 +70,24 @@ class UserService{
         }).then(response=>response.json())
     }
 
+    followUser(user,userId){
+        return fetch("http://localhost:8080/api/user/following/"+userId,{
+            method:'post',
+            headers:{
+                'content-type':'application/json',
+            },
+            credentials: 'include',
+            body:JSON.stringify(user)
+        }).then(response=>response.json())
+    }
+
+    unfollow(followingId,followerId){
+        return fetch("http://localhost:8080/api/following/FID/follower/F_Id".replace("FID",followingId).replace("F_Id",followerId),{
+            method:'delete',
+            credentials: 'include'
+        }).then(response=>response.json())
+    }
+
 }
 
 export default UserService;

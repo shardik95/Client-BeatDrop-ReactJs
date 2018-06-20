@@ -78,6 +78,9 @@ class UserPrivateProfile extends React.Component{
                     <div className="col-3" style={divStyle}>
                         <i className="fa fa-5x fa-user-circle" style={{marginTop:'45px',color:'#fff'}}></i>
                         <h3>@{this.state.user.userName}</h3>
+                        <Link to={`/user/profile/account`}>
+                            <button className="btn btn-primary">Edit</button>
+                        </Link>
                         <br/>
                         <br/>
                         Recently Played Songs

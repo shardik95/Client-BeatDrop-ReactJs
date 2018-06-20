@@ -21,7 +21,7 @@ class Home extends React.Component{
             albumButton:'See All',
             artistIndex:3,
             artistButton:'See All',
-            isSearchEmpty:false,
+            isSearchEmpty:true,
             user:'',
             session:false,
             radio:'',
@@ -204,12 +204,10 @@ class Home extends React.Component{
                     this.setState({albums: object.albums.items})
                 ))
 
-                if (this.state.tracks.length === 0 && this.state.albums.length === 0 && this.state.artists.length === 0) {
-                    this.setState({isSearchEmpty: true})
-                }
-                else {
-                    this.setState({isSearchEmpty: false})
-                }
+
+                this.state.tracks.length===0 && this.state.artists.length===0 && this.state.albums.length===0
+                && console.log("search not work")
+
                 this.setState({searchTrue: true})
                 this.setState({isQuery:true})
             }
@@ -279,10 +277,10 @@ class Home extends React.Component{
                                        }
                                    }}/>
                             <ul style={{zIndex:"+1",position:"absolute"}} className="list-group" hidden={!this.state.userSearch}>
-                                {this.state.searchedUsers.map((user,index)=>(
+                                {this.state.searchedUsers!==''&&this.state.searchedUsers.map((user,index)=>(
                                     this.state.user.id!==user.id &&
                                     <li className="list-group-item" key={index}>
-                                        <i className="fa fa-user-circle"/> <Link to={`/user/${user.id}/profile`}>{user.firstName}</Link>
+                                        <i className="fa fa-user-circle"/> <Link to={`/user/${user.id}/profile`}>{user.firstName}</Link>&nbsp;
                                     </li>
                                 ))}
 

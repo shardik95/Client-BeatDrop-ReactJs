@@ -151,14 +151,20 @@ class Playlist extends React.Component{
                         <br/>
                     </div>
                     </div>
-                    <div className="col-6" hidden={!this.state.showSongList}>
+                    <div className="col-6" >
+                        <div hidden={!this.state.showSongList}>
                         <ul className="list-group">
-                            <li className="list-group-item active">Songs</li>
+                            {this.state.songs.length>0 && <li className="list-group-item active">Songs</li>}
 
                             {this.state.songs.length>0 && this.state.songs.map((song,index)=>(
                                 <li key={index} className="list-group-item">{song.songName}</li>
                             ))}
                         </ul>
+                        </div>
+                        {this.state.songs.length==0 &&
+                        <img src="https://i.pinimg.com/736x/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2---page-empty-page.jpg"
+                        width="400px" height="300px"/>
+                         }
                         <br/>
                     </div>
                 </div>

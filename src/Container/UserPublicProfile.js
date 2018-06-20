@@ -11,10 +11,13 @@ class UserPublicProfile extends React.Component{
             user:'',
             profileUser:'',
             session:false,
-            profileUserId:''
+            profileUserId:'',
+            showFollow:true
         }
         this.userService=UserService.instance;
         this.logout=this.logout.bind(this);
+        this.follow=this.follow.bind(this);
+        this.unFollow=this.unFollow.bind(this);
     }
 
     componentDidMount(){
@@ -30,7 +33,13 @@ class UserPublicProfile extends React.Component{
         )).then(json=> {
             if (json.userName !== 'CANNOT FIND'){
                 this.setState({user:json,session:true,userId:json.id})
-            }})
+                this.state.user!==''&&this.state.user.following.map(follow=>{
+                    if(follow.myId==this.state.profileUserId){
+                        this.setState({showFollow:false})
+                    }
+                })
+            }
+        })
 
         this.userService.findUserById(profileUserId)
             .then(user=>this.setState({profileUser:user}))
@@ -49,6 +58,11 @@ class UserPublicProfile extends React.Component{
         )).then(json=> {
             if (json.userName !== 'CANNOT FIND'){
                 this.setState({user:json,session:true,userId:json.id})
+                this.state.user!==''&&this.state.user.following.map(follow=>{
+                    if(follow.id===this.state.profileUserId){
+                        this.setState({showFollow:false})
+                    }
+                })
             }})
 
         this.userService.findUserById(profileUserId)
@@ -60,6 +74,59 @@ class UserPublicProfile extends React.Component{
         this.setState({user:'',session:false})
         this.props.history.push("/home")
 
+    }
+
+    unFollow(){
+        let following=0;
+        let follower=0;
+        this.state.user!==''&& this.state.user.following.map(follow=> {
+            if(follow.userName === this.state.profileUser.userName){
+                following=follow.id;
+            }
+        })
+
+        this.state.profileUser!==''&& this.state.profileUser.followers.map(follow=> {
+            if(follow.userName === this.state.user.userName){
+                follower=follow.id;
+            }
+        })
+
+        this.userService.unfollow(following,follower)
+            .then(()=>fetch("http://localhost:8080/api/profile",{
+                    credentials: 'include',
+                }).then(response=> (
+                    response.json()
+                )).then(json=> {
+                    if (json.userName !== 'CANNOT FIND'){
+                        this.setState({user:json,userId:json.id,showFollow:true})
+                    }})
+            )
+    }
+
+    follow(){
+        if(this.state.user!==''){
+            this.userService.followUser(this.state.user,this.state.profileUserId)
+                .then(()=>(
+                    fetch("http://localhost:8080/api/profile",{
+                        credentials: 'include',
+                    }).then(response=> (
+                        response.json()
+                    )).then(json=> {
+                        if (json.userName !== 'CANNOT FIND'){
+                            this.setState({user:json,session:true,userId:json.id})
+                            this.state.user!==''&&this.state.user.following.map(follow=>{
+                                if(follow.myId==this.state.profileUserId){
+                                    this.setState({showFollow:false})
+                                }
+                            })
+                        }
+                    })
+
+                ))
+        }
+        else{
+            alert("please login")
+        }
     }
 
     render(){
@@ -86,9 +153,13 @@ class UserPublicProfile extends React.Component{
                 </nav>
                 <div style={{marginTop:"3%"}} className="row container-fluid">
                     <div className="col-3" style={divStyle}>
-                        <i className="fa fa-5x fa-user-circle" style={{marginTop:'45px',color:'#fff'}}></i>
+                        <i className="fa fa-5x fa-user-circle" style={{marginTop:'45px',color:'#fff'}}/>
                         <h3>@{this.state.profileUser.userName}</h3>
-                        <button className="btn btn-primary">Follow</button>
+
+
+
+                        <button className="btn btn-primary" onClick={()=>this.follow()} hidden={!this.state.showFollow}>Follow</button>
+                        <button className="btn btn-primary" hidden={this.state.showFollow} onClick={()=>this.unFollow()}>UnFollow</button>
                         <br/>
                         <br/>
                         Recently Played Songs
@@ -100,6 +171,22 @@ class UserPublicProfile extends React.Component{
                                     {song}
                                 </li>
                             ))}
+                        </ul>
+                    </div>
+                    <div className="col-9">
+                        <ul className="nav nav-tabs" style={navtabstyle}>
+                            <li className="nav-item" style={{padding:"15px"}}>
+                                <Link to={`/user/profile/followers`}>Followers</Link>
+                            </li>
+                            <li className="nav-item" style={{padding:"15px"}}>
+                                <Link to={`/user/profile/following`}> Following</Link>
+                            </li>
+                            <li className="nav-item" style={{padding:"15px"}}>
+                                <Link to={`/user/profile/feed`}>Feed</Link>
+                            </li>
+                            <li className="nav-item" style={{padding:"15px"}}>
+                                <Link to={`/user/profile/playlist`}>  Playlist</Link>
+                            </li>
                         </ul>
                     </div>
                 </div>
