@@ -32,15 +32,7 @@ class Following extends React.Component{
     }
 
     unFollow(followingId,myId){
-        // let followerId=0;
-        // this.userService.findUserById(myId)
-        //     .then(user=>user.followers.map(follow=>{
-        //         if(follow.userName==this.state.user.userName){
-        //             followerId=follow.id
-        //
-        //         }
-        //
-        //     }))
+
         this.userService.unfollow(followingId,followingId)
             .then(()=>fetch("http://localhost:8080/api/profile",{
                     credentials: 'include',

@@ -1,6 +1,13 @@
 import React from 'react';
 import UserService from "../Services/UserService";
 import Link from "react-router-dom/es/Link";
+import Playlist from "./Playlist";
+import Feed from "./Feed";
+import Route from "react-router-dom/es/Route";
+import PublicFollowers from "./PublicFollowers";
+import PublicFollowing from "./PublicFollowing";
+import PublicFeed from "./PublicFeed";
+import PublicPlaylist from "./PublicPlaylist";
 
 class UserPublicProfile extends React.Component{
 
@@ -176,18 +183,26 @@ class UserPublicProfile extends React.Component{
                     <div className="col-9">
                         <ul className="nav nav-tabs" style={navtabstyle}>
                             <li className="nav-item" style={{padding:"15px"}}>
-                                <Link to={`/user/profile/followers`}>Followers</Link>
+                                <Link to={`/user/${this.state.profileUserId}/profile/followers`}>Followers</Link>
                             </li>
                             <li className="nav-item" style={{padding:"15px"}}>
-                                <Link to={`/user/profile/following`}> Following</Link>
+                                <Link to={`/user/${this.state.profileUserId}/profile/following`}> Following</Link>
                             </li>
                             <li className="nav-item" style={{padding:"15px"}}>
-                                <Link to={`/user/profile/feed`}>Feed</Link>
+                                <Link to={`/user/${this.state.profileUserId}/profile/feed`}>Feed</Link>
                             </li>
                             <li className="nav-item" style={{padding:"15px"}}>
-                                <Link to={`/user/profile/playlist`}>  Playlist</Link>
+                                <Link to={`/user/${this.state.profileUserId}/profile/playlist`}>  Playlist</Link>
                             </li>
                         </ul>
+                        <Route path="/user/:userId/profile/followers"
+                               component={PublicFollowers} />
+                        <Route path="/user/:userId/profile/following"
+                               component={PublicFollowing}/>
+                        <Route path="/user/:userId/profile/feed"
+                               component={PublicFeed}/>
+                        <Route path="/user/:userId/profile/playlist"
+                               component={PublicPlaylist}/>
                     </div>
                 </div>
             </div>
