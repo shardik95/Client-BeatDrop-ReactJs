@@ -1,5 +1,6 @@
 import React from 'react';
 import PlaylistService from "../Services/PlaylistService";
+import Link from "react-router-dom/es/Link";
 
 class Playlist extends React.Component{
 
@@ -157,7 +158,9 @@ class Playlist extends React.Component{
                             {this.state.songs.length>0 && <li className="list-group-item active">Songs</li>}
 
                             {this.state.songs.length>0 && this.state.songs.map((song,index)=>(
-                                <li key={index} className="list-group-item">{song.songName}</li>
+                                <Link to={`/home/song/${song.spotifySongId}`}>
+                                    <li key={index} className="list-group-item">{song.songName}</li>
+                                </Link>
                             ))}
                         </ul>
                         </div>
