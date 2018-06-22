@@ -1,5 +1,7 @@
 import React from 'react';
 import Link from "react-router-dom/es/Link";
+import AlbumService from "../Services/AlbumService";
+import StarRatings from "react-star-ratings";
 
 class Album extends React.Component{
 
@@ -8,11 +10,22 @@ class Album extends React.Component{
         this.state={
             albumId:'',
             accessToken:'',
-            album:''
+            album:'',
+            rating:0,
+            setLike:true,
+            like:'',
+            user:'',
+            review:'',
+            reviewId:''
         }
+        this.albumService=AlbumService.instance;
+        this.likeAlbum=this.likeAlbum.bind(this);
+        this.addReview=this.addReview.bind(this);
+        this.clearReview=this.clearReview.bind(this);
     }
 
     componentDidMount(){
+        this.setState({like:'',setLike:true,review:''})
         let albumId=this.props.match.params.albumId;
         this.setState({albumId:albumId})
 
@@ -29,9 +42,42 @@ class Album extends React.Component{
             .then((response)=>response.json())
             .then((album)=>this.setState({album:album}))
 
+        fetch("http://localhost:8080/api/profile",{
+            credentials: 'include',
+        }).then((response)=>response.json())
+            .then((json)=>(this.setState({user:json})))
+            .then(()=>this.state.user!==''&&this.state.user.likes.map(like=>{
+                if(like.typeId===this.state.albumId) {
+                    this.setState({setLike: true,like:like})
+                }
+            }))
+            .then(()=>this.state.user!==''&&this.state.user.reviews.map(review=>{
+                if(review.typeId===this.state.albumId) {
+                    this.setState({rating:review.stars,reviewId:review.id})
+                }
+            }))
+
+
+    }
+
+    likeAlbum(){
+        if(this.state.user.userName!=='CANNOT FIND'){
+            if(this.state.like==='') {
+                this.albumService.likeAlbum(this.state.user.id, this.state.albumId)
+                    .then((like) => this.setState({like: like, setLike: true}))
+            }
+            else{
+                this.albumService.unLikeAlbum(this.state.like.id)
+                    .then(()=>this.setState({like:''}))
+            }
+        }
+        else{
+            alert("First Login")
+        }
     }
 
     componentWillReceiveProps(newProps){
+        this.setState({like:'',setLike:true,review:''})
         let albumId=newProps.match.params.albumId;
         this.setState({albumId:albumId})
 
@@ -47,7 +93,42 @@ class Album extends React.Component{
         }))
             .then((response)=>response.json())
             .then((album)=>this.setState({album:album}))
+
+        fetch("http://localhost:8080/api/profile",{
+            credentials: 'include',
+        }).then((response)=>response.json())
+            .then((json)=>(this.setState({user:json})))
+            .then(()=>this.state.user!==''&&this.state.user.likes.map(like=>{
+                if(like.typeId===this.state.albumId) {
+                    this.setState({setLike: true,like:like})
+                }
+            }))
+            .then(()=>this.state.user!==''&&this.state.user.reviews.map(review=>{
+                if(review.typeId===this.state.albumId) {
+                    this.setState({rating:review.stars,reviewId:review.id})
+                }
+            }))
     }
+
+    clearReview(){
+        this.albumService.clearReview(this.state.reviewId)
+            .then(()=>this.setState({rating:0}))
+    }
+
+    addReview(rating){
+
+        if(this.state.user.userName!=='CANNOT FIND'){
+            this.setState({rating:rating});
+            this.albumService.addReview(this.state.user.id,this.state.albumId,rating)
+                .then(review=>this.setState({review:review}))
+        }
+        else{
+            alert("First Login")
+        }
+
+
+    }
+
 
     render(){
         return(
@@ -57,6 +138,22 @@ class Album extends React.Component{
                     {this.state.album.images!==undefined && <img src={this.state.album.images[0].url} width="300px" height="300px"/>}
                 </div>
                 <br/>
+                <div className="row">
+                    <div className="col-5" style={{textAlign:'center'}}>
+                        <i className="fa fa-lg fa-heart" style={{color:this.state.like?'red':'lightgrey'}} onClick={()=>this.likeAlbum()}/>
+                    </div>
+                    <div className="col-5">
+                        <StarRatings
+                            rating={this.state.rating}
+                            starRatedColor="gold"
+                            changeRating={(e)=>{this.addReview(e)}}
+                            numberOfStars={5}
+                            starDimension="18px"
+                            starSpacing="3px"
+                        />
+                        <button className="btn" onClick={()=>this.clearReview()}><u>clear</u></button>
+                    </div>
+                </div>
                 <table className="table">
                     <tbody>
                     <tr>
