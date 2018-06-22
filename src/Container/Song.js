@@ -110,7 +110,7 @@ class Song extends React.Component{
 
         if(this.state.user.userName!=='CANNOT FIND'){
             this.setState({rating:rating});
-            this.songService.addReview(this.state.user.id,this.state.trackId,rating)
+            this.songService.addReview(this.state.user.id,this.state.trackId,rating,this.state.song.name,this.state.song.album.images[0].url)
                 .then(review=>this.setState({review:review}))
         }
         else{
@@ -124,7 +124,7 @@ class Song extends React.Component{
     likeSong(){
         if(this.state.user.userName!=='CANNOT FIND'){
             if(this.state.like==='') {
-                this.songService.likeSong(this.state.user.id, this.state.trackId)
+                this.songService.likeSong(this.state.user.id, this.state.trackId,this.state.song.name,this.state.song.album.images[0].url)
                     .then((like) => this.setState({like: like, setLike: true}))
             }
             else{

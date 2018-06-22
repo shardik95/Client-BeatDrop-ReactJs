@@ -14,14 +14,16 @@ class SongService {
 
 
 
-    likeSong(userId,trackId){
+    likeSong(userId,trackId,songname,imageUrl){
 
         var like={
             userId:userId,
             type:'Song',
             typeId:trackId,
             title:'Like',
-            date:new Date()
+            date:new Date(),
+            name:songname,
+            imgUrl:imageUrl
         }
 
         return fetch("http://localhost:8080/api/profile/like",{
@@ -52,7 +54,7 @@ class SongService {
         })
     }
 
-    addReview(userId,trackId,stars){
+    addReview(userId,trackId,stars,songname,imageUrl){
 
         var review={
             userId:userId,
@@ -60,7 +62,9 @@ class SongService {
             typeId:trackId,
             title:'Review',
             date:new Date(),
-            stars:stars
+            stars:stars,
+            name:songname,
+            imgUrl:imageUrl
         }
 
         return fetch("http://localhost:8080/api/profile/review",{

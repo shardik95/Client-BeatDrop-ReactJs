@@ -14,14 +14,16 @@ class ArtistService {
 
 
 
-    likeArtist(userId,artistId){
+    likeArtist(userId,artistId,artistName,imageUrl){
 
         var like={
             userId:userId,
             type:'Artist',
             typeId:artistId,
             title:'Like',
-            date:new Date()
+            date:new Date(),
+            name:artistName,
+            imgUrl:imageUrl
         }
 
         return fetch("http://localhost:8080/api/profile/like",{
@@ -52,7 +54,7 @@ class ArtistService {
         })
     }
 
-    addReview(userId,artistId,stars){
+    addReview(userId,artistId,stars,artistName,imageUrl){
 
         var review={
             userId:userId,
@@ -60,7 +62,9 @@ class ArtistService {
             typeId:artistId,
             title:'Review',
             date:new Date(),
-            stars:stars
+            stars:stars,
+            name:artistName,
+            imgUrl:imageUrl
         }
 
         return fetch("http://localhost:8080/api/profile/review",{

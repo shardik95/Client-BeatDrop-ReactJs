@@ -63,7 +63,7 @@ class Album extends React.Component{
     likeAlbum(){
         if(this.state.user.userName!=='CANNOT FIND'){
             if(this.state.like==='') {
-                this.albumService.likeAlbum(this.state.user.id, this.state.albumId)
+                this.albumService.likeAlbum(this.state.user.id, this.state.albumId,this.state.album.name,this.state.album.images[0].url)
                     .then((like) => this.setState({like: like, setLike: true}))
             }
             else{
@@ -119,7 +119,7 @@ class Album extends React.Component{
 
         if(this.state.user.userName!=='CANNOT FIND'){
             this.setState({rating:rating});
-            this.albumService.addReview(this.state.user.id,this.state.albumId,rating)
+            this.albumService.addReview(this.state.user.id,this.state.albumId,rating,this.state.album.name,this.state.album.images[0].url)
                 .then(review=>this.setState({review:review}))
         }
         else{

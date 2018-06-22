@@ -106,7 +106,7 @@ class ArtistSpotify extends React.Component{
     likeArtist(){
         if(this.state.user.userName!=='CANNOT FIND'){
             if(this.state.like==='') {
-                this.artistService.likeArtist(this.state.user.id, this.state.artistId)
+                this.artistService.likeArtist(this.state.user.id, this.state.artistId,this.state.artist.name,this.state.artist.images[0].url)
                     .then((like) => this.setState({like: like, setLike: true}))
             }
             else{
@@ -133,7 +133,7 @@ class ArtistSpotify extends React.Component{
 
         if(this.state.user.userName!=='CANNOT FIND'){
             this.setState({rating:rating});
-            this.artistService.addReview(this.state.user.id,this.state.artistId,rating)
+            this.artistService.addReview(this.state.user.id,this.state.artistId,rating,this.state.artist.name,this.state.artist.images[0].url)
                 .then(review=>this.setState({review:review}))
         }
         else{
