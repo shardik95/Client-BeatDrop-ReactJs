@@ -169,7 +169,7 @@ class UserPublicProfile extends React.Component{
                         <button className="btn btn-primary" hidden={this.state.showFollow} onClick={()=>this.unFollow()}>UnFollow</button>
                         <br/>
                         <br/>
-                        Recently Played Songs
+                        {this.state.profileUser.type!=="Artist"&& <div>Recently Played Songs
                         <br/>
                         <br/>
                         <ul className="list-group" >
@@ -179,6 +179,18 @@ class UserPublicProfile extends React.Component{
                                 </li>
                             ))}
                         </ul>
+                        </div>}
+                        {this.state.profileUser.type==='Artist' && <div>Recently Uploaded Songs
+                            <br/>
+                            <br/>
+                            <ul className="list-group" >
+                                {this.state.profileUser.songs.map((song,index)=>(
+                                    <li className="list-group-item" key={index} style={{background:'black',borderBottom:'2px solid #363636'}}>
+                                        {song.songName}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>}
                     </div>
                     <div className="col-9">
                         <ul className="nav nav-tabs" style={navtabstyle}>
@@ -188,9 +200,9 @@ class UserPublicProfile extends React.Component{
                             <li className="nav-item" style={{padding:"15px"}}>
                                 <Link to={`/user/${this.state.profileUserId}/profile/following`}> Following</Link>
                             </li>
-                            <li className="nav-item" style={{padding:"15px"}}>
+                            {this.state.profileUser.type!=='Artist' && <li className="nav-item" style={{padding:"15px"}}>
                                 <Link to={`/user/${this.state.profileUserId}/profile/feed`}>Feed</Link>
-                            </li>
+                            </li>}
                             <li className="nav-item" style={{padding:"15px"}}>
                                 <Link to={`/user/${this.state.profileUserId}/profile/playlist`}>  Playlist</Link>
                             </li>

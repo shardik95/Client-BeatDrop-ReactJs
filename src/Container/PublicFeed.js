@@ -10,7 +10,6 @@ class PublicFeed extends React.Component{
         super(props);
         this.state={
             user:'',
-            feed:[],
             data:'',
             userId:'',
             feed:[]

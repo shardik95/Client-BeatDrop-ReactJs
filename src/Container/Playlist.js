@@ -16,7 +16,8 @@ class Playlist extends React.Component{
             trackId:'',
             song:'',
             songs:'',
-            showSongList:false
+            showSongList:false,
+            playlistOption:'Public'
         }
         this.createPlaylist=this.createPlaylist.bind(this);
         this.deletePlaylist=this.deletePlaylist.bind(this);
@@ -107,10 +108,21 @@ class Playlist extends React.Component{
 
     createPlaylist(){
         if(this.state.plName===''){
-            let newPlaylist={
-                playlistName:'New Playlist',
+            let newPlaylist;
 
+            if(this.state.user.type==="Artist"){
+                newPlaylist={
+                    playlistName:'New Playlist',
+                    playlistType:this.state.playlistOption
+                }
             }
+            else{
+                newPlaylist={
+                    playlistName:'New Playlist',
+                    playlistType:'Public'
+                }
+            }
+
             this.playlistService.createPlaylist(this.state.userId,newPlaylist)
                 .then(()=>(
                     this.playlistService.getPlaylistForUser(this.state.userId)
@@ -118,9 +130,20 @@ class Playlist extends React.Component{
                 ))
         }
         else{
-            let newPlaylist={
-                playlistName:this.state.plName
+            let newPlaylist;
+            if(this.state.user.type==="Artist"){
+                newPlaylist={
+                    playlistName:this.state.plName,
+                    playlistType:this.state.playlistOption
+                }
             }
+            else{
+                newPlaylist={
+                    playlistName:this.state.plName,
+                    playlistType:'Public'
+                }
+            }
+
             this.playlistService.createPlaylist(this.state.userId,newPlaylist)
                 .then(()=>(
                     this.playlistService.getPlaylistForUser(this.state.userId)
@@ -135,6 +158,13 @@ class Playlist extends React.Component{
                 <h1>Playlists</h1>
                 <form className="form-control" style={{padding:"15px"}}>
                     <input type="text" onChange={(e)=>this.setState({plName:e.target.value})}/>
+                    &nbsp;
+                    {this.state.user.type==='Artist' &&
+                    <select onChange={(e)=>this.setState({playlistOption:e.target.value})} defaultValue="Public">
+                        <option>Public</option>
+                        <option>Private</option>
+                    </select>}
+
                     <button className="btn btn-primary float-right" type="button" onClick={()=>this.createPlaylist()}>Create a playlist</button>
                 </form>
                 <br/>
@@ -144,8 +174,9 @@ class Playlist extends React.Component{
                         <ul className="list-group">
                             <li className="list-group-item active">Playlists</li>
                             {this.state.playlists.map((playlist,index)=>(
-                                <li key={index} className="list-group-item" onClick={()=>this.renderSong(playlist.id)}>{playlist.playlistName}
-                                    <button className="btn float-right" onClick={()=>this.deletePlaylist(playlist.id)}><i className="fa fa-lg fa-times"></i></button>
+                                <li key={index} className="list-group-item" onClick={()=>this.renderSong(playlist.id)}>{playlist.playlistName} &emsp;
+                                    {this.state.user.type==="Artist" && <span className="badge badge-secondary">{playlist.playlistType}</span>}
+                                    <button className="btn float-right" onClick={()=>this.deletePlaylist(playlist.id)}><i className="fa fa-lg fa-times"/></button>
                                     <button className="btn float-right" hidden={!this.state.showAdd} onClick={()=>this.addSong(playlist.id)}><i className="fa fa-lg fa-plus"></i></button></li>
                             ))}
                         </ul>

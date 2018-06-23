@@ -7,7 +7,6 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 import Login from "./Container/Login";
 import SignUp from "./Container/SignUp"
 import UserPrivateProfile from "./Container/UserPrivateProfile";
-import Redirect from "react-router-dom/es/Redirect";
 import Playlist from "./Container/Playlist";
 import LandingPage from "./Container/LandingPage";
 import Song from "./Container/Song";

@@ -7,6 +7,7 @@ import Following from "./Following";
 import Feed from "./Feed";
 import UserService from "../Services/UserService";
 import Account from "./Account";
+import FileService from "../Services/FileService";
 
 class UserPrivateProfile extends React.Component{
 
@@ -16,10 +17,15 @@ class UserPrivateProfile extends React.Component{
         this.state={
             userId:'',
             user:'',
-            session:false
+            session:false,
+            file:[]
         }
         this.userService=UserService.instance;
         this.logout=this.logout.bind(this);
+        this.onChange=this.onChange.bind(this);
+        this.onFormSubmit=this.onFormSubmit.bind(this);
+        this.fileService=FileService.instance;
+        this.deleteSong=this.deleteSong.bind(this);
     }
 
     componentDidMount(){
@@ -52,9 +58,39 @@ class UserPrivateProfile extends React.Component{
 
     }
 
+    onFormSubmit(e){
+        e.preventDefault()
+         this.fileService.fileUpload(this.state.file,this.state.user.id).then((response)=>{
+             fetch("http://localhost:8080/api/profile",{
+                 credentials: 'include',
+             }).then(response=> (
+                 response.json()
+             )).then(json=> {
+                 if (json.userName !== 'CANNOT FIND'){
+                     this.setState({user:json,session:true,userId:json.id})
+                 }})
+        })
+    }
+
+    onChange(e) {
+        this.setState({file:e.target.files[0]})
+    }
+
+    deleteSong(song){
+        this.fileService.deleteFile(song.songName,song.id)
+            .then(()=>fetch("http://localhost:8080/api/profile",{
+                credentials: 'include',
+            }).then(response=> (
+                response.json()
+            )).then(json=> {
+                if (json.userName !== 'CANNOT FIND'){
+                    this.setState({user:json,session:true,userId:json.id})
+                }}))
+    }
+
     render(){
 
-        let songs=['Song 1','Song 2','Song 3','Song 4','Song 5','Song 6','Song 7','Song 8']
+
 
         return(
             <div>
@@ -68,6 +104,7 @@ class UserPrivateProfile extends React.Component{
                             <Link to="/home/signup"><button className="btn btn-outline-primary" style={{marginRight:"10px"}} type="button">SignUp</button></Link>
                         </div>
                         <h3 style={{color:"#000",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}</h3>
+                        {this.state.user.type === 'Artist' && <i className="fa fa-lg fa-check-circle" style={{color:'#2C8AFF'}}/>}
                         <div hidden={!this.state.session}>
                             <Link to="/user/profile"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Profile</button></Link>
                             <button className="btn btn-outline-primary" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
@@ -76,23 +113,32 @@ class UserPrivateProfile extends React.Component{
                 </nav>
                 <div style={{marginTop:"3%"}} className="row container-fluid">
                     <div className="col-3" style={divStyle}>
-                        <i className="fa fa-5x fa-user-circle" style={{marginTop:'45px',color:'#fff'}}></i>
-                        <h3>@{this.state.user.userName}</h3>
+                        <i className="fa fa-5x fa-user-circle" style={{marginTop:'45px',color:'#fff'}}/>
+                        <h3>@{this.state.user.userName}
+                            {this.state.user.type === 'Artist' && <i className="fa fa-check-circle" style={{color:'#2C8AFF'}}/>}
+                        </h3>
                         <Link to={`/user/profile/account`}>
                             <button className="btn btn-primary">Edit</button>
                         </Link>
                         <br/>
                         <br/>
-                        Recently Played Songs
+                        {this.state.user.type==='Artist' && <div>Recently Uploaded Songs
                         <br/>
                         <br/>
                         <ul className="list-group" >
-                            {songs.map((song,index)=>(
+                            {this.state.user.songs.map((song,index)=>(
                                 <li className="list-group-item" key={index} style={{background:'black',borderBottom:'2px solid #363636'}}>
-                                    {song}
+                                    {song.songName}
+                                    <i className="fa fa-lg fa-times float-right" style={{color:"red"}} onClick={()=>this.deleteSong(song)}/>
                                 </li>
-                                ))}
+                            ))}
                         </ul>
+                    </div>}
+                        <br/>
+                        {this.state.user.type ==='Artist' && <form onSubmit={this.onFormSubmit}>
+                            <input type="file" onChange={this.onChange} className="form-control" /><br/>
+                            <button type="submit" className="btn btn-primary">Upload</button>
+                        </form>}
                     </div>
                     <div className="col-9">
                         <ul className="nav nav-tabs" style={navtabstyle}>

@@ -39,11 +39,11 @@ class PublicPlaylist extends React.Component{
             <div>
                 <div className="row">
                     <div className="col-5">
-                        <h1>Playlists </h1>
+                        <h3>Playlists </h3>
                         <ul className="list-group">
                             {this.state.user.playlists!==undefined && <li className="list-group-item active">Playlists</li>}
                             {this.state.user!=='' && this.state.user.playlists.map((playlist,index) => (
-                                <li key={index} className="list-group-item" onClick={()=>this.renderSongs(index)}>{playlist.playlistName}</li>
+                                playlist.playlistType!=='Private'&&<li key={index} className="list-group-item" onClick={()=>this.renderSongs(index)}>{playlist.playlistName}</li>
                             ))}
                         </ul>
                     </div>

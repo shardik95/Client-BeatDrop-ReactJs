@@ -79,7 +79,8 @@ class SignUp extends React.Component{
                     password: this.state.password,
                     phone: this.state.phone,
                     dob: this.state.dob,
-                    userName: this.state.userName
+                    userName: this.state.userName,
+                    type:"User"
                 }
 
                 this.userService.createUser(newUser)
