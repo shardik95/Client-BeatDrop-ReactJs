@@ -12,7 +12,26 @@ class ArtistService {
         return this[_singleton]
     }
 
+    createArtist(artist){
 
+        return fetch("http://localhost:8080/api/artist",{
+            credentials:'include',
+            method:'post',
+            headers:{
+                'content-type':'application/json',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Credentials':true,
+                'Access-Control-Allow-Origin':true
+            },
+            body:JSON.stringify(artist)
+        }).then(response=>response.json())
+    }
+
+    deleteArtist(id){
+        return fetch("http://localhost:8080/api/artist/"+id,{
+            method:'delete'
+        }).then(response=>response.json())
+    }
 
     likeArtist(userId,artistId,artistName,imageUrl){
 
@@ -93,6 +112,11 @@ class ArtistService {
             },
             credentials:'include'
         })
+    }
+
+    findAllArtists(){
+        return fetch("http://localhost:8080/api/artist")
+            .then(response=>response.json())
     }
 
 }

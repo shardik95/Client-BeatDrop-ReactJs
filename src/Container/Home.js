@@ -278,7 +278,7 @@ class Home extends React.Component{
                                    }}/>
                             <ul style={{zIndex:"+1",position:"absolute"}} className="list-group" hidden={!this.state.userSearch}>
                                 {this.state.searchedUsers!==''&&this.state.searchedUsers.map((user,index)=>(
-                                    this.state.user.id!==user.id &&
+                                    this.state.user.id!==user.id && user.userName!=='admin'&&
                                     <li className="list-group-item" key={index}>
                                         <i className="fa fa-user-circle"/> <Link to={`/user/${user.id}/profile`}>{user.firstName}</Link>
                                         {user.type === 'Artist' && <i className="fa fa-check-circle" style={{color:'#2C8AFF'}}/>}&nbsp;
@@ -299,7 +299,10 @@ class Home extends React.Component{
                         <h3 style={{color:"#000",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}</h3>
                         {this.state.user.type === 'Artist' && <i className="fa fa-lg fa-check-circle" style={{color:'#2C8AFF'}}/>}&nbsp;
                         <div hidden={!this.state.session}>
-                            <Link to="/user/profile"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Profile</button></Link>
+                            {this.state.user.type!=='Admin' &&
+                            <Link to="/user/profile"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Profile</button></Link>}
+                            {this.state.user.type==='Admin' &&
+                            <Link to="/admin"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Admin Page</button></Link>}
                             <button className="btn btn-outline-primary" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
                         </div>
                     </form>

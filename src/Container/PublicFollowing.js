@@ -1,6 +1,7 @@
 import React from 'react';
 import UserService from "../Services/UserService";
 import FollowingService from "../Services/FollowingService";
+import Link from "react-router-dom/es/Link";
 
 
 class PublicFollowing extends React.Component{
@@ -100,7 +101,9 @@ class PublicFollowing extends React.Component{
                             }
                             return <li className="list-group-item" key={index}>
                                 <i className="fa fa-user"/>&emsp;
-                                {following.firstName}
+                                <Link to={`/user/${following.myId}/profile`}> {following.userName}
+                                    {following.type === 'Artist' && <i className="fa fa-check-circle" style={{color:'#2C8AFF'}}/>}
+                                </Link>
                                 <button className="btn btn-primary float-right" hidden={follow} onClick={()=>this.followUser(following.myId)}>Follow</button>
                                 <button className="btn btn-primary float-right" hidden={!follow} onClick={()=>this.unFollow(following.userName,following.myId)}>UnFollow</button>
                             </li>

@@ -104,13 +104,14 @@ class Feed extends React.Component{
                 <br/>
                 <div className="row" style={{marginLeft:"5px"}}>
 
-                    {sortedFeed.map(feed=>(
+                    {sortedFeed.map((feed,index)=>(
                         <div>
                             {feed.title==='Like' &&
-                            <div className="card" style={{width:"600px",height:"130px"}}>
+                            <div className="card" style={{width:"600px",height:"130px"}} key={index}>
                                 <div className="card-header">
                                     <i className="fa fa-lg fa-user-circle"/>&nbsp;{this.state.user.userName === feed.username && "you"}
                                     {this.state.user.userName !== feed.username && feed.username}
+                                    {feed.type === 'Artist' && <i className="fa fa-check-circle" style={{color:'#2C8AFF'}}/>}
                                 </div>
                                 <div className="card-body">
                                     <div className="row">

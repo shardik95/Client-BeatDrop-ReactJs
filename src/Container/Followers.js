@@ -1,5 +1,6 @@
 import React from 'react';
 import UserService from "../Services/UserService";
+import Link from "react-router-dom/es/Link";
 
 class Followers extends React.Component{
 
@@ -77,6 +78,7 @@ class Followers extends React.Component{
                 <ul className="list-group" style={{width:"40%"}}>
                     <li className="list-group-item active">Followers
                     </li>
+                    {console.log(followers)}
                     {this.state.user!==''&&followers.map((follower,index)=> {
                         let follow=false;
                         if(this.state.user!==''){
@@ -89,7 +91,7 @@ class Followers extends React.Component{
                         }
                         return <li className="list-group-item" key={index}>
                             <i className="fa fa-user"/>&emsp;
-                            {follower.firstName}
+                            <Link to={`/user/${follower.myid}/profile`}>{follower.firstName}</Link>
                             <button className="btn btn-primary float-right" hidden={follow} onClick={()=>this.followUser(follower.myid)}>Follow</button>
                             <button className="btn btn-primary float-right" hidden={!follow} onClick={()=>this.unFollow(follower.id,follower.myId)}>UnFollow</button>
                         </li>

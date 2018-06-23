@@ -45,7 +45,6 @@ class PublicFeed extends React.Component{
             <div>
                 <br/>
                 <div className="row" style={{marginLeft:"5px"}}>
-
                     {sortedFeed.map(feed=>(
                         <div>
                             {feed.title==='Like' &&

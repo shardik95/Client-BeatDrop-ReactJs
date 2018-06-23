@@ -88,6 +88,30 @@ class UserService{
         }).then(response=>response.json())
     }
 
+
+    findAllUsers(){
+        return fetch("http://localhost:8080/api/user")
+            .then(response=>response.json())
+    }
+
+    deleteUser(id){
+        return fetch("http://localhost:8080/api/user/"+id,{
+             method:'delete'
+         }).then(response=>response.json())
+
+    }
+
+    verifyUser(user){
+        return fetch("http://localhost:8080/api/verify",{
+            method:'post',
+            headers:{
+                'content-type':'application/json',
+            },
+            credentials: 'include',
+            body:JSON.stringify(user)
+        }).then(response=>response.json())
+    }
+
 }
 
 export default UserService;

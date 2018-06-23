@@ -14,15 +14,19 @@ import ArtistSpotify from "./Container/ArtistSpotify";
 import Album from "./Container/Album";
 import FeaturedPlaylists from "./Components/FeaturedPlaylists";
 import UserPublicProfile from "./Container/UserPublicProfile";
+import HomeFeed from "./Components/HomeFeed";
+import Admin from "./Container/Admin";
 
 ReactDOM.render(
     <Router>
 
-        <div style={{marginLeft:"1%",marginRight:"1%"}}>
+        <div style={{marginLeft:"1%",marginRight:"6%"}}>
             <div>
                 <Route exact path="/" component={LandingPage}/>
                 <Route path='/index'
                        component={LandingPage}/>
+                <Route path='/admin'
+                       component={Admin}/>
             </div>
             <div>
                 <Route path='/user/profile'
@@ -35,7 +39,7 @@ ReactDOM.render(
                     <Route path='/home'
                            component={Home}/>
                 </div>
-                <div className="col-5" style={{marginTop:"5%"}}>
+                <div className="col-4" style={{marginTop:"5%"}}>
                     <Route path='/home/login'
                            component={Login}/>
                     <Route path='/home/signup'
@@ -50,6 +54,9 @@ ReactDOM.render(
                            component={Album}/>
                     <Route path='/home/featured-playlist/:playlistId'
                            component={FeaturedPlaylists}/>
+                    <Route path='/home'
+                           component={HomeFeed}/>
+
                 </div>
             </div>
         </div>

@@ -148,9 +148,9 @@ class UserPrivateProfile extends React.Component{
                             <li className="nav-item" style={{padding:"15px"}}>
                               <Link to={`/user/profile/followers`}>Followers</Link>
                             </li>
-                            <li className="nav-item" style={{padding:"15px"}}>
+                            {this.state.user.type!=='Artist' && <li className="nav-item" style={{padding:"15px"}}>
                                 <Link to={`/user/profile/following`}> Following</Link>
-                            </li>
+                            </li>}
                             <li className="nav-item" style={{padding:"15px"}}>
                                 <Link to={`/user/profile/feed`}>Feed</Link>
                             </li>

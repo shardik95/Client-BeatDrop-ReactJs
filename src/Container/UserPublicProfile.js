@@ -151,7 +151,9 @@ class UserPublicProfile extends React.Component{
 
                         <Link to="/home/signup"><button className="btn btn-outline-primary" style={{marginRight:"10px"}} type="button">SignUp</button></Link>
                     </div>
-                    <h3 style={{color:"#000",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}</h3>
+                    <h3 style={{color:"#000",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}
+                        {this.state.user.type === 'Artist' && <i className="fa fa-lg fa-check-circle" style={{color:'#2C8AFF'}}/>}
+                    </h3>
                     <div hidden={!this.state.session}>
                         <Link to="/user/profile"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Profile</button></Link>
                         <button className="btn btn-outline-primary" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
@@ -161,12 +163,14 @@ class UserPublicProfile extends React.Component{
                 <div style={{marginTop:"3%"}} className="row container-fluid">
                     <div className="col-3" style={divStyle}>
                         <i className="fa fa-5x fa-user-circle" style={{marginTop:'45px',color:'#fff'}}/>
-                        <h3>@{this.state.profileUser.userName}</h3>
+                        <h3>@{this.state.profileUser.userName}
+                            {this.state.profileUser.type === 'Artist' && <i className="fa fa-check-circle" style={{color:'#2C8AFF'}}/>}
+                        </h3>
 
-
-
-                        <button className="btn btn-primary" onClick={()=>this.follow()} hidden={!this.state.showFollow}>Follow</button>
-                        <button className="btn btn-primary" hidden={this.state.showFollow} onClick={()=>this.unFollow()}>UnFollow</button>
+                        {this.state.user.type!=='Artist'&&
+                        <button className="btn btn-primary" onClick={()=>this.follow()} hidden={!this.state.showFollow}>Follow</button>}
+                        {this.state.user.type!=='Artist'&&
+                        <button className="btn btn-primary" hidden={this.state.showFollow} onClick={()=>this.unFollow()}>UnFollow</button>}
                         <br/>
                         <br/>
                         {this.state.profileUser.type!=="Artist"&& <div>Recently Played Songs
@@ -197,9 +201,9 @@ class UserPublicProfile extends React.Component{
                             <li className="nav-item" style={{padding:"15px"}}>
                                 <Link to={`/user/${this.state.profileUserId}/profile/followers`}>Followers</Link>
                             </li>
-                            <li className="nav-item" style={{padding:"15px"}}>
+                            {this.state.profileUser.type!=='Artist'&&<li className="nav-item" style={{padding:"15px"}}>
                                 <Link to={`/user/${this.state.profileUserId}/profile/following`}> Following</Link>
-                            </li>
+                            </li>}
                             {this.state.profileUser.type!=='Artist' && <li className="nav-item" style={{padding:"15px"}}>
                                 <Link to={`/user/${this.state.profileUserId}/profile/feed`}>Feed</Link>
                             </li>}

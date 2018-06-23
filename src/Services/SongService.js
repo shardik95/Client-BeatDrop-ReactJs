@@ -95,6 +95,12 @@ class SongService {
         })
     }
 
+    deleteUploadedSong(id){
+        return fetch("http://localhost:8080/api/uploadedSong/"+id,{
+            method:'delete'
+        }).then(response=>response.json())
+    }
+
 
 }
 export default SongService;
