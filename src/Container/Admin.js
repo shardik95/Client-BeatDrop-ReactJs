@@ -2,6 +2,8 @@ import React from 'react';
 import UserService from "../Services/UserService";
 import ArtistService from "../Services/ArtistService";
 import SongService from "../Services/SongService";
+import HostService from "../Services/HostService";
+import PartyService from "../Services/PartyService";
 
 class Admin extends React.Component{
 
@@ -34,6 +36,10 @@ class Admin extends React.Component{
         this.userService=UserService.instance;
         this.artistService=ArtistService.instance;
         this.songService=SongService.instance;
+        this.hostService=HostService.instance;
+        this.partyService=PartyService.instance;
+        this.createHost=this.createHost.bind(this);
+        this.deleteParty=this.deleteParty.bind(this);
     }
 
     componentDidMount(){
@@ -75,8 +81,15 @@ class Admin extends React.Component{
                 .then(users=>this.setState({role:users}))
         }
         else if(role ==='Hosts'){
-
+            this.hostService.getAllHosts()
+                .then(users=>this.setState({role:users}))
         }
+    }
+
+    deleteParty(id){
+        return this.partyService.deleteParty(id)
+            .then(()=>this.userService.findAllUsers())
+            .then(users=>this.setState({role:users}))
     }
 
     deleteSong(id){
@@ -108,6 +121,23 @@ class Admin extends React.Component{
             .then(()=>this.userService.findAllUsers()
                 .then(users=>this.setState({role:users,selected:false})))
 
+    }
+
+    createHost(){
+        if(this.state.inputChange===''){
+            this.setState({validation:true})
+        }
+        else{
+            this.setState({validation:false})
+            let host= {
+                userName: this.state.inputChange,
+                type: 'Host',
+                password: this.state.inputChange
+            }
+            this.hostService.createHost(host)
+                .then(()=>this.userService.findAllUsers()
+                    .then(users=>this.setState({role:users,selected:false})))
+        }
     }
 
     createUser(){
@@ -160,6 +190,18 @@ class Admin extends React.Component{
                     .then(users=>this.setState({role:users,selected:false})))
         }
     }
+
+    selectHost(host){
+        this.setState({selectedUser:host,selected:true})
+    }
+
+    deleteHost(id){
+        this.hostService.deleteHost(id)
+            .then(()=>this.userService.findAllUsers()
+                .then(users=>this.setState({role:users,selected:false})))
+    }
+
+
 
     render(){
 
@@ -253,6 +295,34 @@ class Admin extends React.Component{
                                 </div>
                             </div>}
                         </ul>
+
+                        <ul className="list-group">
+                            {this.state.role.length>0 && this.state.selectedOption==='Hosts' &&
+                            <li className="list-group-item active">
+                                Hosts
+                            </li>}
+                            {this.state.role.length>0 && this.state.selectedOption==='Hosts' && this.state.role.map((user,index)=>(
+                                user.type==='Host' && <li className="list-group-item" onClick={()=>this.selectHost(user)} key={index}>
+                                    {user.userName}
+                                    <i className="fa fa-trash float-right fa-lg" onClick={()=>this.deleteHost(user.id)}/>
+                                </li>
+                            ))}<br/>
+                            {this.state.role.length>0 && this.state.selectedOption==='Hosts' && <div className='row'>
+                                <div className='col-8'>
+                                    <input className="form-control" onChange={e=>this.setState({inputChange:e.target.value})}/>
+                                    {this.state.validation && <span style={{color:'red'}}>Type Something</span>}
+                                </div>
+                                <div className="col-1">
+                                    <span style={{color:'red'}}>*</span>
+
+                                </div>
+                                <div className='col-1'>
+                                    <button className="btn btn-outline-dark" onClick={()=>this.createHost()}>
+                                        <i className='fa fa-plus'/>
+                                    </button>
+                                </div>
+                            </div>}
+                        </ul>
                     </div>
                     <div className="col-9">
                         <div className="row">
@@ -307,11 +377,18 @@ class Admin extends React.Component{
                                                 {song.songName}
                                             </li>))}
                                     </ul>}
+                                    {this.state.selectedUser.type==='Host'&&<ul className="list-group">
+                                        <li className="list-group-item active">Party</li>
+                                        {this.state.selectedUser!==''&&this.state.selectedUser.parties.map((party,index) =>(
+                                            <li className="list-group-item" key={index}>
+                                                {party.partyname}
+                                            </li>))}
+                                    </ul>}
                                 </div>
                                 <br/>
                                 <button className="btn btn-outline-dark btn-block" onClick={()=>this.setState({update:true})}>Edit Profile</button>
                                 <br/>
-                                {this.state.selectedUser.type!=='Artist' &&
+                                {this.state.selectedUser.type==='User' &&
                                 <button className="btn btn-outline-dark btn-block" onClick={()=>this.verify()}>Verfiy as Artist</button>}
                             </div>
                             <div className="col-5" style={{border:"1px solid black",padding:"1%",marginLeft:"1%"}} hidden={!this.state.update}>
@@ -366,6 +443,14 @@ class Admin extends React.Component{
                                         {this.state.selectedUser!==''&&this.state.selectedUser.songs.map((song,index) =>(
                                             <li className="list-group-item" key={index}>
                                                 {song.songName} <i className="fa fa-trash float-right" onClick={()=>this.deleteSong(song.id)}/>
+                                            </li>))}
+                                    </ul>}
+                                    {this.state.selectedUser.type==='Host'&&<ul className="list-group">
+                                        <li className="list-group-item active">Party</li>
+                                        {this.state.selectedUser!==''&&this.state.selectedUser.parties.map((party,index) =>(
+                                            <li className="list-group-item" key={index}>
+                                                {party.partyname}
+                                                <i className="fa fa-trash float-right" onClick={()=>this.deleteParty(party.id)}/>
                                             </li>))}
                                     </ul>}
                                 </div>

@@ -26,6 +26,28 @@ class HostService{
         })
     }
 
+    getAllHosts(){
+        return fetch("http://localhost:8080/api/host")
+            .then(response=>response.json())
+    }
+
+    deleteHost(id){
+        return fetch("http://localhost:8080/api/host/"+id,{
+            method:'delete'
+        }).then(response=>response.json())
+    }
+
+    updateHost(host){
+        return fetch("http://localhost:8080/api/host",{
+            credentials: 'include',
+            headers:{
+                'content-type':'application/json',
+            },
+            method:'put',
+            body:JSON.stringify(host)
+        }).then(response=>response.json())
+    }
+
 }
 
 export default HostService;
