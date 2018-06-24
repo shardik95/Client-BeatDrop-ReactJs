@@ -45,6 +45,29 @@ class PublicFeed extends React.Component{
             <div>
                 <br/>
                 <div className="row" style={{marginLeft:"5px"}}>
+
+                    {this.state.profileUser.type==='Host'&& this.state.profileUser.parties.map((party,index)=>(
+                        <div key={index}>
+                            <div className="card" style={{width:"600px",height:"130px"}} >
+                                <div className="card-header">
+                                    <i className="fa fa-lg fa-user-circle"/>&nbsp;{this.state.profileUser.userName}
+                                </div>
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-9">
+                                            <p className="card-text">created party {party.partyname}.
+                                                &nbsp;<Link to={`/user/${this.state.profileUserId}/profile/party`}>Click here to add songs</Link>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                        </div>
+                    ))
+                    }
+
+
                     {sortedFeed.map(feed=>(
                         <div>
                             {feed.title==='Like' &&

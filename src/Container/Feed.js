@@ -100,14 +100,36 @@ class Feed extends React.Component{
         })
         return(
             <div>
-                {/*{console.log(sortedFeed)}*/}
                 <br/>
                 <div className="row" style={{marginLeft:"5px"}}>
 
+
+                    {this.state.user.type==='Host'&& this.state.user.parties.map((party,index)=>(
+                        <div key={index}>
+                        <div className="card" style={{width:"600px",height:"130px"}} >
+                            <div className="card-header">
+                                <i className="fa fa-lg fa-user-circle"/>&nbsp;you
+                            </div>
+                            <div className="card-body">
+                                <div className="row">
+                                    <div className="col-9">
+                                        <p className="card-text">created party {party.partyname}.
+                                            &nbsp;<Link to={`/user/profile/party`}>Click here to add songs</Link>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <br/>
+                        </div>
+                        ))
+                    }
+
+
                     {sortedFeed.map((feed,index)=>(
-                        <div>
+                        <div key={index}>
                             {feed.title==='Like' &&
-                            <div className="card" style={{width:"600px",height:"130px"}} key={index}>
+                            <div className="card" style={{width:"600px",height:"130px"}} >
                                 <div className="card-header">
                                     <i className="fa fa-lg fa-user-circle"/>&nbsp;{this.state.user.userName === feed.username && "you"}
                                     {this.state.user.userName !== feed.username && feed.username}
@@ -152,6 +174,7 @@ class Feed extends React.Component{
                             <br/>
                         </div>
                     ))}
+
 
                 </div>
             </div>

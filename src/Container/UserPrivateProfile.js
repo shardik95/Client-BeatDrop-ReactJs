@@ -8,6 +8,8 @@ import Feed from "./Feed";
 import UserService from "../Services/UserService";
 import Account from "./Account";
 import FileService from "../Services/FileService";
+import Party from "./Party";
+import Ticket from "./Ticket";
 
 class UserPrivateProfile extends React.Component{
 
@@ -148,7 +150,7 @@ class UserPrivateProfile extends React.Component{
                             <li className="nav-item" style={{padding:"15px"}}>
                               <Link to={`/user/profile/followers`}>Followers</Link>
                             </li>
-                            {this.state.user.type!=='Artist' && <li className="nav-item" style={{padding:"15px"}}>
+                            {this.state.user.type==='User' && <li className="nav-item" style={{padding:"15px"}}>
                                 <Link to={`/user/profile/following`}> Following</Link>
                             </li>}
                             <li className="nav-item" style={{padding:"15px"}}>
@@ -157,6 +159,12 @@ class UserPrivateProfile extends React.Component{
                             <li className="nav-item" style={{padding:"15px"}}>
                                 <Link to={`/user/profile/playlist`}>  Playlist</Link>
                             </li>
+                            {this.state.user.type==='Host' && <li className="nav-item" style={{padding:"15px"}}>
+                                <Link to={`/user/profile/party`}>  Party</Link>
+                            </li>}
+                            {this.state.user.type==='Host' &&<li className="nav-item" style={{padding:"15px"}}>
+                                <Link to={`/user/profile/ticket`}>  Tickets</Link>
+                            </li>}
                         </ul>
                         <Route path="/user/profile/account"
                                component={Account} />
@@ -168,6 +176,10 @@ class UserPrivateProfile extends React.Component{
                                component={Feed}/>
                         <Route path="/user/profile/playlist"
                                component={Playlist}/>
+                        <Route path="/user/profile/party"
+                               component={Party} />
+                        <Route path="/user/profile/ticket"
+                               component={Ticket} />
                     </div>
                 </div>
             </div>

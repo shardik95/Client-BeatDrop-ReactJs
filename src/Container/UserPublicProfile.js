@@ -8,6 +8,10 @@ import PublicFollowers from "./PublicFollowers";
 import PublicFollowing from "./PublicFollowing";
 import PublicFeed from "./PublicFeed";
 import PublicPlaylist from "./PublicPlaylist";
+import Party from "./Party";
+import Ticket from "./Ticket";
+import PublicParty from "./PublicParty";
+import PublicTicket from "./PublicTicket";
 
 class UserPublicProfile extends React.Component{
 
@@ -201,7 +205,7 @@ class UserPublicProfile extends React.Component{
                             <li className="nav-item" style={{padding:"15px"}}>
                                 <Link to={`/user/${this.state.profileUserId}/profile/followers`}>Followers</Link>
                             </li>
-                            {this.state.profileUser.type!=='Artist'&&<li className="nav-item" style={{padding:"15px"}}>
+                            {this.state.profileUser.type==='User'&&<li className="nav-item" style={{padding:"15px"}}>
                                 <Link to={`/user/${this.state.profileUserId}/profile/following`}> Following</Link>
                             </li>}
                             {this.state.profileUser.type!=='Artist' && <li className="nav-item" style={{padding:"15px"}}>
@@ -210,6 +214,12 @@ class UserPublicProfile extends React.Component{
                             <li className="nav-item" style={{padding:"15px"}}>
                                 <Link to={`/user/${this.state.profileUserId}/profile/playlist`}>  Playlist</Link>
                             </li>
+                            {this.state.profileUser.type==='Host' && <li className="nav-item" style={{padding:"15px"}}>
+                                <Link to={`/user/${this.state.profileUserId}/profile/party`}>  Party</Link>
+                            </li>}
+                            {this.state.profileUser.type==='Host' &&<li className="nav-item" style={{padding:"15px"}}>
+                                <Link to={`/user/${this.state.profileUserId}/profile/ticket`}>  Tickets</Link>
+                            </li>}
                         </ul>
                         <Route path="/user/:userId/profile/followers"
                                component={PublicFollowers} />
@@ -219,6 +229,10 @@ class UserPublicProfile extends React.Component{
                                component={PublicFeed}/>
                         <Route path="/user/:userId/profile/playlist"
                                component={PublicPlaylist}/>
+                        <Route path="/user/:userId/profile/party"
+                               component={PublicParty} />
+                        <Route path="/user/:userId/profile/ticket"
+                               component={PublicTicket} />
                     </div>
                 </div>
             </div>

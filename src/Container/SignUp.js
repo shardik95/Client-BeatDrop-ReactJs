@@ -1,5 +1,6 @@
 import React from 'react';
 import UserService from "../Services/UserService";
+import HostService from "../Services/HostService";
 
 
 class SignUp extends React.Component{
@@ -20,11 +21,13 @@ class SignUp extends React.Component{
             lastNameReq:false,
             emailReq:false,
             passwordReq:false,
-            userNameReq:false
-
+            userNameReq:false,
+            role:'',
+            rolereq:false
         }
         this.createUser=this.createUser.bind(this);
         this.userService=UserService.instance;
+        this.hostService=HostService.instance;
     }
 
     createUser(){
@@ -64,12 +67,19 @@ class SignUp extends React.Component{
             this.setState({userNameReq:false})
         }
 
+        if(this.state.role===''){
+            this.setState({rolereq:true})
+        }
+        else{
+            this.setState({rolereq:false})
+        }
+
 
         if (this.state.firstName!=='' &&
             this.state.lastName!=='' &&
             this.state.email.match(/[a-zA-Z0-9]+@[a-zA-Z0-9]+.(com|co.in|edu)/)!=null &&
             this.state.userName!=='' &&
-            this.state.password!=='') {
+            this.state.password!=='' && this.state.role!=='') {
 
             if (this.state.password === this.state.confirmPassword && this.state.password !== '') {
                 let newUser = {
@@ -80,17 +90,30 @@ class SignUp extends React.Component{
                     phone: this.state.phone,
                     dob: this.state.dob,
                     userName: this.state.userName,
-                    type:"User"
+                    type:this.state.role
                 }
 
-                this.userService.createUser(newUser)
-                    .then(response => (
-                        <div>
-                            {alert("user created")}
-                            {this.props.history.push("/home")}
-                        </div>
-                    ))
-                this.setState({firstnamereq:false})
+                if(this.state.role==='User'){
+                    this.userService.createUser(newUser)
+                        .then(response => (
+                            <div>
+                                {alert("user created")}
+                                {this.props.history.push("/home")}
+                            </div>
+                        ))
+                    this.setState({firstnamereq:false})
+                }
+                else{
+                    this.hostService.createHost(newUser)
+                        .then(response => (
+                            <div>
+                                {alert("user created")}
+                                {this.props.history.push("/home")}
+                            </div>
+                        ))
+                    this.setState({firstnamereq:false})
+                }
+
             }
             else {
                 this.setState({passwordVerify: !this.state.passwordVerify})
@@ -165,10 +188,19 @@ class SignUp extends React.Component{
                             <input type="date" className="form-control"
                                    onChange={(event)=>this.setState({dob:event.target.value})}/>
                         </div>
-                        <i><span style={{color:'red'}}> *</span> marked fields are required</i>
-                        <br/>
+                        <div>
+                            <label>Select your role <span style={{color:'red'}}>*</span></label>
+                            <select className="form-control" onChange={e=>this.setState({role:e.target.value})}>
+                                <option>Select</option>
+                                <option>User</option>
+                                <option>Host</option>
+                            </select>
+                            <span style={{color:'red',display:this.state.rolereq===false? 'none':'block'}}>Role is required</span>
+                        </div>
                         <br/>
                         <button type="button" className="btn btn-primary" onClick={()=>this.createUser()}>Sign Up</button>
+                        <br/>
+                        <i><span style={{color:'red'}}> *</span> marked fields are required</i>
                     </form>
                     <br/>
                     <br/>
