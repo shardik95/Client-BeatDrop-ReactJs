@@ -43,7 +43,7 @@ class Admin extends React.Component{
     }
 
     componentDidMount(){
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()
@@ -54,7 +54,7 @@ class Admin extends React.Component{
     }
 
     componentWillReceiveProps(newProps){
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()
@@ -99,7 +99,7 @@ class Admin extends React.Component{
     }
 
     deletePlaylist(playlistId){
-        return fetch("http://localhost:8080/api/playlist/"+playlistId,{
+        return fetch("https://beatdrop.herokuapp.com/api/playlist/"+playlistId,{
             method:'delete'
         }).then(()=>this.userService.findUserById(this.state.selectedUser.id))
             .then(users=>this.setState({selectedUser:users}))

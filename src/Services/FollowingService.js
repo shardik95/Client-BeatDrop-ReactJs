@@ -13,7 +13,7 @@ class FollowingService {
     }
 
     findFollowingRecord(userName,followingName){
-        return fetch("http://localhost:8080/api/getFollowing/UN/FN".replace("UN",userName).replace("FN",followingName))
+        return fetch("https://beatdrop.herokuapp.com/api/getFollowing/UN/FN".replace("UN",userName).replace("FN",followingName))
             .then(response=>response.json());
     }
 

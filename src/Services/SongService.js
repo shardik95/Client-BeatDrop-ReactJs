@@ -26,7 +26,7 @@ class SongService {
             imgUrl:imageUrl
         }
 
-        return fetch("http://localhost:8080/api/profile/like",{
+        return fetch("https://beatdrop.herokuapp.com/api/profile/like",{
             credentials:'include',
             method:'post',
             headers:{
@@ -42,7 +42,7 @@ class SongService {
     }
 
     unLikeSong(likeId){
-        return fetch("http://localhost:8080/api/profile/like/"+likeId,{
+        return fetch("https://beatdrop.herokuapp.com/api/profile/like/"+likeId,{
             method:'delete',
             headers:{
                 'content-type':'application/json',
@@ -67,7 +67,7 @@ class SongService {
             imgUrl:imageUrl
         }
 
-        return fetch("http://localhost:8080/api/profile/review",{
+        return fetch("https://beatdrop.herokuapp.com/api/profile/review",{
             credentials:'include',
             method:'post',
             headers:{
@@ -83,7 +83,7 @@ class SongService {
     }
 
     clearReview(reviewId){
-        return fetch("http://localhost:8080/api/profile/review/"+reviewId,{
+        return fetch("https://beatdrop.herokuapp.com/api/profile/review/"+reviewId,{
             method:'delete',
             headers:{
                 'content-type':'application/json',
@@ -96,7 +96,7 @@ class SongService {
     }
 
     deleteUploadedSong(id){
-        return fetch("http://localhost:8080/api/uploadedSong/"+id,{
+        return fetch("https://beatdrop.herokuapp.com/api/uploadedSong/"+id,{
             method:'delete'
         }).then(response=>response.json())
     }

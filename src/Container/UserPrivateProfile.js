@@ -32,7 +32,7 @@ class UserPrivateProfile extends React.Component{
 
     componentDidMount(){
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()
@@ -43,7 +43,7 @@ class UserPrivateProfile extends React.Component{
     }
 
     componentWillReceiveProps(newProps){
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()
@@ -63,7 +63,7 @@ class UserPrivateProfile extends React.Component{
     onFormSubmit(e){
         e.preventDefault()
          this.fileService.fileUpload(this.state.file,this.state.user.id).then((response)=>{
-             fetch("http://localhost:8080/api/profile",{
+             fetch("https://beatdrop.herokuapp.com/api/profile",{
                  credentials: 'include',
              }).then(response=> (
                  response.json()
@@ -80,7 +80,7 @@ class UserPrivateProfile extends React.Component{
 
     deleteSong(song){
         this.fileService.deleteFile(song.songName,song.id)
-            .then(()=>fetch("http://localhost:8080/api/profile",{
+            .then(()=>fetch("https://beatdrop.herokuapp.com/api/profile",{
                 credentials: 'include',
             }).then(response=> (
                 response.json()

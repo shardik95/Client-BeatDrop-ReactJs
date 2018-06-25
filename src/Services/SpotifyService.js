@@ -13,7 +13,7 @@ class SpotifyService {
     }
 
     getAccessToken(){
-       return fetch("http://localhost:8080/api/accessToken")
+       return fetch("https://beatdrop.herokuapp.com/api/accessToken")
             .then(response=>(response.json()))
     }
 

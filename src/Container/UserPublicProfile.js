@@ -37,7 +37,7 @@ class UserPublicProfile extends React.Component{
 
         this.setState({profileUserId:profileUserId});
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()
@@ -62,7 +62,7 @@ class UserPublicProfile extends React.Component{
 
         this.setState({profileUserId:profileUserId});
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()
@@ -103,7 +103,7 @@ class UserPublicProfile extends React.Component{
         })
 
         this.userService.unfollow(following,follower)
-            .then(()=>fetch("http://localhost:8080/api/profile",{
+            .then(()=>fetch("https://beatdrop.herokuapp.com/api/profile",{
                     credentials: 'include',
                 }).then(response=> (
                     response.json()
@@ -118,7 +118,7 @@ class UserPublicProfile extends React.Component{
         if(this.state.user!==''){
             this.userService.followUser(this.state.user,this.state.profileUserId)
                 .then(()=>(
-                    fetch("http://localhost:8080/api/profile",{
+                    fetch("https://beatdrop.herokuapp.com/api/profile",{
                         credentials: 'include',
                     }).then(response=> (
                         response.json()

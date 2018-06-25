@@ -12,14 +12,14 @@ class PlaylistService{
     }
 
     getPlaylistForUser(userId){
-        return fetch("http://localhost:8080/api/user/UID/playlist".replace("UID",userId))
+        return fetch("https://beatdrop.herokuapp.com/api/user/UID/playlist".replace("UID",userId))
             .then(response=>(
                 response.json()
             ))
     }
 
     createPlaylist(userId,playlist){
-        return fetch("http://localhost:8080/api/user/UID/playlist".replace("UID",userId),{
+        return fetch("https://beatdrop.herokuapp.com/api/user/UID/playlist".replace("UID",userId),{
             method:'post',
             headers:{
                 'content-type':'application/json'
@@ -32,7 +32,7 @@ class PlaylistService{
     }
 
     addSongToPlaylist(playlistId,trackId,song){
-        return fetch("http://localhost:8080/api/playlist/PID/track/TID".replace("PID",playlistId)
+        return fetch("https://beatdrop.herokuapp.com/api/playlist/PID/track/TID".replace("PID",playlistId)
             .replace("TID",trackId),{
             method:'post',
             headers:{
@@ -43,7 +43,7 @@ class PlaylistService{
     }
 
     getSongsForPlaylist(playlistId){
-        return fetch("http://localhost:8080/api/playlist/PID/song".replace("PID",playlistId))
+        return fetch("https://beatdrop.herokuapp.com/api/playlist/PID/song".replace("PID",playlistId))
             .then(response=>(response.json()))
     }
 

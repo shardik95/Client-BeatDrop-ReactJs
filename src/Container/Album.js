@@ -29,7 +29,7 @@ class Album extends React.Component{
         let albumId=this.props.match.params.albumId;
         this.setState({albumId:albumId})
 
-        fetch("http://localhost:8080/api/accessToken")
+        fetch("https://beatdrop.herokuapp.com/api/accessToken")
             .then(response=>(
                 response.json()
             )).then(response=> {
@@ -42,7 +42,7 @@ class Album extends React.Component{
             .then((response)=>response.json())
             .then((album)=>this.setState({album:album}))
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
@@ -81,7 +81,7 @@ class Album extends React.Component{
         let albumId=newProps.match.params.albumId;
         this.setState({albumId:albumId})
 
-        fetch("http://localhost:8080/api/accessToken")
+        fetch("https://beatdrop.herokuapp.com/api/accessToken")
             .then(response=>(
                 response.json()
             )).then(response=> {
@@ -94,7 +94,7 @@ class Album extends React.Component{
             .then((response)=>response.json())
             .then((album)=>this.setState({album:album}))
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))

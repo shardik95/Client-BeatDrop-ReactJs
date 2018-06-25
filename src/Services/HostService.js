@@ -13,7 +13,7 @@ class HostService{
     }
 
     createHost(host){
-        return fetch("http://localhost:8080/api/host",{
+        return fetch("https://beatdrop.herokuapp.com/api/host",{
             method:'post',
             headers:{
                 'content-type':'application/json',
@@ -27,18 +27,18 @@ class HostService{
     }
 
     getAllHosts(){
-        return fetch("http://localhost:8080/api/host")
+        return fetch("https://beatdrop.herokuapp.com/api/host")
             .then(response=>response.json())
     }
 
     deleteHost(id){
-        return fetch("http://localhost:8080/api/host/"+id,{
+        return fetch("https://beatdrop.herokuapp.com/api/host/"+id,{
             method:'delete'
         }).then(response=>response.json())
     }
 
     updateHost(host){
-        return fetch("http://localhost:8080/api/host",{
+        return fetch("https://beatdrop.herokuapp.com/api/host",{
             credentials: 'include',
             headers:{
                 'content-type':'application/json',

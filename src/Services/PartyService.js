@@ -13,7 +13,7 @@ class PartyService {
     }
 
     createParty(party){
-        return fetch("http://localhost:8080/api/party",{
+        return fetch("https://beatdrop.herokuapp.com/api/party",{
             method:'post',
             headers:{
                 'content-type':'application/json',
@@ -27,7 +27,7 @@ class PartyService {
     }
 
     getPartyForUser(id){
-        return fetch("http://localhost:8080/api/user/UID/party".replace("UID",id),{
+        return fetch("https://beatdrop.herokuapp.com/api/user/UID/party".replace("UID",id),{
             headers:{
                 'content-type':'application/json',
                 'Accept': 'application/json',
@@ -41,7 +41,7 @@ class PartyService {
     }
 
     deleteParty(id){
-        return fetch("http://localhost:8080/api/party/"+id,{
+        return fetch("https://beatdrop.herokuapp.com/api/party/"+id,{
             method:'delete'
         })
     }

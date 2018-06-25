@@ -17,7 +17,7 @@ class FileService {
 
     fileUpload(file,artistId){
 
-        const url = 'http://localhost:8080/api/file/'+artistId;
+        const url = 'https://beatdrop.herokuapp.com/api/file/'+artistId;
         const formData = new FormData();
         formData.append('file',file)
         const config = {
@@ -29,7 +29,7 @@ class FileService {
     }
 
     deleteFile(filename,id){
-        const url = 'http://localhost:8080/api/file/'+filename+"/"+id;
+        const url = 'https://beatdrop.herokuapp.com/api/file/'+filename+"/"+id;
         return fetch(url,{
             method:'delete'
         }).then(()=> "success")

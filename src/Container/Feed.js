@@ -21,7 +21,7 @@ class Feed extends React.Component{
 
     componentDidMount(){
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
@@ -50,7 +50,7 @@ class Feed extends React.Component{
 
     componentWillReceiveProps(newProps){
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))

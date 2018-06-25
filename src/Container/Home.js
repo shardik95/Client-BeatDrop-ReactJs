@@ -44,7 +44,7 @@ class Home extends React.Component{
 
         let accessTokenVar;
 
-        fetch("http://localhost:8080/api/accessToken")
+        fetch("https://beatdrop.herokuapp.com/api/accessToken")
             .then(response=>(
                 response.json()
             )).then(response=> {
@@ -81,7 +81,7 @@ class Home extends React.Component{
 
 
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()
@@ -96,7 +96,7 @@ class Home extends React.Component{
     componentWillReceiveProps(newProps){
         let accessTokenVar;
 
-        fetch("http://localhost:8080/api/accessToken")
+        fetch("https://beatdrop.herokuapp.com/api/accessToken")
             .then(response=>(
                 response.json()
             )).then(response=> {
@@ -133,7 +133,7 @@ class Home extends React.Component{
 
 
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()

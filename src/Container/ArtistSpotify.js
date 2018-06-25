@@ -38,7 +38,7 @@ class ArtistSpotify extends React.Component{
         let artistId=this.props.match.params.artistId;
         this.setState({artistId:artistId})
 
-        fetch("http://localhost:8080/api/accessToken")
+        fetch("https://beatdrop.herokuapp.com/api/accessToken")
             .then(response=>(
                 response.json()
             )).then(response=> {
@@ -50,7 +50,7 @@ class ArtistSpotify extends React.Component{
         })) .then((response)=>response.json())
             .then((artist)=>this.setState({artist:artist}))
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
@@ -72,7 +72,7 @@ class ArtistSpotify extends React.Component{
         let artistId=newProps.match.params.artistId;
         this.setState({artistId:artistId})
 
-        fetch("http://localhost:8080/api/accessToken")
+        fetch("https://beatdrop.herokuapp.com/api/accessToken")
             .then(response=>(
                 response.json()
             )).then(response=> {
@@ -85,7 +85,7 @@ class ArtistSpotify extends React.Component{
             .then((response)=>response.json())
             .then((artist)=>this.setState({artist:artist}))
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))

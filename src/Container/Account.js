@@ -15,14 +15,14 @@ class Account extends React.Component{
     }
 
     componentDidMount(){
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
     }
 
     componentWillReceiveProps(newProps){
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
@@ -32,7 +32,7 @@ class Account extends React.Component{
         this.userService.updateUser(newUser)
             .then(()=>{
                 this.setState({updatemsg:true})
-                return fetch("http://localhost:8080/api/profile",{
+                return fetch("https://beatdrop.herokuapp.com/api/profile",{
                     credentials: 'include',
                 })
             })

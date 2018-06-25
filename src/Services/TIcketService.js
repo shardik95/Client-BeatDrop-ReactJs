@@ -13,7 +13,7 @@ class TicketService {
     }
 
     createTicket(event){
-        return fetch("http://localhost:8080/api/ticket",{
+        return fetch("https://beatdrop.herokuapp.com/api/ticket",{
             method:'post',
             headers:{
                 'content-type':'application/json',
@@ -27,12 +27,12 @@ class TicketService {
     }
 
     getTickets(id){
-        return fetch("http://localhost:8080/api/ticket/"+id)
+        return fetch("https://beatdrop.herokuapp.com/api/ticket/"+id)
             .then(response=>response.json())
     }
 
     updateEvent(event,id){
-        return fetch("http://localhost:8080/api/ticket/"+id,{
+        return fetch("https://beatdrop.herokuapp.com/api/ticket/"+id,{
             method:'put',
             headers:{
                 'content-type':'application/json',
@@ -46,7 +46,7 @@ class TicketService {
     }
 
     delete(id){
-        return fetch("http://localhost:8080/api/ticket/"+id,{
+        return fetch("https://beatdrop.herokuapp.com/api/ticket/"+id,{
             method:'delete',
             headers:{
                 'content-type':'application/json',

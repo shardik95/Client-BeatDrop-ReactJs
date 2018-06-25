@@ -18,7 +18,7 @@ class Followers extends React.Component{
     componentDidMount(){
         let userId=this.props.match.params.userId;
         this.setState({userId:userId});
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
@@ -27,7 +27,7 @@ class Followers extends React.Component{
     componentWillReceiveProps(newProps){
         let userId=newProps.match.params.userId;
         this.setState({userId:userId});
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
@@ -35,7 +35,7 @@ class Followers extends React.Component{
 
     unFollow(followingId,myId){
         this.userService.unfollow(followingId,followingId)
-            .then(()=>fetch("http://localhost:8080/api/profile",{
+            .then(()=>fetch("https://beatdrop.herokuapp.com/api/profile",{
                     credentials: 'include',
                 }).then(response=> (
                     response.json()

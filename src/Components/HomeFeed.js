@@ -12,20 +12,20 @@ class HomeFeed extends React.Component{
     }
 
     componentDidMount(){
-        fetch("http://localhost:8080/api/artist")
+        fetch("https://beatdrop.herokuapp.com/api/artist")
             .then(response=>response.json())
             .then((artists)=>this.setState({artists:artists}))
 
-        fetch("http://localhost:8080/api/user")
+        fetch("https://beatdrop.herokuapp.com/api/user")
             .then(response=>response.json())
             .then((users)=>this.setState({users:users}))
     }
 
     componentWillReceiveProps(newProps){
-        fetch("http://localhost:8080/api/artist")
+        fetch("https://beatdrop.herokuapp.com/api/artist")
             .then(response=>response.json())
             .then((artists)=>this.setState({artists:artists}))
-        fetch("http://localhost:8080/api/user")
+        fetch("https://beatdrop.herokuapp.com/api/user")
             .then(response=>response.json())
             .then((users)=>this.setState({users:users}))
     }

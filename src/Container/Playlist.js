@@ -28,14 +28,14 @@ class Playlist extends React.Component{
 
     componentDidMount(){
 
-        fetch("http://localhost:8080/api/accessToken")
+        fetch("https://beatdrop.herokuapp.com/api/accessToken")
             .then(response=>(
                 response.json()
             )).then(response=>(
             this.setState({accessToken:response.access_token})
         ))
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json,userId:json.id,playlists:json.playlists})))
@@ -47,14 +47,14 @@ class Playlist extends React.Component{
     }
 
     componentWillReceiveProps(newProps){
-        fetch("http://localhost:8080/api/accessToken")
+        fetch("https://beatdrop.herokuapp.com/api/accessToken")
             .then(response=>(
                 response.json()
             )).then(response=>(
             this.setState({accessToken:response.access_token})
         ))
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json,userId:json.id,playlists:json.playlists})))
@@ -66,7 +66,7 @@ class Playlist extends React.Component{
     }
 
     deletePlaylist(playlistId){
-        fetch("http://localhost:8080/api/playlist/"+playlistId,{
+        fetch("https://beatdrop.herokuapp.com/api/playlist/"+playlistId,{
             method:'delete'
         }).then(()=>(
             this.playlistService.getPlaylistForUser(this.state.userId)

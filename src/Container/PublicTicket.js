@@ -27,7 +27,7 @@ class PublicTicket extends React.Component{
 
         this.setState({profileUserId:profileUserId});
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()
@@ -48,7 +48,7 @@ class PublicTicket extends React.Component{
 
         this.setState({profileUserId:profileUserId});
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()
@@ -64,7 +64,14 @@ class PublicTicket extends React.Component{
 
     }
 
-    buy(){
+    buy(ticket,id){
+
+       ticket.availTickets=''+(parseInt(ticket.availTickets)-1);
+
+
+        this.ticketService.updateEvent(ticket,id)
+            .then(()=>this.ticketService.getTickets(this.state.profileUser.id))
+            .then(tickets=>this.setState({tickets:tickets}))
         alert("bought")
     }
 
@@ -77,9 +84,9 @@ class PublicTicket extends React.Component{
                             <div className="card-body">
                                 <h5 className="card-title">{ticket.eventName}</h5>
                                 <h6 className="card-subtitle mb-2 text-muted">{this.state.profileUser.userName}</h6>
-                                <p className="card-text">Ticket Available: {ticket.availTickets} <br/> Max Tickets: {ticket.maxTickets}
+                                <p className="card-text">Ticket Available: {ticket.availTickets}
                                     <br/>Price: {ticket.price}</p>
-                                <button className="btn btn-outline-dark" onClick={()=>this.buy()}>Buy</button>
+                                <button className="btn btn-outline-dark" onClick={()=>this.buy(ticket,ticket.id)}>Buy</button>
                             </div>
                         </div>
                     ))

@@ -28,7 +28,7 @@ class PublicParty extends React.Component{
 
         this.setState({profileUserId:profileUserId});
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()
@@ -47,7 +47,7 @@ class PublicParty extends React.Component{
 
         this.setState({profileUserId:profileUserId});
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()

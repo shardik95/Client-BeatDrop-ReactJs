@@ -34,14 +34,14 @@ class Party extends React.Component{
 
     componentDidMount(){
 
-        fetch("http://localhost:8080/api/accessToken")
+        fetch("https://beatdrop.herokuapp.com/api/accessToken")
             .then(response=>(
                 response.json()
             )).then(response=>(
             this.setState({accessToken:response.access_token})
         ))
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json,userId:json.id,parties:json.parties})))
@@ -50,14 +50,14 @@ class Party extends React.Component{
     }
 
     componentWillReceiveProps(newProps){
-        fetch("http://localhost:8080/api/accessToken")
+        fetch("https://beatdrop.herokuapp.com/api/accessToken")
             .then(response=>(
                 response.json()
             )).then(response=>(
             this.setState({accessToken:response.access_token})
         ))
 
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json,userId:json.id,parties:json.parties})))

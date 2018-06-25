@@ -13,18 +13,18 @@ class HostPlaylistService {
     }
 
     addPlaylistToParty(playlistId,partyId){
-        return fetch("http://localhost:8080/api/party/PID/playlist/PYD".replace("PID",partyId).replace("PYD",playlistId),{
+        return fetch("https://beatdrop.herokuapp.com/api/party/PID/playlist/PYD".replace("PID",partyId).replace("PYD",playlistId),{
             method:'post'
         }).then(response=>response.json())
     }
 
     getPlaylistForParty(partyId){
-        return fetch("http://localhost:8080/api/party/PID/playlist".replace("PID",partyId))
+        return fetch("https://beatdrop.herokuapp.com/api/party/PID/playlist".replace("PID",partyId))
             .then(response=>response.json())
     }
 
     deletePlaylist(id){
-        return fetch("http://localhost:8080/api/hostplaylist/"+id,{
+        return fetch("https://beatdrop.herokuapp.com/api/hostplaylist/"+id,{
             method:'delete'
         }).then(response=>response.json())
     }

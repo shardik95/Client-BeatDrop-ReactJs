@@ -12,7 +12,7 @@ class UserService{
     }
 
     createUser(user){
-        return fetch("http://localhost:8080/api/signup",{
+        return fetch("https://beatdrop.herokuapp.com/api/signup",{
             method:'post',
             headers:{
                 'content-type':'application/json',
@@ -26,7 +26,7 @@ class UserService{
     }
 
     loginUser(user){
-        return fetch("http://localhost:8080/api/login",{
+        return fetch("https://beatdrop.herokuapp.com/api/login",{
             method:'post',
             headers:{
                 'content-type':'application/json',
@@ -42,25 +42,25 @@ class UserService{
     }
 
     findUserById(id){
-        return fetch("http://localhost:8080/api/user/"+id)
+        return fetch("https://beatdrop.herokuapp.com/api/user/"+id)
             .then(response =>(
                 response.json()
             ))
     }
 
     logout(){
-        fetch("http://localhost:8080/api/logout",{
+        fetch("https://beatdrop.herokuapp.com/api/logout",{
             credentials: 'include'
         })
     }
 
     findByUsernameOrFirstName(query){
-        return fetch("http://localhost:8080/api/user/search/q="+query)
+        return fetch("https://beatdrop.herokuapp.com/api/user/search/q="+query)
             .then(response=>response.json())
     }
 
     updateUser(user){
-        return fetch("http://localhost:8080/api/user",{
+        return fetch("https://beatdrop.herokuapp.com/api/user",{
             credentials: 'include',
             headers:{
                 'content-type':'application/json',
@@ -71,7 +71,7 @@ class UserService{
     }
 
     followUser(user,userId){
-        return fetch("http://localhost:8080/api/user/following/"+userId,{
+        return fetch("https://beatdrop.herokuapp.com/api/user/following/"+userId,{
             method:'post',
             headers:{
                 'content-type':'application/json',
@@ -82,7 +82,7 @@ class UserService{
     }
 
     unfollow(followingId,followerId){
-        return fetch("http://localhost:8080/api/following/FID/follower/F_Id".replace("FID",followingId).replace("F_Id",followerId),{
+        return fetch("https://beatdrop.herokuapp.com/api/following/FID/follower/F_Id".replace("FID",followingId).replace("F_Id",followerId),{
             method:'delete',
             credentials: 'include'
         }).then(response=>response.json())
@@ -90,19 +90,19 @@ class UserService{
 
 
     findAllUsers(){
-        return fetch("http://localhost:8080/api/user")
+        return fetch("https://beatdrop.herokuapp.com/api/user")
             .then(response=>response.json())
     }
 
     deleteUser(id){
-        return fetch("http://localhost:8080/api/user/"+id,{
+        return fetch("https://beatdrop.herokuapp.com/api/user/"+id,{
              method:'delete'
          }).then(response=>response.json())
 
     }
 
     verifyUser(user){
-        return fetch("http://localhost:8080/api/verify",{
+        return fetch("https://beatdrop.herokuapp.com/api/verify",{
             method:'post',
             headers:{
                 'content-type':'application/json',
@@ -113,7 +113,7 @@ class UserService{
     }
 
     update(user){
-        return fetch("http://localhost:8080/api/user/admin",{
+        return fetch("https://beatdrop.herokuapp.com/api/user/admin",{
             credentials: 'include',
             headers:{
                 'content-type':'application/json',

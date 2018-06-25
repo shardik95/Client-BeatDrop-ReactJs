@@ -14,7 +14,7 @@ class ArtistService {
 
     createArtist(artist){
 
-        return fetch("http://localhost:8080/api/artist",{
+        return fetch("https://beatdrop.herokuapp.com/api/artist",{
             credentials:'include',
             method:'post',
             headers:{
@@ -28,7 +28,7 @@ class ArtistService {
     }
 
     deleteArtist(id){
-        return fetch("http://localhost:8080/api/artist/"+id,{
+        return fetch("https://beatdrop.herokuapp.com/api/artist/"+id,{
             method:'delete'
         }).then(response=>response.json())
     }
@@ -45,7 +45,7 @@ class ArtistService {
             imgUrl:imageUrl
         }
 
-        return fetch("http://localhost:8080/api/profile/like",{
+        return fetch("https://beatdrop.herokuapp.com/api/profile/like",{
             credentials:'include',
             method:'post',
             headers:{
@@ -61,7 +61,7 @@ class ArtistService {
     }
 
     unLikeArtist(likeId){
-        return fetch("http://localhost:8080/api/profile/like/"+likeId,{
+        return fetch("https://beatdrop.herokuapp.com/api/profile/like/"+likeId,{
             method:'delete',
             headers:{
                 'content-type':'application/json',
@@ -86,7 +86,7 @@ class ArtistService {
             imgUrl:imageUrl
         }
 
-        return fetch("http://localhost:8080/api/profile/review",{
+        return fetch("https://beatdrop.herokuapp.com/api/profile/review",{
             credentials:'include',
             method:'post',
             headers:{
@@ -102,7 +102,7 @@ class ArtistService {
     }
 
     clearReview(reviewId){
-        return fetch("http://localhost:8080/api/profile/review/"+reviewId,{
+        return fetch("https://beatdrop.herokuapp.com/api/profile/review/"+reviewId,{
             method:'delete',
             headers:{
                 'content-type':'application/json',
@@ -115,7 +115,7 @@ class ArtistService {
     }
 
     findAllArtists(){
-        return fetch("http://localhost:8080/api/artist")
+        return fetch("https://beatdrop.herokuapp.com/api/artist")
             .then(response=>response.json())
     }
 

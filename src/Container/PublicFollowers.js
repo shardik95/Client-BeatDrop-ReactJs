@@ -22,7 +22,7 @@ class PublicFollowers extends React.Component{
     componentDidMount(){
         let profileUserId=this.props.match.params.userId;
         this.setState({profileUserId:profileUserId});
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
@@ -33,7 +33,7 @@ class PublicFollowers extends React.Component{
     componentWillReceiveProps(newProps){
         let profileUserId=newProps.match.params.userId;
         this.setState({profileUserId:profileUserId});
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
@@ -44,7 +44,7 @@ class PublicFollowers extends React.Component{
     unFollow(followingUserName,myId){
         this.followingService.findFollowingRecord(followingUserName,this.state.user.userName)
             .then((response)=>this.userService.unfollow(response.id,response.id)
-                .then(()=>fetch("http://localhost:8080/api/profile",{
+                .then(()=>fetch("https://beatdrop.herokuapp.com/api/profile",{
                         credentials: 'include',
                     }).then(response=> (
                         response.json()
@@ -62,7 +62,7 @@ class PublicFollowers extends React.Component{
         if(this.state.user!==''){
             this.userService.followUser(this.state.user,Id)
                 .then(()=>(
-                    fetch("http://localhost:8080/api/profile",{
+                    fetch("https://beatdrop.herokuapp.com/api/profile",{
                         credentials: 'include',
                     }).then(response=> (
                         response.json()

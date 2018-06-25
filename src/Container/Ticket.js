@@ -24,7 +24,7 @@ class Ticket extends React.Component{
     }
 
     componentDidMount(){
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()
@@ -37,7 +37,7 @@ class Ticket extends React.Component{
     }
 
     componentWillReceiveProps(newProps){
-        fetch("http://localhost:8080/api/profile",{
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
             credentials: 'include',
         }).then(response=> (
             response.json()
@@ -65,7 +65,7 @@ class Ticket extends React.Component{
         let newEvent={
             eventName:this.state.eventName,
             availTickets:this.state.maxSeats,
-            maxTickets:this.state.maxSeats,
+            maxTickets:this.state.availSeats,
             price:this.state.price
         }
 
