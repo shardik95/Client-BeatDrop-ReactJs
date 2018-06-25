@@ -43,7 +43,21 @@ class TopAlbums extends React.Component{
         return(
             <div>
                 {this.state.albums.items!==undefined && this.state.albums.items.map((item,index)=>(
-                    index< 7 &&  <Link to={`/home/album/${item.id}`}  key={index}><li className="list-group-item">{item.name}</li></Link>
+                    index< 7 &&
+
+                    <li className="list-group-item">
+                        <div className="row">
+                            <div className="col-4">
+                                <img src={item.images[0].url} width="40px" height="40px" style={{borderRadius:"20px"}}/>
+                            </div>
+                            <div className="col-8">
+                                <Link to={`/home/album/${item.id}`}  key={index}>
+                                    {item.name}
+                                </Link>
+                            </div>
+                        </div>
+                    </li>
+
                 ))}
             </div>
         )

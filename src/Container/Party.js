@@ -144,18 +144,17 @@ class Party extends React.Component{
     render(){
         return(
             <div>
-                <h1>Party</h1>
                 <form className="form-control" style={{padding:"15px"}}>
                     <input type="text" onChange={(e)=>this.setState({partyName:e.target.value})}/>
                     &nbsp;
-                    <button className="btn btn-primary float-right" type="button" onClick={()=>this.createParty()}>Create a party</button>
+                    <button className="btn btn-outline-dark float-right" type="button" onClick={()=>this.createParty()}>Create a party</button>
                 </form>
                 <br/>
                 <div className="row">
                     <div className="col-4">
                         <div>
                             <ul className="list-group">
-                                <li className="list-group-item active">Parties</li>
+                                <li className="list-group-item active bg-dark" style={{border:"0px"}}>Parties</li>
                                 {this.state.parties!==''&&this.state.parties.map((party,index)=>(
                                     <li key={index} className="list-group-item" onClick={()=>this.renderParty(party.id)}>{party.partyname} &emsp;
                                         <button className="btn float-right" onClick={()=>this.deleteParty(party.id)}><i className="fa fa-lg fa-times"/></button>
@@ -168,7 +167,7 @@ class Party extends React.Component{
                     <div className="col-4">
                         {this.state.partyPlaylist===true&&
                         <ul className="list-group">
-                            <li className="list-group-item active">Party Playlists</li>
+                            <li className="list-group-item active bg-dark" style={{border:"0px"}}>Party Playlists</li>
                             {this.state.playlists.length>0 && this.state.playlists.map((playlist,index)=>(
                                 <li key={index} className="list-group-item" onClick={()=>this.renderSong(index)}>{playlist.playlistName} &emsp;
                                     <button className="btn float-right" onClick={()=>this.deletePlaylist(playlist.id)}><i className="fa fa-lg fa-times"/></button>
@@ -185,7 +184,7 @@ class Party extends React.Component{
                             </select>
                             <br/>
                             <button className="btn btn-block btn-outline-dark" onClick={()=>this.mergePlaylist()}>Merge Playlists</button><br/>
-                            <li className="list-group-item active">Merged Playlist</li>
+                            <li className="list-group-item active bg-dark" style={{border:"0px"}}>Merged Playlist</li>
                             {this.state.songs.length>0 && this.state.songs.map((song,index)=>(
                                 <Link to={`/home/song/${song.id}`}key={index} ><li  className="list-group-item">{song.name}</li></Link>
                             ))}
@@ -194,7 +193,7 @@ class Party extends React.Component{
                     <div className="col-4">
                         {this.state.showSong===true &&
                         <ul className="list-group">
-                            <li className="list-group-item active">{this.state.playlists[this.state.showPlaylistIndex].playlistName}</li>
+                            <li className="list-group-item bg-dark active" style={{border:"0px"}}>{this.state.playlists[this.state.showPlaylistIndex].playlistName}</li>
                             {this.state.playlists[this.state.showPlaylistIndex].songs.length>0 && this.state.playlists[this.state.showPlaylistIndex].songs.map((song,index)=>(
                                 <li key={index} className="list-group-item">{song.songName}
                                 </li>

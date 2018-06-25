@@ -155,7 +155,6 @@ class Playlist extends React.Component{
     render(){
         return(
             <div>
-                <h1>Playlists</h1>
                 <form className="form-control" style={{padding:"15px"}}>
                     <input type="text" onChange={(e)=>this.setState({plName:e.target.value})}/>
                     &nbsp;
@@ -165,14 +164,14 @@ class Playlist extends React.Component{
                         <option>Private</option>
                     </select>}
 
-                    <button className="btn btn-primary float-right" type="button" onClick={()=>this.createPlaylist()}>Create a playlist</button>
+                    <button className="btn btn-outline-dark float-right" type="button" onClick={()=>this.createPlaylist()}>Create a playlist</button>
                 </form>
                 <br/>
                 <div className="row">
                     <div className="col-6">
-                    <div >
+                    <div>
                         <ul className="list-group">
-                            <li className="list-group-item active">Playlists</li>
+                            <li className="list-group-item active bg-dark" style={{border:"0px"}}>Playlists</li>
                             {this.state.playlists.map((playlist,index)=>(
                                 <li key={index} className="list-group-item" onClick={()=>this.renderSong(playlist.id)}>{playlist.playlistName} &emsp;
                                     {this.state.user.type==="Artist" && <span className="badge badge-secondary">{playlist.playlistType}</span>}
@@ -186,7 +185,7 @@ class Playlist extends React.Component{
                     <div className="col-6" >
                         <div hidden={!this.state.showSongList}>
                         <ul className="list-group">
-                            {this.state.songs.length>0 && <li className="list-group-item active">Songs</li>}
+                            {this.state.songs.length>0 && <li className="list-group-item bg-dark active" style={{border:"0px"}}>Songs</li>}
 
                             {this.state.songs.length>0 && this.state.songs.map((song,index)=>(
                                 <Link to={`/home/song/${song.spotifySongId}`}>

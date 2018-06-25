@@ -1,8 +1,5 @@
 import React from 'react';
-//import Script from 'react-load-script'
 import {Link} from 'react-router-dom';
-import Route from "react-router-dom/es/Route";
-import UserPrivateProfile from "./UserPrivateProfile";
 import UserService from "../Services/UserService";
 
 class Home extends React.Component{
@@ -94,55 +91,47 @@ class Home extends React.Component{
                     //window.location.reload()
                 }})
 
-
-        //console.log(this.state.accessToken)
-
-
-
-        /*window.onSpotifyWebPlaybackSDKReady = () => {
-            const token = 'BQCG2AVa-ag2EjVG1wzPRVAo4XgnxK8xeXKbwZfMTY27h7SY3zFVAUa9KNMXTAva3DreZUFo8oAeOoHJI7LFJ63HKScxnezoOOGHnAP5haXhRvud8PNaTXcPBIELoYRReroszKQMhT9sVkFB9s5aeEePVIXXeNcG1NEx-AhCeUteb9OvtmdjVw';
-            const player = new window.Spotify.Player({
-                name: 'Web Playback SDK Quick Start Player',
-                getOAuthToken: cb => { cb(token); }
-            });
-
-            // Error handling
-            player.addListener('initialization_error', ({ message }) => { console.error(message); });
-            player.addListener('authentication_error', ({ message }) => { console.error(message); });
-            player.addListener('account_error', ({ message }) => { console.error(message); });
-            player.addListener('playback_error', ({ message }) => { console.error(message); });
-
-            // Playback status updates
-            player.addListener('player_state_changed', state => { console.log(state); });
-
-            // Ready
-            player.addListener('ready', ({ device_id }) => {
-                console.log('Ready with Device ID', device_id);
-            });
-
-            // Not Ready
-            player.addListener('not_ready', ({ device_id }) => {
-                console.log('Device ID has gone offline', device_id);
-            });
-
-            // Connect to the player!
-            player.connect().then(success => {
-                if (success) {
-                    console.log('The Web Playback SDK successfully connected to Spotify!');
-                }
-            })
-        }*/
-
     }
 
     componentWillReceiveProps(newProps){
+        let accessTokenVar;
 
         fetch("http://localhost:8080/api/accessToken")
             .then(response=>(
                 response.json()
             )).then(response=> {
+            accessTokenVar = response.access_token
             return this.setState({accessToken: response.access_token})
-        })
+        }).then(()=>
+            fetch("https://api.spotify.com/v1/browse/categories",{
+                headers:{
+                    'Authorization':'Bearer '+this.state.accessToken
+                }
+            }).then(response=>(
+                response.json()
+            )).then(object=>(
+                this.setState({radio:object.categories.items})
+            ))
+        ).then(()=>fetch("https://api.spotify.com/v1/browse/featured-playlists",{
+            headers:{
+                'Authorization':'Bearer '+this.state.accessToken
+            }
+        }).then(response=>(
+            response.json()
+        )).then(object=>(
+            this.setState({featuredPlaylist:object.playlists.items})
+        ))).then(()=>(
+            fetch("https://api.spotify.com/v1/browse/new-releases",{
+                headers:{
+                    'Authorization':'Bearer '+this.state.accessToken
+                }
+            }).then(response=>(
+                response.json()
+            )).then(object=>(
+                this.setState({newReleases:object.albums.items})
+            ))))
+
+
 
         fetch("http://localhost:8080/api/profile",{
             credentials: 'include',
@@ -151,7 +140,6 @@ class Home extends React.Component{
         )).then(json=> {
             if (json.userName !== 'CANNOT FIND'){
                 this.setState({user:json,session:true})
-                //window.location.reload()
             }})
     }
 
@@ -257,9 +245,9 @@ class Home extends React.Component{
         let searchElement;
         return(
             <div>
-                <nav className="navbar fixed-top navbar-light bg-light">
-                    <button className="navbar-brand btn" onClick={()=>window.location.reload()}>
-                        <i className="fa fa-lg fa-music" style={{color:'blue'}}/>&nbsp;&nbsp;BeatDrop</button>
+                <nav className="navbar fixed-top navbar-light bg-dark">
+                    <button className="navbar-brand btn btn-dark" onClick={()=>window.location.reload()} style={{color:"#fff"}}>
+                        <i className="fa fa-lg fa-music" style={{color:'#2C8AFF'}}/>&nbsp;&nbsp;BeatDrop</button>
                     <form className="form-inline">
 
                         <div>
@@ -289,71 +277,86 @@ class Home extends React.Component{
                         </div>
 
 
-                        <button className="btn btn-dark" style={{marginRight:"5px"}} onClick={()=>this.searchAll()} type="button">Search</button>
+                        <button className="btn btn-outline-light" style={{marginRight:"5px"}} onClick={()=>this.searchAll()} type="button">Search</button>
 
                         <div hidden={this.state.session}>
-                        <Link to="/home/login"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Login</button></Link>
+                        <Link to="/home/login"><button className="btn btn-outline-light" style={{marginRight:"5px"}} type="button">Login</button></Link>
 
-                        <Link to="/home/signup"><button className="btn btn-outline-primary" style={{marginRight:"10px"}} type="button">SignUp</button></Link>
+                        <Link to="/home/signup"><button className="btn btn-outline-light" style={{marginRight:"10px"}} type="button">SignUp</button></Link>
                         </div>
-                        <h3 style={{color:"#000",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}</h3>
+                        <h3 style={{color:"#fff",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}</h3>
                         {this.state.user.type === 'Artist' && <i className="fa fa-lg fa-check-circle" style={{color:'#2C8AFF'}}/>}&nbsp;
                         <div hidden={!this.state.session}>
                             {this.state.user.type!=='Admin' &&
-                            <Link to="/user/profile"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Profile</button></Link>}
+                            <Link to="/user/profile"><button className="btn btn-outline-light" style={{marginRight:"5px"}} type="button">Profile</button></Link>}
                             {this.state.user.type==='Admin' &&
-                            <Link to="/admin"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Admin Page</button></Link>}
-                            <button className="btn btn-outline-primary" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
+                            <Link to="/admin"><button className="btn btn-outline-light" style={{marginRight:"5px"}} type="button">Admin Page</button></Link>}
+                            <button className="btn btn-outline-light" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
                         </div>
                     </form>
                 </nav>
 
-
-
-                {/*<Script
-                    url="https://sdk.scdn.co/spotify-player.js"
-                />*/}
-
                 {this.state.searchTrue===false &&
 
-                <div className="row container-fluid" style={{marginTop:"5%"}}>
-                    <div className="col-4">
-                        <ul className="list-group">
-                            <li className="list-group-item active ">
-                                Radio
-                            </li>
-                            {this.state.radio.length>0 && this.state.radio.map((name,index)=>(
-                               index < 8 && <li className="list-group-item" key={index}>
-                                    {name.name}
-                                </li>
-                            ))}
-                        </ul>
+                <div className="container-fluid" style={{marginTop:"0%"}}>
+                    <div>
+                        <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>New Releases</b></u></td>
+                        <table className="container-fluid">
+                            <br/>
+                            <tbody>
+                                <tr style={{textAlign:'center'}}>
+                                    {this.state.newReleases.length>0 && this.state.newReleases.map((name,index)=>(
+                                        index < 4 &&
+                                        <td key={index}>
+                                            <Link to={`/home/album/${name.id}`}>
+                                                <img src={name.images[0].url} width="160px" height="160px" style={{borderRadius:"80px"}}/> <br/>
+                                                {name.name}
+                                            </Link>
+                                        </td>))}
+                                </tr>
+                                <br/>
+                                <tr style={{textAlign:'center'}}>
+                                    {this.state.newReleases.length>0 && this.state.newReleases.map((name,index)=>(
+                                        index > 3 && index <8 &&
+                                        <td key={index}>
+                                            <Link to={`/home/album/${name.id}`}>
+                                                <img src={name.images[0].url} width="160px" height="160px" style={{borderRadius:"80px"}}/> <br/>
+                                                {name.name}
+                                            </Link>
+                                        </td>))}
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <div className="col-4">
-                        <ul className="list-group">
-                            <li className="list-group-item active ">
-                                New Releases
-                            </li>
-                            {this.state.newReleases.length>0 && this.state.newReleases.map((name,index)=>(
-                                index < 8 && <li className="list-group-item" key={index}>
-                                    <Link to={`/home/album/${name.id}`}> {name.name}</Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="col-4">
-                        <ul className="list-group">
-                            <li className="list-group-item active ">
-                                Featured-Playlists
-                            </li>
-                            {this.state.featuredPlaylist.length>0 && this.state.featuredPlaylist.map((name,index)=>(
-                                index < 8 && <li className="list-group-item" key={index}>
-                                    <Link to={`/home/featured-playlist/${name.id}`}>{name.name}</Link>
-                                </li>
-                            ))}
-                        </ul>
+                    <br/>
+                    <div>
+                        <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Featured Playlists</b></u></td>
+                        <table className="container-fluid">
+                            <br/>
+                            <tbody>
+                            <tr style={{textAlign:'center'}}>
+                                {this.state.featuredPlaylist.length>0 && this.state.featuredPlaylist.map((name,index)=>(
+                                    index < 4 &&
+                                    <td key={index}>
+                                        <Link to={`/home/featured-playlist/${name.id}`}>
+                                            <img src={name.images[0].url} width="160px" height="160px" style={{borderRadius:"80px"}}/> <br/>
+                                            {name.name}
+                                        </Link>
+                                    </td>))}
+                            </tr>
+                            <br/>
+                            <tr style={{textAlign:'center'}}>
+                                {this.state.featuredPlaylist.length>0 && this.state.featuredPlaylist.map((name,index)=>(
+                                    index > 3 && index <8 &&
+                                    <td key={index}>
+                                        <Link to={`/home/featured-playlist/${name.id}`}>
+                                            <img src={name.images[0].url} width="160px" height="160px" style={{borderRadius:"80px"}}/> <br/>
+                                            {name.name}
+                                        </Link>
+                                    </td>))}
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>}
@@ -362,12 +365,18 @@ class Home extends React.Component{
                 {this.state.tracks.length>0 && this.state.searchTrue &&
                     <div>
                          <div className="container-fluid">
-                             <h3 className="float-left">Tracks</h3>
-                             <button className="float-right btn btn-dark" onClick={()=>this.setTrackButton()}>
-                             {this.state.TrackButton} </button>
+                             <div className="row">
+                                 <div className="col-9">
+                                     <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Tracks</b></u></td>
+                                 </div>
+                                 <div className="col-3">
+                                     <button className="float-right btn btn-dark" onClick={()=>this.setTrackButton()} style={{marginBottom:"4px"}}>
+                                         {this.state.TrackButton} </button>
+                                 </div>
+                             </div>
                          </div>
-                        <table className="table table-hover">
-                            <thead>
+                        <table className="table table-hover table-borderless">
+                            <thead style={{background:"lightgrey"}}>
                             <tr>
                                 <th>
                                 </th>
@@ -386,7 +395,7 @@ class Home extends React.Component{
                                        <tr key={index}>
                                             <td>
                                                 {track.album.images.length>0 &&
-                                                    <img src={track.album.images[0].url} alt="tracks" height="60px" width="60px"/>}
+                                                    <img src={track.album.images[0].url} alt="tracks" height="60px" width="60px" style={{borderRadius:"40px"}}/>}
                                             </td>
                                             <td>
                                                 <Link to={`/home/song/${track.id}`}>{track.name}</Link>
@@ -399,11 +408,11 @@ class Home extends React.Component{
                                             <td>
                                                 {this.state.user.userName!==undefined &&
                                                 <Link to={`/home/playlist/${track.id}`}>
-                                                    <button className="btn" ><i className="fa fa-plus"></i></button>
+                                                    <button className="btn" ><i className="fa fa-plus"/></button>
                                                 </Link>}
                                                 {this.state.user.userName===undefined &&
                                                 <Link to={`/home/login`}>
-                                                    <button className="btn" ><i className="fa fa-plus"></i></button>
+                                                    <button className="btn" ><i className="fa fa-plus"/></button>
                                                 </Link>}
 
                                             </td>
@@ -416,12 +425,18 @@ class Home extends React.Component{
                 {this.state.artists.length>0 && this.state.searchTrue &&
                 <div>
                     <div className="container-fluid">
-                        <h3 className="float-left">Artist</h3>
-                        <button className="float-right btn btn-dark" onClick={()=>this.setArtistButton()}>
-                            {this.state.artistButton} </button>
+                        <div className="row">
+                            <div className="col-9">
+                                <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Artists</b></u></td>
+                            </div>
+                            <div className="col-3">
+                                <button className="float-right btn btn-dark" onClick={()=>this.setArtistButton()} style={{marginBottom:"4px"}}>
+                                    {this.state.artistButton} </button>
+                            </div>
+                        </div>
                     </div>
-                    <table className="table table-hover">
-                        <thead>
+                    <table className="table table-hover table-borderless">
+                        <thead style={{background:"lightgrey"}}>
                         <tr>
                             <th>
                             </th>
@@ -436,7 +451,7 @@ class Home extends React.Component{
                             <tr key={index}>
                                 <td>
                                     {artist.images.length>0 &&
-                                    <img src={artist.images[0].url} alt="artists" height="60px" width="60px"/>}
+                                    <img src={artist.images[0].url} alt="artists" height="60px" width="60px" style={{borderRadius:"40px"}}/>}
                                 </td>
                                 <td>
                                     <Link to={`/home/artist/${artist.id}`}>{artist.name}&nbsp;</Link>
@@ -450,12 +465,18 @@ class Home extends React.Component{
                 {this.state.albums.length>0 && this.state.searchTrue &&
                 <div>
                     <div className="container-fluid">
-                        <h3 className="float-left">Album</h3>
-                        <button className="float-right btn btn-dark" onClick={()=>this.setAlbumButton()}>
-                            {this.state.albumButton} </button>
+                        <div className="row">
+                            <div className="col-9">
+                                <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Albums</b></u></td>
+                            </div>
+                            <div className="col-3">
+                                <button className="float-right btn btn-dark" onClick={()=>this.setAlbumButton()} style={{marginBottom:"4px"}}>
+                                    {this.state.albumButton} </button>
+                            </div>
+                        </div>
                     </div>
-                    <table className="table table-hover">
-                        <thead>
+                    <table className="table table-hover table-borderless">
+                        <thead style={{background:"lightgrey"}}>
                         <tr>
                             <th>
                             </th>
@@ -476,7 +497,7 @@ class Home extends React.Component{
                             <tr key={index}>
                                 <td>
                                     {album.images.length>0 &&
-                                    <img src={album.images[0].url} alt="album" height="60px" width="60px"/>}
+                                    <img src={album.images[0].url} alt="album" height="60px" width="60px" style={{borderRadius:"40px"}}/>}
                                 </td>
                                 <td>
                                     <Link to={`/home/album/${album.id}`}>{album.name}</Link>
@@ -494,6 +515,16 @@ class Home extends React.Component{
                         </tbody>
                     </table>
                 </div>}
+                <br/>
+                <br/>
+                <footer className="fixed-bottom" style={{width:"100%",height:"25px",background:"#363636",marginTop:"2%",paddingTop:"5px"}}>
+                    <div style={{marginRight:"20px"}}>
+                    <i className="fa fa-facebook-f float-right" style={{color:"#fff"}}/>
+                    <i className="fa fa-instagram float-right" style={{color:"#fff"}}/>
+                    <i className="fa fa-github float-right" style={{color:"#fff"}}/>
+                    <i className="fa fa-twitter float-right" style={{color:"#fff"}}/>
+                    </div>
+                </footer>
 
             </div>
         )

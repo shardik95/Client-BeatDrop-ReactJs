@@ -37,20 +37,19 @@ class PublicPlaylist extends React.Component{
     render(){
         return(
             <div>
+                <br/>
                 <div className="row">
                     <div className="col-5">
-                        <h3>Playlists </h3>
                         <ul className="list-group">
-                            {this.state.user.playlists!==undefined && <li className="list-group-item active">Playlists</li>}
+                            {this.state.user.playlists!==undefined && <li className="list-group-item active bg-dark" style={{border:"0px"}}>Playlists</li>}
                             {this.state.user!=='' && this.state.user.playlists.map((playlist,index) => (
                                 playlist.playlistType!=='Private'&&<li key={index} className="list-group-item" onClick={()=>this.renderSongs(index)}>{playlist.playlistName}</li>
                             ))}
                         </ul>
                     </div>
                     <div className="col-5">
-                        {this.state.songs.length!==0 && <h1>Songs </h1>}
                         <ul className="list-group">
-                            {this.state.songs.length!==0 && <li className="list-group-item active">Songs</li>}
+                            {this.state.songs.length!==0 && <li className="list-group-item active bg-dark" style={{border:"0px"}}>Songs</li>}
                             {this.state.songs.length>0 && this.state.songs.map((song,index) => (
                                 <Link to={`/home/song/${song.spotifySongId}`}>
                                     <li key={index} className="list-group-item" >{song.songName}</li>

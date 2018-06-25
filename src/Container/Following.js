@@ -53,13 +53,13 @@ class Following extends React.Component{
             <div>
                 <br/>
                 <ul className="list-group" style={{width:"40%"}}>
-                    <li className="list-group-item active">Following
+                    <li className="list-group-item active bg-dark" style={{border:"0px"}}>Following
                     </li>
                     {this.state.user!==''&&following.map((following,index)=>(
                         <li className="list-group-item" key={index}><i className="fa fa-user"/>&emsp;
                             <Link to={`/user/${following.myId}/profile`}>{following.firstName}</Link>
                             {following.type === 'Artist' && <i className="fa fa-check-circle" style={{color:'#2C8AFF'}}/>}
-                            <button className="btn btn-primary float-right" onClick={()=>this.unFollow(following.id,following.myId)}>Unfollow</button>
+                            <button className="btn btn-outline-dark float-right" onClick={()=>this.unFollow(following.id,following.myId)}>Unfollow</button>
                         </li>
                     ))}
                 </ul>

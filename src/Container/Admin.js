@@ -86,23 +86,23 @@ class Admin extends React.Component{
         }
     }
 
-    deleteParty(id){
+    deleteParty(id) {
         return this.partyService.deleteParty(id)
-            .then(()=>this.userService.findAllUsers())
-            .then(users=>this.setState({role:users}))
+            .then(() => this.userService.findUserById(this.state.selectedUser.id))
+            .then(users => this.setState({selectedUser: users}))
     }
 
     deleteSong(id){
         return this.songService.deleteUploadedSong(id)
-            .then(()=>this.userService.findAllUsers())
-            .then(users=>this.setState({role:users}))
+            .then(()=>this.userService.findUserById(this.state.selectedUser.id))
+            .then(users=>this.setState({selectedUser:users}))
     }
 
     deletePlaylist(playlistId){
         return fetch("http://localhost:8080/api/playlist/"+playlistId,{
             method:'delete'
-        }).then(()=>this.userService.findAllUsers())
-            .then(users=>this.setState({role:users}))
+        }).then(()=>this.userService.findUserById(this.state.selectedUser.id))
+            .then(users=>this.setState({selectedUser:users}))
     }
 
     selectUser(user){
@@ -110,7 +110,8 @@ class Admin extends React.Component{
     }
 
     updateProfile(newUser){
-        this.userService.updateUser(newUser)
+        console.log(newUser)
+        this.userService.update(newUser)
         this.setState({updatemsg:true})
         this.userService.findAllUsers()
             .then(users=>this.setState({role:users}))
@@ -211,18 +212,18 @@ class Admin extends React.Component{
 
         return(
             <div>
-                <nav className="navbar fixed-top navbar-light bg-light">
-                    <button className="navbar-brand btn" onClick={()=>this.props.history.push('/home')}>
-                        <i className="fa fa-lg fa-music" style={{color:'blue'}}/>&nbsp;&nbsp;BeatDrop</button>
+                <nav className="navbar fixed-top navbar-light bg-dark">
+                    <button className="navbar-brand btn btn-dark" onClick={()=>this.props.history.push('/home')} style={{color:"#fff"}}>
+                        <i className="fa fa-lg fa-music" style={{color:'#2C8AFF'}}/>&nbsp;&nbsp;BeatDrop</button>
                     <form className="form-inline">
 
-                        <h3 style={{color:"#000",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}</h3>
+                        <h3 style={{color:"#fff",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}</h3>
                         <div hidden={!this.state.session}>
-                            <button className="btn btn-outline-primary" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
+                            <button className="btn btn-outline-light" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
                         </div>
                     </form>
                 </nav>
-                <div style={{marginTop:"5%"}}>
+                <div style={{marginTop:"15%"}}>
                     <div className="row">
                         <div className="col-4">
                             <form style={{textAlign:'center'}}>
@@ -239,17 +240,17 @@ class Admin extends React.Component{
                         </div>
                     </div>
                 </div>
-                <div className="row" style={{marginTop:"5%"}}>
+                <div className="row" style={{marginTop:"5%",marginLeft:"5%"}}>
                     <div className="col-3">
                         <ul className="list-group">
                             {this.state.role.length>0 && this.state.selectedOption==='Users' &&
-                            <li className="list-group-item active">
+                            <li className="list-group-item active bg-dark" style={{border:"0px"}}>
                                 Users
                             </li>}
                             {this.state.role.length>0 && this.state.selectedOption==='Users' && this.state.role.map((user,index)=>(
-                                user.type==='User' && <li className="list-group-item" onClick={()=>this.selectUser(user)} key={index}>
-                                    {user.userName}
-                                    <i className="fa fa-trash float-right fa-lg" onClick={()=>this.deleteUser(user.id)}/>
+                                user.type==='User' && <li className="list-group-item"  key={index}>
+                                    <span onClick={()=>this.selectUser(user)}>{user.userName}</span>
+                                    <button className="btn float-right"  onClick={()=>this.deleteUser(user.id)}><i className="fa fa-trash  fa-lg" /></button>
                                 </li>
                             ))}<br/>
                             {this.state.role.length>0 && this.state.selectedOption==='Users' && <div className='row'>
@@ -270,13 +271,13 @@ class Admin extends React.Component{
                             </ul>
                         <ul className="list-group">
                             {this.state.role.length>0 && this.state.selectedOption==='Artists' &&
-                            <li className="list-group-item active">
+                            <li className="list-group-item active bg-dark" style={{border:"0px"}}>
                                 Artists
                             </li>}
                             {this.state.role.length>0 && this.state.selectedOption==='Artists' && this.state.role.map((user,index)=>(
-                                user.type==='Artist' && <li className="list-group-item" key={index} onClick={()=>this.selectArtist(user)}>
-                                    {user.userName}
-                                    <i className="fa fa-trash float-right fa-lg" onClick={()=>this.deleteArtist(user.id)}/>
+                                user.type==='Artist' && <li className="list-group-item" key={index} >
+                                    <span onClick={()=>this.selectArtist(user)}>{user.userName}</span>
+                                    <button className="btn float-right"  onClick={()=>this.deleteArtist(user.id)}><i className="fa fa-trash  fa-lg" /></button>
                                 </li>
                             ))}<br/>
                             {this.state.role.length>0 && this.state.selectedOption==='Artists' && <div className='row'>
@@ -302,9 +303,9 @@ class Admin extends React.Component{
                                 Hosts
                             </li>}
                             {this.state.role.length>0 && this.state.selectedOption==='Hosts' && this.state.role.map((user,index)=>(
-                                user.type==='Host' && <li className="list-group-item" onClick={()=>this.selectHost(user)} key={index}>
-                                    {user.userName}
-                                    <i className="fa fa-trash float-right fa-lg" onClick={()=>this.deleteHost(user.id)}/>
+                                user.type==='Host' && <li className="list-group-item"key={index}>
+                                    <span onClick={()=>this.selectHost(user)}>{user.userName}</span>
+                                    <button className="btn float-right"  onClick={()=>this.deleteHost(user.id)}><i className="fa fa-trash  fa-lg" /></button>
                                 </li>
                             ))}<br/>
                             {this.state.role.length>0 && this.state.selectedOption==='Hosts' && <div className='row'>
@@ -334,6 +335,11 @@ class Admin extends React.Component{
                                 <div>
                                     <b>Username</b><br/>
                                     {this.state.selectedUser.userName}
+                                </div>
+                                <br/>
+                                <div>
+                                    <b>Password</b><br/>
+                                    {this.state.selectedUser.password}
                                 </div>
                                 <br/>
                                 <div>
@@ -397,6 +403,12 @@ class Admin extends React.Component{
                                     <b>Username</b><br/>
                                     <input className="form-control" defaultValue={this.state.selectedUser.userName}
                                            placeholder={this.state.selectedUser.userName} onChange={(e)=>newUser.userName=e.target.value}/>
+                                </div>
+                                <br/>
+                                <div>
+                                    <b>Password</b><br/>
+                                    <input className="form-control" defaultValue={this.state.selectedUser.password}
+                                           placeholder={this.state.selectedUser.password} onChange={(e)=>newUser.password=e.target.value}/>
                                 </div>
                                 <br/>
                                 <div>

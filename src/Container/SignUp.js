@@ -130,7 +130,7 @@ class SignUp extends React.Component{
         return(
             <div>
                 <div style={{textAlign:'center'}}>
-                    <i className="fa fa-5x fa-music" ></i>
+                    <i className="fa fa-5x fa-music"style={{color:'#2C8AFF'}} />
                     <br/>
                     <h3>BeatDrop</h3>
                 </div>
@@ -198,7 +198,7 @@ class SignUp extends React.Component{
                             <span style={{color:'red',display:this.state.rolereq===false? 'none':'block'}}>Role is required</span>
                         </div>
                         <br/>
-                        <button type="button" className="btn btn-primary" onClick={()=>this.createUser()}>Sign Up</button>
+                        <button type="button" className="btn btn-outline-dark" onClick={()=>this.createUser()}>Sign Up</button>
                         <br/>
                         <i><span style={{color:'red'}}> *</span> marked fields are required</i>
                     </form>

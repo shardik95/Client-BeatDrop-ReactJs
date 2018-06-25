@@ -64,6 +64,7 @@ class Ticket extends React.Component{
     updateEvent(){
         let newEvent={
             eventName:this.state.eventName,
+            availTickets:this.state.maxSeats,
             maxTickets:this.state.maxSeats,
             price:this.state.price
         }
@@ -84,7 +85,7 @@ class Ticket extends React.Component{
         let event ={
             eventName:this.state.eventName,
             maxTickets:this.state.maxSeats,
-            availTickets:this.state.maxSeats,
+            availTickets:this.state.availSeats,
             price:this.state.price
         }
 
@@ -102,6 +103,8 @@ class Ticket extends React.Component{
                     <input className="form-control" id="name" onChange={(e)=>this.setState({eventName:e.target.value})} value={this.state.eventName}/>
                     <label for="seats">Max seats</label>
                     <input className="form-control" id="seats" onChange={(e)=>this.setState({maxSeats:e.target.value})} value={this.state.maxSeats}/>
+                    <label htmlFor="avail">Available Seats</label>
+                    <input className="form-control" id="avail" onChange={(e) => this.setState({availSeats: e.target.value})} value={this.state.availSeats}/><br/>
                     <label for="price">Price</label>
                     <input className="form-control" id="price" onChange={(e)=>this.setState({price:e.target.value})} value={this.state.price}/><br/>
                     <button className="btn btn-outline-dark float-right" type="button" hidden={this.state.updateFlag} onClick={()=>this.createEvent()}>Create Event</button>

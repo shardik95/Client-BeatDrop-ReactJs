@@ -81,7 +81,7 @@ class PublicParty extends React.Component{
                     <div className="col-4">
                         <div>
                             <ul className="list-group">
-                                <li className="list-group-item active">Parties</li>
+                                <li className="list-group-item active bg-dark" style={{border:"0px"}}>Parties</li>
                                 {this.state.profileUser!==''&&this.state.profileUser.parties.map((party,index)=>(
                                     <li key={index} className="list-group-item" onClick={()=>this.renderParty(party.id)}>{party.partyname}
                                     </li>
@@ -93,15 +93,15 @@ class PublicParty extends React.Component{
                     <div className="col-4">
                         {this.state.partyPlaylist===true&&
                         <ul className="list-group">
-                            <li className="list-group-item active">Party Playlists</li>
+                            <li className="list-group-item active bg-dark" style={{border:"0px"}}>Party Playlists</li>
                             {this.state.playlists.length>0 && this.state.playlists.map((playlist,index)=>(
-                                <li key={index} className="list-group-item" onClick={()=>this.renderSong(index)}>{playlist.playlistName} &emsp;
+                                <li key={index} className="list-group-item">{playlist.playlistName} &emsp;
                                 </li>
                             ))}
                             <br/>
                             <select className="form-control" onChange={e=>this.addPlaylist(e.target.value)}>
                                 <option>Add your playlist to party</option>
-                                {this.state.user.playlists.map((playlist,index)=>(
+                                {this.state.session===true && this.state.user.playlists.map((playlist,index)=>(
                                     <option key={index} value={playlist.id}>
                                         {playlist.playlistName}
                                     </option>

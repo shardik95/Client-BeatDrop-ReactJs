@@ -54,12 +54,12 @@ class ArtistSpotify extends React.Component{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
-            .then(()=>this.state.user!==''&&this.state.user.likes.map(like=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.likes.map(like=>{
                 if(like.typeId===this.state.artistId) {
                     this.setState({setLike: true,like:like})
                 }
             }))
-            .then(()=>this.state.user!==''&&this.state.user.reviews.map(review=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.reviews.map(review=>{
                 if(review.typeId===this.state.artistId) {
                     this.setState({rating:review.stars,reviewId:review.id})
                 }
@@ -89,13 +89,13 @@ class ArtistSpotify extends React.Component{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
-            .then(()=>this.state.user!==''&&this.state.user.likes.map(like=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.likes.map(like=>{
                 if(like.typeId===this.state.artistId) {
                     console.log(like.typeId)
                     this.setState({setLike: true,like:like})
                 }
             }))
-            .then(()=>this.state.user!==''&&this.state.user.reviews.map(review=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.reviews.map(review=>{
                 if(review.typeId===this.state.artistId) {
                     this.setState({rating:review.stars,reviewId:review.id})
                 }
@@ -148,8 +148,8 @@ class ArtistSpotify extends React.Component{
         return(
             <div style={{marginTop:"5%"}}>
                 <div style={{textAlign:'center'}}>
-                    <h3>Artist Details</h3>
-                    {this.state.artist.images!==undefined && <img src={this.state.artist.images[0].url} width="300px" height="300px"/>}
+                    <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Artist Details</b></u></td>
+                    {this.state.artist.images!==undefined && <img src={this.state.artist.images[0].url} width="300px" height="300px" style={{borderRadius:"150px"}}/>}
                 </div>
                 <br/>
                 <div className="row">
@@ -183,7 +183,7 @@ class ArtistSpotify extends React.Component{
                 <div className="row">
                     <div className="col-6">
                         <ul className="list-group">
-                            <li className="list-group-item active">
+                            <li className="list-group-item bg-dark active" style={{color:"#fff",border:"0px"}} >
                                Top-Tracks
                             </li>
                             {this.state.accessToken.length>0 &&<TopTracks accessToken={this.state.accessToken} artistId={this.state.artistId}/>}
@@ -191,7 +191,7 @@ class ArtistSpotify extends React.Component{
                     </div>
                     <div className="col-6">
                         <ul className="list-group">
-                            <li className="list-group-item active">
+                            <li className="list-group-item bg-dark active" style={{color:"#fff",border:"0px"}} >
                                 Albums
                             </li>
                             {this.state.accessToken.length>0 &&<TopAlbums accessToken={this.state.accessToken} artistId={this.state.artistId}/>}
@@ -199,7 +199,7 @@ class ArtistSpotify extends React.Component{
                     </div>
                 </div>
                 <br/>
-                <h3>Related Artists</h3>
+                <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Related Artists</b></u></td>
                 <RelatedArtists accessToken={this.state.accessToken} artistId={this.state.artistId}/>
                 <br/>
             </div>

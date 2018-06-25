@@ -43,7 +43,21 @@ class TopTracks extends React.Component{
         return(
             <div>
                 {this.state.topTracks.tracks!==undefined && this.state.topTracks.tracks.map((track,index)=>(
-                    index< 7 && <Link to={`/home/song/${track.id}`}  key={index}><li className="list-group-item">{track.name}</li></Link>
+                    index< 7 &&
+                    <li className="list-group-item">
+                        <div className="row">
+                            <div className="col-4">
+                                <img src={track.album.images[0].url} width="40px" height="40px" style={{borderRadius:"20px"}}/>
+                            </div>
+                            <div className="col-8">
+                                <Link to={`/home/song/${track.id}`}  key={index}>
+                                {track.name}
+                                </Link>
+                            </div>
+                        </div>
+                    </li>
+
+
                 ))}
             </div>
         )

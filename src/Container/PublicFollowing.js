@@ -86,7 +86,7 @@ class PublicFollowing extends React.Component{
             <div>
                 <br/>
                 <ul className="list-group" style={{width:"40%"}}>
-                    <li className="list-group-item active">Following
+                    <li className="list-group-item active bg-dark" style={{border:"0px"}}>Following
                     </li>
                     {this.state.profileUser!==''&& following.map((following,index)=> {
                         if(following.userName!==this.state.user.userName){
@@ -104,8 +104,8 @@ class PublicFollowing extends React.Component{
                                 <Link to={`/user/${following.myId}/profile`}> {following.userName}
                                     {following.type === 'Artist' && <i className="fa fa-check-circle" style={{color:'#2C8AFF'}}/>}
                                 </Link>
-                                <button className="btn btn-primary float-right" hidden={follow} onClick={()=>this.followUser(following.myId)}>Follow</button>
-                                <button className="btn btn-primary float-right" hidden={!follow} onClick={()=>this.unFollow(following.userName,following.myId)}>UnFollow</button>
+                                <button className="btn btn-outline-dark float-right" hidden={follow} onClick={()=>this.followUser(following.myId)}>Follow</button>
+                                <button className="btn btn-outline-dark float-right" hidden={!follow} onClick={()=>this.unFollow(following.userName,following.myId)}>UnFollow</button>
                             </li>
                         }})
                     }

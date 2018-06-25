@@ -112,6 +112,18 @@ class UserService{
         }).then(response=>response.json())
     }
 
+    update(user){
+        return fetch("http://localhost:8080/api/user/admin",{
+            credentials: 'include',
+            headers:{
+                'content-type':'application/json',
+            },
+            method:'put',
+            body:JSON.stringify(user)
+        }).then(response=>response.json())
+
+    }
+
 }
 
 export default UserService;

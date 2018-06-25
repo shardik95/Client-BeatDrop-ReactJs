@@ -106,8 +106,8 @@ class Feed extends React.Component{
 
                     {this.state.user.type==='Host'&& this.state.user.parties.map((party,index)=>(
                         <div key={index}>
-                        <div className="card" style={{width:"600px",height:"130px"}} >
-                            <div className="card-header">
+                            <div className="card" style={{width:"600px",borderRadius:"20px"}} key={index}>
+                                <div className="card-header bg-dark" style={{color:"#fff"}}>
                                 <i className="fa fa-lg fa-user-circle"/>&nbsp;you
                             </div>
                             <div className="card-body">
@@ -129,8 +129,8 @@ class Feed extends React.Component{
                     {sortedFeed.map((feed,index)=>(
                         <div key={index}>
                             {feed.title==='Like' &&
-                            <div className="card" style={{width:"600px",height:"130px"}} >
-                                <div className="card-header">
+                            <div className="card" style={{width:"600px",borderRadius:"20px"}} key={index}>
+                                <div className="card-header bg-dark" style={{color:"#fff"}}>
                                     <i className="fa fa-lg fa-user-circle"/>&nbsp;{this.state.user.userName === feed.username && "you"}
                                     {this.state.user.userName !== feed.username && feed.username}
                                     {feed.type === 'Artist' && <i className="fa fa-check-circle" style={{color:'#2C8AFF'}}/>}
@@ -147,8 +147,8 @@ class Feed extends React.Component{
                                 </div>
                             </div>}
                             {feed.title==='Review' &&
-                            <div className="card" style={{width:"600px",height:"130px"}}>
-                                <div className="card-header">
+                            <div className="card" style={{width:"600px",borderRadius:"20px"}} key={index}>
+                                <div className="card-header bg-dark" style={{color:"#fff"}}>
                                     <i className="fa fa-lg fa-user-circle"/>&nbsp;{this.state.user.userName === feed.username && "you"}
                                     {this.state.user.userName !== feed.username && feed.username}
                                 </div>

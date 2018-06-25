@@ -48,9 +48,8 @@ class Account extends React.Component{
         date=date.substring(0,10)
 
         return(
-            <div style={{marginTop:"3%"}}>
-                <h3>Account Overview</h3>
-                <hr/>
+            <div style={{marginTop:"1%"}}>
+                <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Account Overview</b></u></td>
                 <div className="alert alert-success" role="alert" hidden={!this.state.updatemsg}>
                     Profile Update Successfully!
                 </div>
@@ -60,6 +59,11 @@ class Account extends React.Component{
                         <div>
                             <b>Username</b><br/>
                             {this.state.user.userName}
+                        </div>
+                        <br/>
+                        <div>
+                            <b>Password</b><br/>
+                            {this.state.user.password}
                         </div>
                         <br/>
                         <div>
@@ -95,6 +99,12 @@ class Account extends React.Component{
                             <b>Username</b><br/>
                             <input className="form-control" defaultValue={this.state.user.userName}
                                    placeholder={this.state.user.userName} onChange={(e)=>newUser.userName=e.target.value}/>
+                        </div>
+                        <br/>
+                        <div>
+                            <b>Password</b><br/>
+                            <input className="form-control" defaultValue={this.state.user.password}
+                               placeholder={this.state.user.password} onChange={(e)=>newUser.password=e.target.value}/>
                         </div>
                         <br/>
                         <div>

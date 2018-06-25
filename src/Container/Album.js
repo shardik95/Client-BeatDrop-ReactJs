@@ -46,12 +46,12 @@ class Album extends React.Component{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
-            .then(()=>this.state.user!==''&&this.state.user.likes.map(like=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.likes.map(like=>{
                 if(like.typeId===this.state.albumId) {
                     this.setState({setLike: true,like:like})
                 }
             }))
-            .then(()=>this.state.user!==''&&this.state.user.reviews.map(review=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.reviews.map(review=>{
                 if(review.typeId===this.state.albumId) {
                     this.setState({rating:review.stars,reviewId:review.id})
                 }
@@ -98,12 +98,12 @@ class Album extends React.Component{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
-            .then(()=>this.state.user!==''&&this.state.user.likes.map(like=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.likes.map(like=>{
                 if(like.typeId===this.state.albumId) {
                     this.setState({setLike: true,like:like})
                 }
             }))
-            .then(()=>this.state.user!==''&&this.state.user.reviews.map(review=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.reviews.map(review=>{
                 if(review.typeId===this.state.albumId) {
                     this.setState({rating:review.stars,reviewId:review.id})
                 }
@@ -134,8 +134,8 @@ class Album extends React.Component{
         return(
             <div style={{marginTop:"5%"}}>
                 <div style={{textAlign:'center'}}>
-                    <h3>Album Details</h3>
-                    {this.state.album.images!==undefined && <img src={this.state.album.images[0].url} width="300px" height="300px"/>}
+                    <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Album Details</b></u></td>
+                    {this.state.album.images!==undefined && <img src={this.state.album.images[0].url} width="300px" height="300px" style={{borderRadius:"150px"}}/>}
                 </div>
                 <br/>
                 <div className="row">
@@ -177,16 +177,29 @@ class Album extends React.Component{
                     </tbody>
                 </table>
                 <ul className="list-group">
-                    <li className="list-group-item active">
+                    <li className="list-group-item bg-dark active" style={{color:"#fff",border:"0px"}} >
                         Tracks
                     </li>
                     {this.state.album.tracks!==undefined && this.state.album.tracks.items.map((track,index)=>(
-                        <li className="list-group-item" key={index}>
-                            <Link to={`/home/song/${track.id}`}>{track.name}</Link>
+                      index<7 &&
+
+                        <li className="list-group-item">
+                            <div className="row">
+                                <div className="col-4">
+                                    <img src={this.state.album.images[0].url} width="40px" height="40px" style={{borderRadius:"20px"}}/>
+                                    {console.log(track)}
+                                </div>
+                                <div className="col-8">
+                                    <Link to={`/home/song/${track.id}`}  key={index}>
+                                        {track.name}
+                                    </Link>
+                                </div>
+                            </div>
                         </li>
                     ))}
                 </ul>
-
+                <br/>
+                <br/>
             </div>
 
         )

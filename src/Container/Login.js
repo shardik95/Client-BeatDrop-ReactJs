@@ -41,7 +41,7 @@ class Login extends React.Component{
 
         return(
             <div style={{textAlign:'center'}}>
-                <i className="fa fa-5x fa-music" ></i>
+                <i className="fa fa-5x fa-music"style={{color:'#2C8AFF'}} />
                 <br/>
                 <h3>BeatDrop</h3>
                 <br/>
@@ -60,11 +60,7 @@ class Login extends React.Component{
                             <input type="password" className="form-control" placeholder="Password"
                                    onChange={(e)=>this.setState({password:e.target.value})}/>
                             <br/>
-                            <input type="checkbox" className="form-check-input" />
-                           <label className="form-check-label">Remember me</label>
-                            <br/>
-                            <br/>
-                        <button type="button" className="btn btn-primary" onClick={()=>this.loginUser()}>Login</button>
+                        <button type="button" className="btn btn-outline-dark" onClick={()=>this.loginUser()}>Login</button>
                     </form>
                 </div>
             </div>

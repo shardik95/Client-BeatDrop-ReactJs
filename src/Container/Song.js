@@ -48,12 +48,12 @@ class Song extends React.Component{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
-            .then(()=>this.state.user!==''&&this.state.user.likes.map(like=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.likes.map(like=>{
                 if(like.typeId===this.state.trackId) {
                     this.setState({setLike: true,like:like})
                 }
             }))
-            .then(()=>this.state.user!==''&&this.state.user.reviews.map(review=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.reviews.map(review=>{
                 if(review.typeId===this.state.trackId) {
                     this.setState({rating:review.stars,reviewId:review.id})
                 }
@@ -83,11 +83,11 @@ class Song extends React.Component{
             credentials: 'include',
         }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
-            .then(()=>this.state.user!==''&&this.state.user.likes.map(like=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.likes.map(like=>{
                 if(like.trackId===this.state.trackId)
                     this.setState({setLike:true,like:like})
             }))
-            .then(()=>this.state.user!==''&&this.state.user.reviews.map(review=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.reviews.map(review=>{
                 if(review.typeId===this.state.trackId) {
                     this.setState({rating:review.stars})
                 }
@@ -141,8 +141,8 @@ class Song extends React.Component{
         return(
             <div style={{marginTop:"5%"}}>
                     <div style={{textAlign:'center'}}>
-                        <h3>Song Details</h3>
-                         {this.state.song.album!==undefined && <img src={this.state.song.album.images[0].url} width="300px" height="300px"/>}
+                        <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Song Details</b></u></td>
+                         {this.state.song.album!==undefined && <img src={this.state.song.album.images[0].url} width="300px" height="300px" style={{borderRadius:"150px"}}/>}
                     </div>
                 <br/>
                 <div className="row">

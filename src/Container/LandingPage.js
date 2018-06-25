@@ -1,6 +1,6 @@
 import React from 'react';
-import * as image from '../assests/logo.jpg'
 import Link from "react-router-dom/es/Link";
+import SpotifyService from "../Services/SpotifyService";
 
 class LandingPage extends React.Component{
 
@@ -9,22 +9,17 @@ class LandingPage extends React.Component{
         this.state={
             accessToken:''
         }
+        this.spotifyService=SpotifyService.instance;
     }
 
     componentDidMount(){
-        fetch("http://localhost:8080/api/accessToken")
-            .then(response=>(
-                response.json()
-            )).then(response=> {
+        this.spotifyService.getAccessToken().then(response=> {
             this.setState({accessToken: response.access_token})
         })
     }
 
     componentWillReceiveProps(newProps){
-        fetch("http://localhost:8080/api/accessToken")
-            .then(response=>(
-                response.json()
-            )).then(response=> {
+        this.spotifyService.getAccessToken().then(response=> {
             this.setState({accessToken: response.access_token})
         })
     }
@@ -34,14 +29,25 @@ class LandingPage extends React.Component{
         return(
             <div className="row">
                 <div className="col-6">
-                    <h1 style={{marginTop:"50%",marginLeft:"25%",color:"#363636"}}><i className="fa fa-lg fa-music" style={{color:'blue'}} /> BeatDrop</h1>
+                    <h1 style={{marginTop:"50%",marginLeft:"25%",color:"#363636"}}><i className="fa fa-lg fa-music" style={{color:'#2C8AFF'}} /> BeatDrop</h1>
                 </div>
                 <div className="col-6" style={{background:"#363636",height:"100vh",textAlign:'center'}}>
                     <h1 style={{marginTop:"20%",color:"#fff"}}>Welcome!</h1>
                     <br/>
                     <h3 style={{color:"#fff"}}>What is BeatDrop?!</h3>
                     <br/>
-                    <p style={{color:"#fff"}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                    <p style={{color:"#fff",background:"#363636"}}>
+                        <span style={{color:'#2C8AFF'}}>BeatDrop is a Social media for music.</span>
+                        <br/><br/>
+                        <ul className="list-group" >
+                            <li className="list-group-item" style={{background:"#363636",border:"0px"}}>
+                                <i className="fa fa-music" style={{color:'#2C8AFF'}}/>&nbsp;Be a host to create a party, let users share their playlist with you such that you can 'Merge' them in single playlist so every one gets common taste of music, you can create events, sell tickets and earn money. </li>
+                            <li className="list-group-item" style={{background:"#363636",border:"0px"}}>
+                                <i className="fa fa-music" style={{color:'#2C8AFF'}}/>&nbsp;Become an Artist and upload your own songs. </li>
+                            <li className="list-group-item" style={{background:"#363636",border:"0px"}}>
+                                <i className="fa fa-music" style={{color:'#2C8AFF'}}/>&nbsp;Be a normal user and create your playlists, share it with the host of the party, follow your friends, artists and view everything in one place 'Feed'.</li>
+                        </ul>
+                    </p>
                     <br/>
                     <Link to="/home"><button className="btn btn-outline-light">Explore!</button></Link>
                 </div>

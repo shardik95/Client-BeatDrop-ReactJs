@@ -96,20 +96,20 @@ class UserPrivateProfile extends React.Component{
 
         return(
             <div>
-                <nav className="navbar fixed-top navbar-light bg-light">
-                    <Link to="/home"><a className="navbar-brand">
-                        <i className="fa fa-lg fa-music"/>&nbsp;&nbsp;BeatDrop</a></Link>
+                <nav className="navbar fixed-top navbar-light" style={{background:"#363636"}}>
+                    <button className="navbar-brand btn" onClick={()=>this.props.history.push("/home")} style={{color:"#fff",background:"#363636"}}>
+                        <i className="fa fa-lg fa-music" style={{color:'#2C8AFF'}}/>&nbsp;&nbsp;BeatDrop</button>
                     <form className="form-inline">
                         <div hidden={this.state.session}>
-                            <Link to="/home/login"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Login</button></Link>
+                            <Link to="/home/login"><button className="btn btn-outline-light" style={{marginRight:"5px"}} type="button">Login</button></Link>
 
-                            <Link to="/home/signup"><button className="btn btn-outline-primary" style={{marginRight:"10px"}} type="button">SignUp</button></Link>
+                            <Link to="/home/signup"><button className="btn btn-outline-light" style={{marginRight:"10px"}} type="button">SignUp</button></Link>
                         </div>
-                        <h3 style={{color:"#000",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}</h3>
+                        <h3 style={{color:"#fff",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}</h3>
                         {this.state.user.type === 'Artist' && <i className="fa fa-lg fa-check-circle" style={{color:'#2C8AFF'}}/>}
                         <div hidden={!this.state.session}>
-                            <Link to="/user/profile"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Profile</button></Link>
-                            <button className="btn btn-outline-primary" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
+                            <Link to="/user/profile"><button className="btn btn-outline-light" style={{marginRight:"5px"}} type="button">Profile</button></Link>
+                            <button className="btn btn-outline-light" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
                         </div>
                     </form>
                 </nav>
@@ -123,6 +123,12 @@ class UserPrivateProfile extends React.Component{
                             <button className="btn btn-primary">Edit</button>
                         </Link>
                         <br/>
+                        <br/>
+                        <div style={{border:"1px solid white"}}>
+                            <p>Name: {this.state.user.firstName} {this.state.user.lastName}</p>
+                            <p>Email: {this.state.user.email} </p>
+                        </div>
+
                         <br/>
                         {this.state.user.type==='Artist' && <div>Recently Uploaded Songs
                         <br/>
@@ -182,6 +188,14 @@ class UserPrivateProfile extends React.Component{
                                component={Ticket} />
                     </div>
                 </div>
+                <footer className="fixed-bottom" style={{width:"100%",height:"25px",background:"#363636",marginTop:"2%",paddingTop:"5px"}}>
+                    <div style={{marginRight:"20px"}}>
+                        <i className="fa fa-facebook-f float-right" style={{color:"#fff"}}/>
+                        <i className="fa fa-instagram float-right" style={{color:"#fff"}}/>
+                        <i className="fa fa-github float-right" style={{color:"#fff"}}/>
+                        <i className="fa fa-twitter float-right" style={{color:"#fff"}}/>
+                    </div>
+                </footer>
             </div>
         )
 

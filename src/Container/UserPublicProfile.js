@@ -142,25 +142,23 @@ class UserPublicProfile extends React.Component{
 
     render(){
 
-        let songs=['Song 1','Song 2','Song 3','Song 4','Song 5','Song 6','Song 7','Song 8']
-
         return(
             <div>
-                <nav className="navbar fixed-top navbar-light bg-light">
-                    <Link to="/home"><a className="navbar-brand">
-                        <i className="fa fa-lg fa-music"/>&nbsp;&nbsp;BeatDrop</a></Link>
+                <nav className="navbar fixed-top navbar-light" style={{background:"#363636"}}>
+                    <button className="navbar-brand btn" onClick={()=>this.props.history.push("/home")} style={{color:"#fff",background:"#363636"}}>
+                        <i className="fa fa-lg fa-music" style={{color:'#2C8AFF'}}/>&nbsp;&nbsp;BeatDrop</button>
                     <form className="form-inline">
                     <div hidden={this.state.session}>
-                        <Link to="/home/login"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Login</button></Link>
+                        <Link to="/home/login"><button className="btn btn-outline-light" style={{marginRight:"5px"}} type="button">Login</button></Link>
 
-                        <Link to="/home/signup"><button className="btn btn-outline-primary" style={{marginRight:"10px"}} type="button">SignUp</button></Link>
+                        <Link to="/home/signup"><button className="btn btn-outline-light" style={{marginRight:"10px"}} type="button">SignUp</button></Link>
                     </div>
-                    <h3 style={{color:"#000",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}
+                    <h3 style={{color:"#fff",marginRight:"10px"}} hidden={!this.state.session}>Hi, {this.state.user.firstName}
                         {this.state.user.type === 'Artist' && <i className="fa fa-lg fa-check-circle" style={{color:'#2C8AFF'}}/>}
                     </h3>
                     <div hidden={!this.state.session}>
-                        <Link to="/user/profile"><button className="btn btn-outline-primary" style={{marginRight:"5px"}} type="button">Profile</button></Link>
-                        <button className="btn btn-outline-primary" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
+                        <Link to="/user/profile"><button className="btn btn-outline-light" style={{marginRight:"5px"}} type="button">Profile</button></Link>
+                        <button className="btn btn-outline-light" style={{marginRight:"5px"}} onClick={()=>this.logout()} type="button">Logout</button>
                     </div>
                     </form>
                 </nav>
@@ -177,17 +175,6 @@ class UserPublicProfile extends React.Component{
                         <button className="btn btn-primary" hidden={this.state.showFollow} onClick={()=>this.unFollow()}>UnFollow</button>}
                         <br/>
                         <br/>
-                        {this.state.profileUser.type!=="Artist"&& <div>Recently Played Songs
-                        <br/>
-                        <br/>
-                        <ul className="list-group" >
-                            {songs.map((song,index)=>(
-                                <li className="list-group-item" key={index} style={{background:'black',borderBottom:'2px solid #363636'}}>
-                                    {song}
-                                </li>
-                            ))}
-                        </ul>
-                        </div>}
                         {this.state.profileUser.type==='Artist' && <div>Recently Uploaded Songs
                             <br/>
                             <br/>

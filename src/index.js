@@ -20,7 +20,7 @@ import Admin from "./Container/Admin";
 ReactDOM.render(
     <Router>
 
-        <div style={{marginLeft:"1%",marginRight:"6%"}}>
+        <div style={{marginLeft:"0%",marginRight:"5%"}}>
             <div>
                 <Route exact path="/" component={LandingPage}/>
                 <Route path='/index'
@@ -54,8 +54,7 @@ ReactDOM.render(
                            component={Album}/>
                     <Route path='/home/featured-playlist/:playlistId'
                            component={FeaturedPlaylists}/>
-                    <Route path='/home'
-                           component={HomeFeed}/>
+                    <Route exact path="/home" component={HomeFeed}/>
 
                 </div>
             </div>

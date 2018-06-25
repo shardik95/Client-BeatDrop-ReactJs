@@ -45,7 +45,7 @@ class RelatedArtists extends  React.Component{
                     <tbody>
                         <tr>
                             {this.state.relatedArtist.artists!==undefined && this.state.relatedArtist.artists.map((artist,index)=>(
-                               index < 5 && <td  key={index}><img src={artist.images[2].url} width="85px" height="85px"/><br/>
+                               index < 4 && <td  key={index}><img src={artist.images[2].url} width="85px" height="85px"/><br/>
                                    <Link to={`/home/artist/${artist.id}`} key={index}> {artist.name}</Link>
                                    </td>
                             ))}
