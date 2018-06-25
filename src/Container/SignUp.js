@@ -107,7 +107,6 @@ class SignUp extends React.Component{
                     this.hostService.createHost(newUser)
                         .then(response => (
                             <div>
-                                {alert("user created")}
                                 {this.props.history.push("/home")}
                             </div>
                         ))

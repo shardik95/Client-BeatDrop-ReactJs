@@ -20,7 +20,7 @@ import Admin from "./Container/Admin";
 ReactDOM.render(
     <Router>
 
-        <div style={{marginLeft:"0%",marginRight:"5%"}}>
+        <div style={{marginLeft:"0%",marginRight:"4%"}}>
             <div>
                 <Route exact path="/" component={LandingPage}/>
                 <Route path='/index'
@@ -39,7 +39,7 @@ ReactDOM.render(
                     <Route path='/home'
                            component={Home}/>
                 </div>
-                <div className="col-4" style={{marginTop:"5%"}}>
+                <div className="col-5" style={{marginTop:"5%"}}>
                     <Route path='/home/login'
                            component={Login}/>
                     <Route path='/home/signup'

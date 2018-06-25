@@ -196,7 +196,7 @@ class Playlist extends React.Component{
                         </div>
                         {this.state.songs.length==0 &&
                         <img src="https://i.pinimg.com/736x/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2---page-empty-page.jpg"
-                        width="400px" height="300px"/>
+                        width="300px" height="300px"/>
                          }
                         <br/>
                     </div>
