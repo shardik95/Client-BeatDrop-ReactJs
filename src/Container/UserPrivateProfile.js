@@ -28,26 +28,19 @@ class UserPrivateProfile extends React.Component{
         this.onFormSubmit=this.onFormSubmit.bind(this);
         this.fileService=FileService.instance;
         this.deleteSong=this.deleteSong.bind(this);
+        this.userService=UserService.instance;
     }
 
     componentDidMount(){
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then(response=> (
-            response.json()
-        )).then(json=> {
+        this.userService.getSession().then(json=> {
             if (json.userName !== 'CANNOT FIND'){
                 this.setState({user:json,session:true,userId:json.id})
             }})
     }
 
     componentWillReceiveProps(newProps){
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then(response=> (
-            response.json()
-        )).then(json=> {
+        this.userService.getSession().then(json=> {
             if (json.userName !== 'CANNOT FIND'){
                 this.setState({user:json,session:true,userId:json.id})
             }})
@@ -63,11 +56,7 @@ class UserPrivateProfile extends React.Component{
     onFormSubmit(e){
         e.preventDefault()
          this.fileService.fileUpload(this.state.file,this.state.user.id).then((response)=>{
-             fetch("https://beatdrop.herokuapp.com/api/profile",{
-                 credentials: 'include',
-             }).then(response=> (
-                 response.json()
-             )).then(json=> {
+             this.userService.getSession().then(json=> {
                  if (json.userName !== 'CANNOT FIND'){
                      this.setState({user:json,session:true,userId:json.id})
                  }})
@@ -80,11 +69,7 @@ class UserPrivateProfile extends React.Component{
 
     deleteSong(song){
         this.fileService.deleteFile(song.songName,song.id)
-            .then(()=>fetch("https://beatdrop.herokuapp.com/api/profile",{
-                credentials: 'include',
-            }).then(response=> (
-                response.json()
-            )).then(json=> {
+            .then(()=>this.userService.getSession().then(json=> {
                 if (json.userName !== 'CANNOT FIND'){
                     this.setState({user:json,session:true,userId:json.id})
                 }}))

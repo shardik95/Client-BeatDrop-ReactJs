@@ -1,5 +1,6 @@
 import React from 'react';
 import TicketService from "../Services/TIcketService";
+import UserService from "../Services/UserService";
 
 class Ticket extends React.Component{
 
@@ -21,30 +22,25 @@ class Ticket extends React.Component{
         this.delete=this.delete.bind(this);
         this.updateEvent=this.updateEvent.bind(this);
         this.ticketService=TicketService.instance;
+        this.userService=UserService.instance;
     }
 
     componentDidMount(){
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then(response=> (
-            response.json()
-        )).then(json=> {
-            if (json.userName !== 'CANNOT FIND'){
-                this.setState({user:json,session:true})
-            }
+        this.userService.getSession()
+            .then(json=> {
+                if (json.userName !== 'CANNOT FIND'){
+                    this.setState({user:json,session:true})
+                }
         }).then(()=>this.ticketService.getTickets(this.state.user.id))
             .then(tickets=>this.setState({tickets:tickets}))
     }
 
     componentWillReceiveProps(newProps){
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then(response=> (
-            response.json()
-        )).then(json=> {
-            if (json.userName !== 'CANNOT FIND'){
-                this.setState({user:json,session:true})
-            }
+        this.userService.getSession()
+            .then(json=> {
+                if (json.userName !== 'CANNOT FIND'){
+                    this.setState({user:json,session:true})
+                }
         }).then(()=>this.ticketService.getTickets(this.state.user.id))
             .then(tickets=>this.setState({tickets:tickets}))
 
@@ -114,7 +110,7 @@ class Ticket extends React.Component{
                 <br/>
                 <div className="row">
                 {this.state.tickets!=='' && this.state.tickets.map(ticket=>(
-                        <div className="card col-4" style={{width:" 18em",marginRight:"10px",marginLeft:"10px"}}>
+                        <div className="card col-4" style={{width:" 18em",margin:"10px"}}>
                             <div className="card-body">
                                 <h5 className="card-title">{ticket.eventName}</h5>
                                 <h6 className="card-subtitle mb-2 text-muted">{this.state.user.userName}</h6>

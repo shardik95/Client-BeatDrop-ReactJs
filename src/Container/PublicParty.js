@@ -28,14 +28,11 @@ class PublicParty extends React.Component{
 
         this.setState({profileUserId:profileUserId});
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then(response=> (
-            response.json()
-        )).then(json=> {
-            if (json.userName !== 'CANNOT FIND'){
-                this.setState({user:json,session:true,userId:json.id})
-            }
+        this.userService.getSession()
+            .then(json=> {
+                if (json.userName !== 'CANNOT FIND'){
+                    this.setState({user:json,session:true,userId:json.id})
+                }
         })
 
         this.userService.findUserById(profileUserId)
@@ -47,14 +44,11 @@ class PublicParty extends React.Component{
 
         this.setState({profileUserId:profileUserId});
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then(response=> (
-            response.json()
-        )).then(json=> {
-            if (json.userName !== 'CANNOT FIND'){
-                this.setState({user:json,session:true,userId:json.id})
-            }
+        this.userService.getSession()
+            .then(json=> {
+                if (json.userName !== 'CANNOT FIND'){
+                    this.setState({user:json,session:true,userId:json.id})
+                }
         })
 
         this.userService.findUserById(profileUserId)

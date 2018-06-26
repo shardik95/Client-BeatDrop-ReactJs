@@ -2,6 +2,8 @@ import React from 'react';
 import PartyService from "../Services/PartyService";
 import HostPlaylistService from "../Services/HostPlaylistService";
 import Link from "react-router-dom/es/Link";
+import UserService from "../Services/UserService";
+import SpotifyService from "../Services/SpotifyService";
 
 class Party extends React.Component{
 
@@ -30,36 +32,28 @@ class Party extends React.Component{
         this.mergePlaylist=this.mergePlaylist.bind(this);
         this.partyService=PartyService.instance;
         this.hostplaylistService=HostPlaylistService.instance;
+        this.userService=UserService.instance;
+        this.spotifyService=SpotifyService.instance;
     }
 
     componentDidMount(){
 
-        fetch("https://beatdrop.herokuapp.com/api/accessToken")
-            .then(response=>(
-                response.json()
-            )).then(response=>(
-            this.setState({accessToken:response.access_token})
+        this.spotifyService.getAccessToken()
+            .then(response=>(this.setState({accessToken:response.access_token})
         ))
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json,userId:json.id,parties:json.parties})))
 
 
     }
 
     componentWillReceiveProps(newProps){
-        fetch("https://beatdrop.herokuapp.com/api/accessToken")
-            .then(response=>(
-                response.json()
-            )).then(response=>(
-            this.setState({accessToken:response.access_token})
-        ))
+        this.spotifyService.getAccessToken()
+            .then(response=>(this.setState({accessToken:response.access_token})
+            ))
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json,userId:json.id,parties:json.parties})))
     }
 
@@ -67,11 +61,7 @@ class Party extends React.Component{
         this.state.playlists.map((playlist,index)=>(
             playlist.songs.map(song=>(
 
-                fetch('https://api.spotify.com/v1/tracks/'+song.spotifySongId,{
-                    headers:{
-                        'Authorization':'Bearer '+this.state.accessToken
-                    }
-                }).then(response=>response.json())
+                this.spotifyService.getTrackById(song.spotifySongId,this.state.accessToken)
                     .then((song)=>this.state.songs.push(song))
                     .then(()=>{
                         return this.state.songs.sort(function (a,b) {

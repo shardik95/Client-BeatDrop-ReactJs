@@ -2,6 +2,9 @@ import React from 'react';
 import Link from "react-router-dom/es/Link";
 import AlbumService from "../Services/AlbumService";
 import StarRatings from "react-star-ratings";
+import Modal from 'react-modal';
+import UserService from "../Services/UserService";
+import SpotifyService from "../Services/SpotifyService";
 
 class Album extends React.Component{
 
@@ -16,12 +19,18 @@ class Album extends React.Component{
             like:'',
             user:'',
             review:'',
-            reviewId:''
+            reviewId:'',
+            modalIsOpen: false
         }
         this.albumService=AlbumService.instance;
+        this.userService=UserService.instance;
+        this.spotifyService=SpotifyService.instance;
         this.likeAlbum=this.likeAlbum.bind(this);
         this.addReview=this.addReview.bind(this);
         this.clearReview=this.clearReview.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.afterOpenModal = this.afterOpenModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     componentDidMount(){
@@ -29,22 +38,12 @@ class Album extends React.Component{
         let albumId=this.props.match.params.albumId;
         this.setState({albumId:albumId})
 
-        fetch("https://beatdrop.herokuapp.com/api/accessToken")
-            .then(response=>(
-                response.json()
-            )).then(response=> {
-            return this.setState({accessToken: response.access_token})
-        }).then(()=>fetch('https://api.spotify.com/v1/albums/'+albumId,{
-            headers:{
-                'Authorization':'Bearer '+this.state.accessToken
-            }
-        }))
-            .then((response)=>response.json())
+        this.spotifyService.getAccessToken()
+            .then(response=> (this.setState({accessToken: response.access_token})))
+            .then(()=>this.spotifyService.getAlbums(albumId,this.state.accessToken))
             .then((album)=>this.setState({album:album}))
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json})))
             .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.likes.map(like=>{
                 if(like.typeId===this.state.albumId) {
@@ -56,8 +55,18 @@ class Album extends React.Component{
                     this.setState({rating:review.stars,reviewId:review.id})
                 }
             }))
+    }
 
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
 
+    afterOpenModal() {
+        this.subtitle.style.color = '#fff';
+    }
+
+    closeModal() {
+        this.setState({modalIsOpen: false});
     }
 
     likeAlbum(){
@@ -72,7 +81,7 @@ class Album extends React.Component{
             }
         }
         else{
-            alert("First Login")
+            this.openModal()
         }
     }
 
@@ -81,22 +90,12 @@ class Album extends React.Component{
         let albumId=newProps.match.params.albumId;
         this.setState({albumId:albumId})
 
-        fetch("https://beatdrop.herokuapp.com/api/accessToken")
-            .then(response=>(
-                response.json()
-            )).then(response=> {
-            return this.setState({accessToken: response.access_token})
-        }).then(()=>fetch('https://api.spotify.com/v1/albums/'+albumId,{
-            headers:{
-                'Authorization':'Bearer '+this.state.accessToken
-            }
-        }))
-            .then((response)=>response.json())
+        this.spotifyService.getAccessToken()
+            .then(response=> (this.setState({accessToken: response.access_token})))
+            .then(()=>this.spotifyService.getAlbums(albumId,this.state.accessToken))
             .then((album)=>this.setState({album:album}))
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json})))
             .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.likes.map(like=>{
                 if(like.typeId===this.state.albumId) {
@@ -123,10 +122,8 @@ class Album extends React.Component{
                 .then(review=>this.setState({review:review}))
         }
         else{
-            alert("First Login")
+            this.openModal()
         }
-
-
     }
 
 
@@ -134,9 +131,20 @@ class Album extends React.Component{
         return(
             <div style={{marginTop:"5%"}}>
                 <div style={{textAlign:'center'}}>
-                    <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Album Details</b></u></td>
-                    {this.state.album.images!==undefined && <img src={this.state.album.images[0].url} width="300px" height="300px" style={{borderRadius:"150px"}}/>}
+                    <div className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Album Details</b></u></div>
+                    {this.state.album.images!==undefined &&
+                    <img src={this.state.album.images[0].url} width="300px" height="300px" style={{borderRadius:"150px"}} alt="album"/>}
                 </div>
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onAfterOpen={this.afterOpenModal}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
+                    contentLabel="Example Modal" ariaHideApp={false}>
+
+                    <h4 ref={subtitle => this.subtitle = subtitle} style={{textAlign:"center",marginLeft:"10px",marginRight:"10px"}}>Please Login</h4>
+                    <button onClick={this.closeModal} className="btn btn-outline-light">close</button>
+                </Modal>
                 <br/>
                 <div className="row">
                     <div className="col-5" style={{textAlign:'center'}}>
@@ -183,11 +191,10 @@ class Album extends React.Component{
                     {this.state.album.tracks!==undefined && this.state.album.tracks.items.map((track,index)=>(
                       index<7 &&
 
-                        <li className="list-group-item">
+                        <li className="list-group-item" key={index}>
                             <div className="row">
                                 <div className="col-4">
-                                    <img src={this.state.album.images[0].url} width="40px" height="40px" style={{borderRadius:"20px"}}/>
-                                    {console.log(track)}
+                                    <img src={this.state.album.images[0].url} width="40px" height="40px" style={{borderRadius:"20px"}} alt="track"/>
                                 </div>
                                 <div className="col-8">
                                     <Link to={`/home/song/${track.id}`}  key={index}>
@@ -206,5 +213,18 @@ class Album extends React.Component{
     }
 
 }
+
+const customStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)',
+        background:'#363636',
+        borderRadius:'10px'
+    }
+};
 
 export default Album;

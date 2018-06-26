@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import UserService from "../Services/UserService";
+import SpotifyService from "../Services/SpotifyService";
 
 class Home extends React.Component{
 
@@ -37,110 +38,48 @@ class Home extends React.Component{
         this.logout=this.logout.bind(this);
         this.searchUsers=this.searchUsers.bind(this);
         this.userService=UserService.instance;
+        this.spotifyService=SpotifyService.instance;
     }
 
 
     componentDidMount(){
 
-        let accessTokenVar;
-
-        fetch("https://beatdrop.herokuapp.com/api/accessToken")
-            .then(response=>(
-                response.json()
-            )).then(response=> {
-            accessTokenVar = response.access_token
-             return this.setState({accessToken: response.access_token})
-        }).then(()=>
-            fetch("https://api.spotify.com/v1/browse/categories",{
-                headers:{
-                    'Authorization':'Bearer '+this.state.accessToken
-                }
-            }).then(response=>(
-                response.json()
-            )).then(object=>(
-                this.setState({radio:object.categories.items})
-            ))
-        ).then(()=>fetch("https://api.spotify.com/v1/browse/featured-playlists",{
-            headers:{
-                'Authorization':'Bearer '+this.state.accessToken
-            }
-        }).then(response=>(
-            response.json()
-        )).then(object=>(
-            this.setState({featuredPlaylist:object.playlists.items})
-        ))).then(()=>(
-            fetch("https://api.spotify.com/v1/browse/new-releases",{
-            headers:{
-                'Authorization':'Bearer '+this.state.accessToken
-            }
-             }).then(response=>(
-                response.json()
-            )).then(object=>(
-                    this.setState({newReleases:object.albums.items})
-        ))))
+        this.spotifyService.getAccessToken()
+            .then(response=> (this.setState({accessToken: response.access_token})))
+            .then(()=> this.spotifyService.browseCategories(this.state.accessToken)
+                .then(object=>(this.setState({radio:object.categories.items}))))
+            .then(()=>this.spotifyService.browseFeaturedPlaylist(this.state.accessToken)
+                .then(object=>(this.setState({featuredPlaylist:object.playlists.items}))))
+            .then(()=>(this.spotifyService.browseNewReleases(this.state.accessToken)
+                .then(object=>(this.setState({newReleases:object.albums.items})))))
 
 
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then(response=> (
-            response.json()
-        )).then(json=> {
+        this.userService.getSession().then(json=> {
                 if (json.userName !== 'CANNOT FIND'){
                     this.setState({user:json,session:true})
-                    //window.location.reload()
                 }})
 
     }
 
     componentWillReceiveProps(newProps){
-        let accessTokenVar;
 
-        fetch("https://beatdrop.herokuapp.com/api/accessToken")
-            .then(response=>(
-                response.json()
-            )).then(response=> {
-            accessTokenVar = response.access_token
-            return this.setState({accessToken: response.access_token})
-        }).then(()=>
-            fetch("https://api.spotify.com/v1/browse/categories",{
-                headers:{
-                    'Authorization':'Bearer '+this.state.accessToken
-                }
-            }).then(response=>(
-                response.json()
-            )).then(object=>(
-                this.setState({radio:object.categories.items})
-            ))
-        ).then(()=>fetch("https://api.spotify.com/v1/browse/featured-playlists",{
-            headers:{
-                'Authorization':'Bearer '+this.state.accessToken
-            }
-        }).then(response=>(
-            response.json()
-        )).then(object=>(
-            this.setState({featuredPlaylist:object.playlists.items})
-        ))).then(()=>(
-            fetch("https://api.spotify.com/v1/browse/new-releases",{
-                headers:{
-                    'Authorization':'Bearer '+this.state.accessToken
-                }
-            }).then(response=>(
-                response.json()
-            )).then(object=>(
-                this.setState({newReleases:object.albums.items})
-            ))))
+        this.spotifyService.getAccessToken()
+            .then(response=> (this.setState({accessToken: response.access_token})))
+            .then(()=> this.spotifyService.browseCategories(this.state.accessToken)
+                .then(object=>(this.setState({radio:object.categories.items}))))
+            .then(()=>this.spotifyService.browseFeaturedPlaylist(this.state.accessToken)
+                .then(object=>(this.setState({featuredPlaylist:object.playlists.items}))))
+            .then(()=>(this.spotifyService.browseNewReleases(this.state.accessToken)
+                .then(object=>(this.setState({newReleases:object.albums.items})))))
 
 
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then(response=> (
-            response.json()
-        )).then(json=> {
+        this.userService.getSession().then(json=> {
             if (json.userName !== 'CANNOT FIND'){
                 this.setState({user:json,session:true})
             }})
+
     }
 
     logout(){
@@ -149,7 +88,6 @@ class Home extends React.Component{
     }
 
     searchUsers(query){
-        //console.log(this.state.query)
         this.userService.findByUsernameOrFirstName(query.replace("@",""))
             .then(users=>this.setState({searchedUsers:users}));
     }
@@ -162,39 +100,17 @@ class Home extends React.Component{
         else{
             if(this.state.query!=='') {
 
-                fetch("https://api.spotify.com/v1/search?q=QUERY&type=track".replace("QUERY", this.state.query), {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.state.accessToken
-                    }
-                }).then(response => (
-                    response.json()
-                )).then(object => (
-                    this.setState({tracks: object.tracks.items})
+                this.spotifyService.searchTracks(this.state.query,this.state.accessToken)
+                    .then(object => (this.setState({tracks: object.tracks.items})
                 ))
 
-                fetch("https://api.spotify.com/v1/search?q=QUERY&type=artist".replace("QUERY", this.state.query), {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.state.accessToken
-                    }
-                }).then(response => (
-                    response.json()
-                )).then(object => (
-                    this.setState({artists: object.artists.items})
+                this.spotifyService.searchArtist(this.state.query,this.state.accessToken)
+                    .then(object => (this.setState({artists: object.artists.items})
                 ))
 
-                fetch("https://api.spotify.com/v1/search?q=QUERY&type=album".replace("QUERY", this.state.query), {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.state.accessToken
-                    }
-                }).then(response => (
-                    response.json()
-                )).then(object => (
-                    this.setState({albums: object.albums.items})
+                this.spotifyService.searchAlbum(this.state.query,this.state.accessToken)
+                    .then(object => (this.setState({albums: object.albums.items})
                 ))
-
-
-                this.state.tracks.length===0 && this.state.artists.length===0 && this.state.albums.length===0
-                && console.log("search not work")
 
                 this.setState({searchTrue: true})
                 this.setState({isQuery:true})
@@ -300,27 +216,31 @@ class Home extends React.Component{
 
                 <div className="container-fluid" style={{marginTop:"0%"}}>
                     <div>
-                        <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>New Releases</b></u></td>
+                        <div className="container" style={{color:"#363636",fontSize:"large"}}><u><b>New Releases</b></u></div>
+                        <br/>
                         <table className="container-fluid">
-                            <br/>
                             <tbody>
                                 <tr style={{textAlign:'center'}}>
                                     {this.state.newReleases.length>0 && this.state.newReleases.map((name,index)=>(
                                         index < 4 &&
                                         <td key={index}>
                                             <Link to={`/home/album/${name.id}`}>
-                                                <img src={name.images[0].url} width="160px" height="160px" style={{borderRadius:"80px"}}/> <br/>
+                                                <img src={name.images[0].url} width="160px" height="160px" style={{borderRadius:"80px"}} alt="New Release"/> <br/>
                                                 {name.name}
                                             </Link>
                                         </td>))}
                                 </tr>
-                                <br/>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <table className="container-fluid">
+                            <tbody>
                                 <tr style={{textAlign:'center'}}>
                                     {this.state.newReleases.length>0 && this.state.newReleases.map((name,index)=>(
                                         index > 3 && index <8 &&
                                         <td key={index}>
                                             <Link to={`/home/album/${name.id}`}>
-                                                <img src={name.images[0].url} width="160px" height="160px" style={{borderRadius:"80px"}}/> <br/>
+                                                <img src={name.images[0].url} width="160px" height="160px" style={{borderRadius:"80px"}} alt="New Release"/> <br/>
                                                 {name.name}
                                             </Link>
                                         </td>))}
@@ -330,27 +250,33 @@ class Home extends React.Component{
                     </div>
                     <br/>
                     <div>
-                        <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Featured Playlists</b></u></td>
+                        <div className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Featured Playlists</b></u></div>
+                        <br/>
                         <table className="container-fluid">
-                            <br/>
+
                             <tbody>
                             <tr style={{textAlign:'center'}}>
                                 {this.state.featuredPlaylist.length>0 && this.state.featuredPlaylist.map((name,index)=>(
                                     index < 4 &&
                                     <td key={index}>
                                         <Link to={`/home/featured-playlist/${name.id}`}>
-                                            <img src={name.images[0].url} width="160px" height="160px" style={{borderRadius:"80px"}}/> <br/>
+                                            <img src={name.images[0].url} width="160px" height="160px" style={{borderRadius:"80px"}} alt="Featured Playlist"/> <br/>
                                             {name.name}
                                         </Link>
                                     </td>))}
                             </tr>
-                            <br/>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <br/>
+                        <table className="container-fluid">
+                            <tbody>
                             <tr style={{textAlign:'center'}}>
                                 {this.state.featuredPlaylist.length>0 && this.state.featuredPlaylist.map((name,index)=>(
                                     index > 3 && index <8 &&
                                     <td key={index}>
                                         <Link to={`/home/featured-playlist/${name.id}`}>
-                                            <img src={name.images[0].url} width="160px" height="160px" style={{borderRadius:"80px"}}/> <br/>
+                                            <img src={name.images[0].url} width="160px" height="160px" style={{borderRadius:"80px"}} alt="Featured Playlist"/> <br/>
                                             {name.name}
                                         </Link>
                                     </td>))}

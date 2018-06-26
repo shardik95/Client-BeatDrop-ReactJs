@@ -22,9 +22,8 @@ class PublicFollowers extends React.Component{
     componentDidMount(){
         let profileUserId=this.props.match.params.userId;
         this.setState({profileUserId:profileUserId});
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json})))
         this.userService.findUserById(profileUserId)
             .then(user=>this.setState({profileUser:user}))
@@ -33,9 +32,8 @@ class PublicFollowers extends React.Component{
     componentWillReceiveProps(newProps){
         let profileUserId=newProps.match.params.userId;
         this.setState({profileUserId:profileUserId});
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json})))
         this.userService.findUserById(profileUserId)
             .then(user=>this.setState({profileUser:user}))
@@ -44,17 +42,11 @@ class PublicFollowers extends React.Component{
     unFollow(followingUserName,myId){
         this.followingService.findFollowingRecord(followingUserName,this.state.user.userName)
             .then((response)=>this.userService.unfollow(response.id,response.id)
-                .then(()=>fetch("https://beatdrop.herokuapp.com/api/profile",{
-                        credentials: 'include',
-                    }).then(response=> (
-                        response.json()
-                    )).then(json=> {
+                .then(()=>this.userService.getSession().then(json=> {
                         if (json.userName !== 'CANNOT FIND'){
                             this.setState({user:json,showFollow:true})
                         }})
                 ));
-
-
     }
 
 
@@ -62,14 +54,11 @@ class PublicFollowers extends React.Component{
         if(this.state.user!==''){
             this.userService.followUser(this.state.user,Id)
                 .then(()=>(
-                    fetch("https://beatdrop.herokuapp.com/api/profile",{
-                        credentials: 'include',
-                    }).then(response=> (
-                        response.json()
-                    )).then(json=> {
-                        if (json.userName !== 'CANNOT FIND'){
-                            this.setState({user:json})
-                        }
+                    this.userService.getSession()
+                        .then(json=> {
+                            if (json.userName !== 'CANNOT FIND'){
+                                this.setState({user:json})
+                            }
                     })
 
                 ))
@@ -88,6 +77,7 @@ class PublicFollowers extends React.Component{
                 <ul className="list-group" style={{width:"40%"}}>
                     <li className="list-group-item active bg-dark" style={{border:"0px"}}>Followers
                     </li>
+
                     {this.state.profileUser!==''&&followers.map((follower,index)=> {
                         if(follower.userName!==this.state.user.userName){
                             let follow=false;
@@ -101,9 +91,14 @@ class PublicFollowers extends React.Component{
                             }
                             return <li className="list-group-item" key={index}>
                                 <i className="fa fa-user"/>&emsp;
+
                                 <Link to={`/user/${follower.myid}/profile`}>{follower.firstName}</Link>
-                                <button className="btn btn-outline-dark float-right" hidden={follow} onClick={()=>this.followUser(follower.myid)}>Follow</button>
-                                <button className="btn btn-outline-dark float-right" hidden={!follow} onClick={()=>this.unFollow(follower.userName,follower.myId)}>UnFollow</button>
+                                    {
+                                    this.state.user.type==='User' &&
+                                    <button className="btn btn-outline-dark float-right" hidden={follow} onClick={()=>this.followUser(follower.myid)}>Follow</button>}
+                                    {
+                                    this.state.user.type==='User' &&
+                                    <button className="btn btn-outline-dark float-right" hidden={!follow} onClick={()=>this.unFollow(follower.userName,follower.myId)}>UnFollow</button>}
                             </li>
                         }})
                     }

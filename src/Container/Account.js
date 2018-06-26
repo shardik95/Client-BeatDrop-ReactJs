@@ -15,28 +15,21 @@ class Account extends React.Component{
     }
 
     componentDidMount(){
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json})))
     }
 
-    componentWillReceiveProps(newProps){
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
-            .then((json)=>(this.setState({user:json})))
+    componentWillReceiveProps(newProps) {
+        this.userService.getSession()
+            .then((json) => (this.setState({user: json})))
     }
 
     updateProfile(newUser){
         this.userService.updateUser(newUser)
             .then(()=>{
                 this.setState({updatemsg:true})
-                return fetch("https://beatdrop.herokuapp.com/api/profile",{
-                    credentials: 'include',
-                })
+                return this.userService.getSession()
             })
-            .then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
     }
 
@@ -44,12 +37,11 @@ class Account extends React.Component{
 
         let newUser=this.state.user
         let date=''+this.state.user.dob;
-        let n = date.indexOf('T');
         date=date.substring(0,10)
 
         return(
             <div style={{marginTop:"1%"}}>
-                <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Account Overview</b></u></td>
+                <div className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Account Overview</b></u></div>
                 <div className="alert alert-success" role="alert" hidden={!this.state.updatemsg}>
                     Profile Update Successfully!
                 </div>

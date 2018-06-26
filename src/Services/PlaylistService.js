@@ -47,5 +47,11 @@ class PlaylistService{
             .then(response=>(response.json()))
     }
 
+    deletePlaylist(playlistId){
+        return fetch("https://beatdrop.herokuapp.com/api/playlist/"+playlistId,{
+            method:'delete'
+        }).then(response=>response.json())
+    }
+
 }
 export default PlaylistService

@@ -68,7 +68,7 @@ class PublicFeed extends React.Component{
 
 
                     {sortedFeed.map((feed,index)=>(
-                        <div>
+                        <div key={index}>
                             {feed.title==='Like' &&
                             <div className="card" style={{width:"600px",borderRadius:"20px"}} key={index}>
                                 <div className="card-header bg-dark" style={{color:"#fff"}}>
@@ -81,7 +81,7 @@ class PublicFeed extends React.Component{
                                             <p className="card-text">Liked {feed.type} <Link to={`/home/${feed.type}/${feed.typeId}`}>{feed.name}</Link> at {feed.date}</p>
                                         </div>
                                         <div className="col-3">
-                                            <img src={feed.imgUrl} width="50px" height="50px" className="float-right" style={{borderRadius:"42px"}}/>
+                                            <img src={feed.imgUrl} width="50px" height="50px" className="float-right" style={{borderRadius:"42px"}} alt="feed"/>
                                         </div>
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@ class PublicFeed extends React.Component{
                                 <div className="card-body">
                                     <div className="row">
                                         <div className="col-9">
-                                            <p className="card-text">Reviewed {feed.type} <Link to={`/home/${feed.type}/${feed.typeId}`}>{feed.name}</Link> with &nbsp;
+                                            <div className="card-text">Reviewed {feed.type} <Link to={`/home/${feed.type}/${feed.typeId}`}>{feed.name}</Link> with &nbsp;
                                                 <StarRatings
                                                     rating={feed.stars}
                                                     starRatedColor="gold"
@@ -103,10 +103,10 @@ class PublicFeed extends React.Component{
                                                     starDimension="14px"
                                                     starSpacing="1.5px"
                                                 />&nbsp;
-                                                at {feed.date}</p>
+                                                at {feed.date}</div>
                                         </div>
                                         <div className="col-3">
-                                            <img src={feed.imgUrl} width="50px" height="50px" className="float-right" style={{borderRadius:"42px"}}/>
+                                            <img src={feed.imgUrl} width="50px" height="50px" className="float-right" alt="feed" style={{borderRadius:"42px"}}/>
                                         </div>
                                     </div>
                                 </div>

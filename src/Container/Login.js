@@ -1,5 +1,6 @@
 import React from 'react';
 import UserService from "../Services/UserService";
+import Modal from 'react-modal';
 
 class Login extends React.Component{
 
@@ -12,6 +13,9 @@ class Login extends React.Component{
         }
         this.loginUser=this.loginUser.bind(this);
         this.userService=UserService.instance;
+        this.openModal = this.openModal.bind(this);
+        this.afterOpenModal = this.afterOpenModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     loginUser(){
@@ -28,7 +32,7 @@ class Login extends React.Component{
             })
             .then(json=> {
                 if (json.userName === 'CANNOT FIND')
-                    alert("Username / Password incorrect")
+                    this.openModal()
                 else {
                     this.props.history.push("/home")
                 }
@@ -36,11 +40,33 @@ class Login extends React.Component{
 
     }
 
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
+
+    afterOpenModal() {
+        this.subtitle.style.color = '#fff';
+    }
+
+    closeModal() {
+        this.setState({modalIsOpen: false});
+    }
+
     render(){
-
-
         return(
             <div style={{textAlign:'center'}}>
+
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onAfterOpen={this.afterOpenModal}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
+                    contentLabel="Example Modal" ariaHideApp={false}>
+
+                    <h4 ref={subtitle => this.subtitle = subtitle} style={{textAlign:"center",marginLeft:"10px",marginRight:"10px"}}>Login/Password incorrect</h4>
+                    <button onClick={this.closeModal} className="btn btn-outline-light">close</button>
+                </Modal>
+
                 <i className="fa fa-5x fa-music"style={{color:'#2C8AFF'}} />
                 <br/>
                 <h3>BeatDrop</h3>
@@ -66,8 +92,19 @@ class Login extends React.Component{
             </div>
         )
     }
-
-
 }
+
+const customStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)',
+        background:'#363636',
+        borderRadius:'10px'
+    }
+};
 
 export default Login;

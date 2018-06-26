@@ -4,6 +4,7 @@ import ArtistService from "../Services/ArtistService";
 import SongService from "../Services/SongService";
 import HostService from "../Services/HostService";
 import PartyService from "../Services/PartyService";
+import PlaylistService from "../Services/PlaylistService";
 
 class Admin extends React.Component{
 
@@ -33,35 +34,31 @@ class Admin extends React.Component{
         this.verify=this.verify.bind(this);
         this.createArtist=this.createArtist.bind(this);
         this.deleteSong=this.deleteSong.bind(this);
+        this.createHost=this.createHost.bind(this);
+        this.deleteParty=this.deleteParty.bind(this);
         this.userService=UserService.instance;
         this.artistService=ArtistService.instance;
         this.songService=SongService.instance;
         this.hostService=HostService.instance;
         this.partyService=PartyService.instance;
-        this.createHost=this.createHost.bind(this);
-        this.deleteParty=this.deleteParty.bind(this);
+        this.playlistService=PlaylistService.instance;
+
     }
 
     componentDidMount(){
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then(response=> (
-            response.json()
-        )).then(json=> {
-            if (json.userName !== 'CANNOT FIND'){
+        this.userService.getSession()
+            .then(json=> {
+                if (json.userName !== 'CANNOT FIND'){
                 this.setState({user:json,session:true})
             }})
     }
 
     componentWillReceiveProps(newProps){
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then(response=> (
-            response.json()
-        )).then(json=> {
-            if (json.userName !== 'CANNOT FIND'){
-                this.setState({user:json,session:true})
-            }})
+        this.userService.getSession()
+            .then(json=> {
+                if (json.userName !== 'CANNOT FIND'){
+                    this.setState({user:json,session:true})
+                }})
     }
 
     logout(){
@@ -99,9 +96,8 @@ class Admin extends React.Component{
     }
 
     deletePlaylist(playlistId){
-        return fetch("https://beatdrop.herokuapp.com/api/playlist/"+playlistId,{
-            method:'delete'
-        }).then(()=>this.userService.findUserById(this.state.selectedUser.id))
+        this.playlistService.deletePlaylist(playlistId)
+            .then(()=>this.userService.findUserById(this.state.selectedUser.id))
             .then(users=>this.setState({selectedUser:users}))
     }
 
@@ -121,7 +117,6 @@ class Admin extends React.Component{
         this.userService.deleteUser(id)
             .then(()=>this.userService.findAllUsers()
                 .then(users=>this.setState({role:users,selected:false})))
-
     }
 
     createHost(){
@@ -159,7 +154,6 @@ class Admin extends React.Component{
     }
 
     verify(){
-
         this.userService.verifyUser(this.state.selectedUser)
             .then(()=>this.userService.findAllUsers()
                 .then(users=>this.setState({role:users,selected:false})))
@@ -202,8 +196,6 @@ class Admin extends React.Component{
                 .then(users=>this.setState({role:users,selected:false})))
     }
 
-
-
     render(){
 
         let newUser=this.state.selectedUser
@@ -223,7 +215,7 @@ class Admin extends React.Component{
                         </div>
                     </form>
                 </nav>
-                <div style={{marginTop:"15%"}}>
+                <div style={{marginTop:"7%"}}>
                     <div className="row">
                         <div className="col-4">
                             <form style={{textAlign:'center'}}>
@@ -299,7 +291,7 @@ class Admin extends React.Component{
 
                         <ul className="list-group">
                             {this.state.role.length>0 && this.state.selectedOption==='Hosts' &&
-                            <li className="list-group-item active">
+                            <li className="list-group-item active bg-dark" style={{border:"0px"}}>
                                 Hosts
                             </li>}
                             {this.state.role.length>0 && this.state.selectedOption==='Hosts' && this.state.role.map((user,index)=>(

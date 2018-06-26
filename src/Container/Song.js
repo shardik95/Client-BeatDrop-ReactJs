@@ -2,6 +2,9 @@ import React from 'react';
 import Link from "react-router-dom/es/Link";
 import StarRatings from "react-star-ratings";
 import SongService from "../Services/SongService";
+import Modal from 'react-modal';
+import UserService from "../Services/UserService";
+import SpotifyService from "../Services/SpotifyService";
 
 class Song extends React.Component{
 
@@ -16,13 +19,19 @@ class Song extends React.Component{
             setLike:true,
             like:'',
             review:'',
-            reviewId:''
+            reviewId:'',
+            modalIsOpen: false
         }
         this.millisToMinutesAndSeconds=this.millisToMinutesAndSeconds.bind(this);
         this.likeSong=this.likeSong.bind(this);
         this.addReview=this.addReview.bind(this);
         this.clearReview=this.clearReview.bind(this);
         this.songService=SongService.instance;
+        this.openModal = this.openModal.bind(this);
+        this.afterOpenModal = this.afterOpenModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.userService=UserService.instance;
+        this.spotifyService=SpotifyService.instance;
 
     }
 
@@ -31,22 +40,12 @@ class Song extends React.Component{
         let trackId=this.props.match.params.trackId;
         this.setState({trackId:trackId})
 
-        fetch("https://beatdrop.herokuapp.com/api/accessToken")
-            .then(response=>(
-                response.json()
-            )).then(response=> {
-            return this.setState({accessToken: response.access_token})
-        }).then(()=>fetch('https://api.spotify.com/v1/tracks/'+this.state.trackId,{
-            headers:{
-                'Authorization':'Bearer '+this.state.accessToken
-            }
-        }))
-            .then((response)=>response.json())
+        this.spotifyService.getAccessToken()
+            .then(response=> (this.setState({accessToken: response.access_token})))
+            .then(()=>this.spotifyService.getTrackById(this.state.trackId,this.state.access_token))
             .then((song)=>this.setState({song:song}))
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json})))
             .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.likes.map(like=>{
                 if(like.typeId===this.state.trackId) {
@@ -66,22 +65,13 @@ class Song extends React.Component{
         let trackId=newProps.match.params.trackId;
         this.setState({trackId:trackId})
 
-        fetch("https://beatdrop.herokuapp.com/api/accessToken")
-            .then(response=>(
-                response.json()
-            )).then(response=> {
-            return this.setState({accessToken: response.access_token})
-        }).then(()=>fetch('https://api.spotify.com/v1/tracks/'+this.state.trackId,{
-            headers:{
-                'Authorization':'Bearer '+this.state.accessToken
-            }
-        }))
-            .then((response)=>response.json())
+        this.spotifyService.getAccessToken()
+            .then(response=> (this.setState({accessToken: response.access_token})))
+            .then(()=>this.spotifyService.getTrackById(this.state.trackId,this.state.access_token))
             .then((song)=>this.setState({song:song}))
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json})))
             .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.likes.map(like=>{
                 if(like.trackId===this.state.trackId)
@@ -95,14 +85,26 @@ class Song extends React.Component{
 
     }
 
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
+
+    afterOpenModal() {
+        this.subtitle.style.color = '#fff';
+    }
+
+    closeModal() {
+        this.setState({modalIsOpen: false});
+    }
+
     millisToMinutesAndSeconds(millis) {
         var minutes = Math.floor(millis / 60000);
         var seconds = ((millis % 60000) / 1000).toFixed(0);
         return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
     }
 
-    clearReview(){
-        this.songService.clearReview(this.state.reviewId)
+    clearReview(id){
+        this.songService.clearReview(id)
             .then(()=>this.setState({rating:0}))
     }
 
@@ -111,15 +113,12 @@ class Song extends React.Component{
         if(this.state.user.userName!=='CANNOT FIND'){
             this.setState({rating:rating});
             this.songService.addReview(this.state.user.id,this.state.trackId,rating,this.state.song.name,this.state.song.album.images[0].url)
-                .then(review=>this.setState({review:review}))
+                .then(review=>this.setState({review:review,reviewId:review.id}))
         }
         else{
-            alert("First Login")
+            this.openModal()
         }
-
-
     }
-
 
     likeSong(){
         if(this.state.user.userName!=='CANNOT FIND'){
@@ -133,7 +132,7 @@ class Song extends React.Component{
             }
         }
         else{
-            alert("First Login")
+            this.openModal()
         }
     }
 
@@ -141,9 +140,21 @@ class Song extends React.Component{
         return(
             <div style={{marginTop:"5%"}}>
                     <div style={{textAlign:'center'}}>
-                        <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Song Details</b></u></td>
-                         {this.state.song.album!==undefined && <img src={this.state.song.album.images[0].url} width="300px" height="300px" style={{borderRadius:"150px"}}/>}
+                        <div className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Song Details</b></u></div>
+                         {this.state.song.album!==undefined &&
+                         <img src={this.state.song.album.images[0].url} width="300px" height="300px"
+                              style={{borderRadius:"150px"}} alt="Song"/>}
                     </div>
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onAfterOpen={this.afterOpenModal}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
+                    contentLabel="Example Modal" ariaHideApp={false}>
+
+                    <h4 ref={subtitle => this.subtitle = subtitle} style={{textAlign:"center",marginLeft:"10px",marginRight:"10px"}}>Please Login</h4>
+                    <button onClick={this.closeModal} className="btn btn-outline-light">close</button>
+                </Modal>
                 <br/>
                 <div className="row">
                     <div className="col-5" style={{textAlign:'center'}}>
@@ -158,7 +169,7 @@ class Song extends React.Component{
                             starDimension="18px"
                             starSpacing="3px"
                         />
-                        <button className="btn" onClick={()=>this.clearReview()}><u>clear</u></button>
+                        <button className="btn" onClick={()=>this.clearReview(this.state.reviewId)}><u>clear</u></button>
                     </div>
                 </div>
                 <table className="table">
@@ -193,5 +204,18 @@ class Song extends React.Component{
         )
     }
 }
+
+const customStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)',
+        background:'#363636',
+        borderRadius:'10px'
+    }
+};
 
 export default Song

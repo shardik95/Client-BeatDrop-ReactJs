@@ -36,7 +36,7 @@ class LandingPage extends React.Component{
                     <br/>
                     <h3 style={{color:"#fff"}}>What is BeatDrop?!</h3>
                     <br/>
-                    <p style={{color:"#fff",background:"#363636"}}>
+                    <div style={{color:"#fff",background:"#363636"}}>
                         <span style={{color:'#2C8AFF'}}>BeatDrop is a Social media for music.</span>
                         <br/><br/>
                         <ul className="list-group" >
@@ -47,7 +47,7 @@ class LandingPage extends React.Component{
                             <li className="list-group-item" style={{background:"#363636",border:"0px"}}>
                                 <i className="fa fa-music" style={{color:'#2C8AFF'}}/>&nbsp;Be a normal user and create your playlists, share it with the host of the party, follow your friends, artists and view everything in one place 'Feed'.</li>
                         </ul>
-                    </p>
+                    </div>
                     <br/>
                     <Link to="/home"><button className="btn btn-outline-light">Explore!</button></Link>
                 </div>

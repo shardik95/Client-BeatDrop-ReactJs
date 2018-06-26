@@ -1,6 +1,8 @@
 import React from 'react';
 import PlaylistService from "../Services/PlaylistService";
 import Link from "react-router-dom/es/Link";
+import SpotifyService from "../Services/SpotifyService";
+import UserService from "../Services/UserService";
 
 class Playlist extends React.Component{
 
@@ -24,20 +26,19 @@ class Playlist extends React.Component{
         this.addSong=this.addSong.bind(this);
         this.renderSong=this.renderSong.bind(this);
         this.playlistService=PlaylistService.instance;
+        this.spotifyService=SpotifyService.instance;
+        this.userService=UserService.instance;
+        this.playlistService=PlaylistService.instance;
     }
 
     componentDidMount(){
 
-        fetch("https://beatdrop.herokuapp.com/api/accessToken")
+        this.spotifyService.getAccessToken()
             .then(response=>(
-                response.json()
-            )).then(response=>(
             this.setState({accessToken:response.access_token})
         ))
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json,userId:json.id,playlists:json.playlists})))
 
         let trackId=this.props.match.params.trackId;
@@ -47,16 +48,12 @@ class Playlist extends React.Component{
     }
 
     componentWillReceiveProps(newProps){
-        fetch("https://beatdrop.herokuapp.com/api/accessToken")
+        this.spotifyService.getAccessToken()
             .then(response=>(
-                response.json()
-            )).then(response=>(
-            this.setState({accessToken:response.access_token})
-        ))
+                this.setState({accessToken:response.access_token})
+            ))
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json,userId:json.id,playlists:json.playlists})))
 
         let trackId=newProps.match.params.trackId;
@@ -66,9 +63,8 @@ class Playlist extends React.Component{
     }
 
     deletePlaylist(playlistId){
-        fetch("https://beatdrop.herokuapp.com/api/playlist/"+playlistId,{
-            method:'delete'
-        }).then(()=>(
+        this.playlistService.deletePlaylist(playlistId)
+            .then(()=>(
             this.playlistService.getPlaylistForUser(this.state.userId)
                 .then((playlists)=>(
                     this.setState({playlists:playlists})
@@ -78,14 +74,8 @@ class Playlist extends React.Component{
 
     addSong(playlistId){
 
-        fetch("https://api.spotify.com/v1/tracks/ID".replace("ID",this.state.trackId),{
-            headers:{
-                'Authorization':'Bearer '+this.state.accessToken
-            }
-        })
-            .then(response=>(
-                response.json()
-            )).then(json=>(
+        this.spotifyService.getTrackById(this.state.trackId,this.state.accessToken)
+            .then(json=>(
             this.setState({song:{
                     songName:json.name,
                     duration:json.duration_ms,
@@ -96,7 +86,6 @@ class Playlist extends React.Component{
             this.playlistService.addSongToPlaylist(playlistId,this.state.trackId,this.state.song)
         )).then(()=>this.playlistService.getSongsForPlaylist(playlistId)
             .then((response)=>(this.setState({songs:JSON.parse(JSON.stringify(response))}))))
-
     }
 
     renderSong(playlistId){
@@ -188,16 +177,16 @@ class Playlist extends React.Component{
                             {this.state.songs.length>0 && <li className="list-group-item bg-dark active" style={{border:"0px"}}>Songs</li>}
 
                             {this.state.songs.length>0 && this.state.songs.map((song,index)=>(
-                                <Link to={`/home/song/${song.spotifySongId}`}>
+                                <Link to={`/home/song/${song.spotifySongId}`} key={index}>
                                     <li key={index} className="list-group-item">{song.songName}</li>
                                 </Link>
                             ))}
                         </ul>
                         </div>
-                        {this.state.songs.length==0 &&
+                        {this.state.songs.length===0 &&
                         <img src="https://i.pinimg.com/736x/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2---page-empty-page.jpg"
-                        width="300px" height="300px"/>
-                         }
+                        width="300px" height="300px" alt="playlist empty"/>
+                        }
                         <br/>
                     </div>
                 </div>

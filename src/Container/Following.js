@@ -17,34 +17,25 @@ class Following extends React.Component{
     componentDidMount(){
         let userId=this.props.match.params.userId
         this.setState({userId:userId})
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json})))
     }
 
     componentWillReceiveProps(newProps){
         let userId=newProps.match.params.userId
         this.setState({userId:userId})
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json})))
     }
 
     unFollow(followingId,myId){
 
         this.userService.unfollow(followingId,followingId)
-            .then(()=>fetch("https://beatdrop.herokuapp.com/api/profile",{
-                    credentials: 'include',
-                }).then(response=> (
-                    response.json()
-                )).then(json=> {
+            .then(()=>this.userService.getSession().then(json=> {
                     if (json.userName !== 'CANNOT FIND'){
                         this.setState({user:json,userId:json.id,showFollow:true})
                     }})
             )
-
     }
 
     render(){

@@ -19,7 +19,7 @@ import Admin from "./Container/Admin";
 
 ReactDOM.render(
     <Router>
-
+        <div style={{background: 'linear-gradient(#fff2f2, white)'}}>
         <div style={{marginLeft:"0%",marginRight:"4%"}}>
             <div>
                 <Route exact path="/" component={LandingPage}/>
@@ -58,6 +58,7 @@ ReactDOM.render(
 
                 </div>
             </div>
+        </div>
         </div>
     </Router>,
     document.getElementById('root')

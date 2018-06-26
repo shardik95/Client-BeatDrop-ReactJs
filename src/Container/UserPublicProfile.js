@@ -1,17 +1,14 @@
 import React from 'react';
 import UserService from "../Services/UserService";
 import Link from "react-router-dom/es/Link";
-import Playlist from "./Playlist";
-import Feed from "./Feed";
 import Route from "react-router-dom/es/Route";
 import PublicFollowers from "./PublicFollowers";
 import PublicFollowing from "./PublicFollowing";
 import PublicFeed from "./PublicFeed";
 import PublicPlaylist from "./PublicPlaylist";
-import Party from "./Party";
-import Ticket from "./Ticket";
 import PublicParty from "./PublicParty";
 import PublicTicket from "./PublicTicket";
+import Modal from 'react-modal';
 
 class UserPublicProfile extends React.Component{
 
@@ -23,12 +20,17 @@ class UserPublicProfile extends React.Component{
             profileUser:'',
             session:false,
             profileUserId:'',
-            showFollow:true
+            showFollow:true,
+            modalIsOpen: false
         }
         this.userService=UserService.instance;
         this.logout=this.logout.bind(this);
         this.follow=this.follow.bind(this);
         this.unFollow=this.unFollow.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.afterOpenModal = this.afterOpenModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+
     }
 
     componentDidMount(){
@@ -37,19 +39,16 @@ class UserPublicProfile extends React.Component{
 
         this.setState({profileUserId:profileUserId});
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then(response=> (
-            response.json()
-        )).then(json=> {
-            if (json.userName !== 'CANNOT FIND'){
-                this.setState({user:json,session:true,userId:json.id})
-                this.state.user!==''&&this.state.user.following.map(follow=>{
-                    if(follow.myId==this.state.profileUserId){
-                        this.setState({showFollow:false})
-                    }
-                })
-            }
+        this.userService.getSession()
+            .then(json=> {
+                if (json.userName !== 'CANNOT FIND'){
+                    this.setState({user:json,session:true,userId:json.id})
+                    this.state.user!==''&&this.state.user.following.map(follow=>{
+                        if(follow.myId==this.state.profileUserId){
+                            this.setState({showFollow:false})
+                        }
+                    })
+                }
         })
 
         this.userService.findUserById(profileUserId)
@@ -62,22 +61,31 @@ class UserPublicProfile extends React.Component{
 
         this.setState({profileUserId:profileUserId});
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then(response=> (
-            response.json()
-        )).then(json=> {
-            if (json.userName !== 'CANNOT FIND'){
-                this.setState({user:json,session:true,userId:json.id})
-                this.state.user!==''&&this.state.user.following.map(follow=>{
-                    if(follow.id===this.state.profileUserId){
-                        this.setState({showFollow:false})
-                    }
-                })
-            }})
+        this.userService.getSession()
+            .then(json=> {
+                if (json.userName !== 'CANNOT FIND'){
+                    this.setState({user:json,session:true,userId:json.id})
+                    this.state.user!==''&&this.state.user.following.map(follow=>{
+                        if(follow.id===this.state.profileUserId){
+                            this.setState({showFollow:false})
+                        }
+                    })
+                }})
 
         this.userService.findUserById(profileUserId)
             .then(user=>this.setState({profileUser:user}))
+    }
+
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
+
+    afterOpenModal() {
+        this.subtitle.style.color = '#fff';
+    }
+
+    closeModal() {
+        this.setState({modalIsOpen: false});
     }
 
     logout(){
@@ -103,11 +111,8 @@ class UserPublicProfile extends React.Component{
         })
 
         this.userService.unfollow(following,follower)
-            .then(()=>fetch("https://beatdrop.herokuapp.com/api/profile",{
-                    credentials: 'include',
-                }).then(response=> (
-                    response.json()
-                )).then(json=> {
+            .then(()=>this.userService.getSession()
+                .then(json=> {
                     if (json.userName !== 'CANNOT FIND'){
                         this.setState({user:json,userId:json.id,showFollow:true})
                     }})
@@ -118,25 +123,22 @@ class UserPublicProfile extends React.Component{
         if(this.state.user!==''){
             this.userService.followUser(this.state.user,this.state.profileUserId)
                 .then(()=>(
-                    fetch("https://beatdrop.herokuapp.com/api/profile",{
-                        credentials: 'include',
-                    }).then(response=> (
-                        response.json()
-                    )).then(json=> {
-                        if (json.userName !== 'CANNOT FIND'){
-                            this.setState({user:json,session:true,userId:json.id})
-                            this.state.user!==''&&this.state.user.following.map(follow=>{
-                                if(follow.myId==this.state.profileUserId){
-                                    this.setState({showFollow:false})
-                                }
-                            })
-                        }
+                    this.userService.getSession()
+                        .then(json=> {
+                            if (json.userName !== 'CANNOT FIND'){
+                                this.setState({user:json,session:true,userId:json.id})
+                                this.state.user!==''&&this.state.user.following.map(follow=>{
+                                    if(follow.myId==this.state.profileUserId){
+                                        this.setState({showFollow:false})
+                                    }
+                                })
+                            }
                     })
 
                 ))
         }
         else{
-            alert("please login")
+            this.openModal();
         }
     }
 
@@ -144,6 +146,18 @@ class UserPublicProfile extends React.Component{
 
         return(
             <div>
+
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onAfterOpen={this.afterOpenModal}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
+                    contentLabel="Example Modal" ariaHideApp={false}>
+
+                    <h4 ref={subtitle => this.subtitle = subtitle} style={{textAlign:"center",marginLeft:"10px",marginRight:"10px"}}>Please Login</h4>
+                    <button onClick={this.closeModal} className="btn btn-outline-light">close</button>
+                </Modal>
+
                 <nav className="navbar fixed-top navbar-light" style={{background:"#363636"}}>
                     <button className="navbar-brand btn" onClick={()=>this.props.history.push("/home")} style={{color:"#fff",background:"#363636"}}>
                         <i className="fa fa-lg fa-music" style={{color:'#2C8AFF'}}/>&nbsp;&nbsp;BeatDrop</button>
@@ -169,12 +183,17 @@ class UserPublicProfile extends React.Component{
                             {this.state.profileUser.type === 'Artist' && <i className="fa fa-check-circle" style={{color:'#2C8AFF'}}/>}
                         </h3>
 
-                        {this.state.user.type!=='Artist'&&
+
+                        {this.state.user.type=='User'&&
                         <button className="btn btn-primary" onClick={()=>this.follow()} hidden={!this.state.showFollow}>Follow</button>}
-                        {this.state.user.type!=='Artist'&&
+                        {this.state.user.type=='User'&&
                         <button className="btn btn-primary" hidden={this.state.showFollow} onClick={()=>this.unFollow()}>UnFollow</button>}
                         <br/>
                         <br/>
+                        <div style={{border:"1px solid white"}}>
+                            <p>Name: {this.state.profileUser.firstName} {this.state.profileUser.lastName}</p>
+                            <p>Email: {this.state.profileUser.email} </p>
+                        </div>
                         {this.state.profileUser.type==='Artist' && <div>Recently Uploaded Songs
                             <br/>
                             <br/>
@@ -240,6 +259,19 @@ const divStyle = {
 const navtabstyle={
     marginTop:"25px"
 }
+
+const customStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)',
+        background:'#363636',
+        borderRadius:'10px'
+    }
+};
 
 
 export default UserPublicProfile;

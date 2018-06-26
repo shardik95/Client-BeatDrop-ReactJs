@@ -4,6 +4,9 @@ import TopAlbums from "../Components/TopAlbums";
 import RelatedArtists from "../Components/RelatedArtists";
 import StarRatings from "react-star-ratings";
 import ArtistService from "../Services/ArtistService";
+import Modal from 'react-modal';
+import UserService from "../Services/UserService";
+import SpotifyService from "../Services/SpotifyService";
 
 class ArtistSpotify extends React.Component{
 
@@ -24,13 +27,19 @@ class ArtistSpotify extends React.Component{
             like:'',
             user:'',
             review:'',
-            reviewId:''
+            reviewId:'',
+            modalIsOpen: false
         }
         this.showTopTracks=this.showTopTracks.bind(this);
         this.artistService=ArtistService.instance;
         this.likeArtist=this.likeArtist.bind(this);
         this.addReview=this.addReview.bind(this);
         this.clearReview=this.clearReview.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.afterOpenModal = this.afterOpenModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.userService=UserService.instance;
+        this.spotifyService=SpotifyService.instance;
     }
 
     componentDidMount(){
@@ -38,33 +47,23 @@ class ArtistSpotify extends React.Component{
         let artistId=this.props.match.params.artistId;
         this.setState({artistId:artistId})
 
-        fetch("https://beatdrop.herokuapp.com/api/accessToken")
-            .then(response=>(
-                response.json()
-            )).then(response=> {
-            return this.setState({accessToken: response.access_token})
-        }).then(()=>fetch('https://api.spotify.com/v1/artists/'+artistId,{
-            headers:{
-                'Authorization':'Bearer '+this.state.accessToken
-            }
-        })) .then((response)=>response.json())
+        this.spotifyService.getAccessToken()
+            .then(response=> {return this.setState({accessToken: response.access_token})})
+            .then(()=>this.spotifyService.getArtists(artistId,this.state.accessToken))
             .then((artist)=>this.setState({artist:artist}))
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json})))
-            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.likes.map(like=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&& this.state.user.likes.map(like=>{
                 if(like.typeId===this.state.artistId) {
-                    this.setState({setLike: true,like:like})
+                    return this.setState({setLike: true,like:like})
                 }
             }))
             .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.reviews.map(review=>{
                 if(review.typeId===this.state.artistId) {
-                    this.setState({rating:review.stars,reviewId:review.id})
+                   return this.setState({rating:review.stars,reviewId:review.id})
                 }
             }))
-
     }
 
     componentWillReceiveProps(newProps){
@@ -72,35 +71,35 @@ class ArtistSpotify extends React.Component{
         let artistId=newProps.match.params.artistId;
         this.setState({artistId:artistId})
 
-        fetch("https://beatdrop.herokuapp.com/api/accessToken")
-            .then(response=>(
-                response.json()
-            )).then(response=> {
-            return this.setState({accessToken: response.access_token})
-        }).then(()=>fetch('https://api.spotify.com/v1/artists/'+artistId,{
-            headers:{
-                'Authorization':'Bearer '+this.state.accessToken
-            }
-        }))
-            .then((response)=>response.json())
+        this.spotifyService.getAccessToken()
+            .then(response=> {return this.setState({accessToken: response.access_token})})
+            .then(()=>this.spotifyService.getArtists(artistId,this.state.accessToken))
             .then((artist)=>this.setState({artist:artist}))
 
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json})))
-            .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.likes.map(like=>{
+            .then(()=>this.state.user.userName!=='CANNOT FIND'&& this.state.user.likes.map(like=>{
                 if(like.typeId===this.state.artistId) {
-                    console.log(like.typeId)
-                    this.setState({setLike: true,like:like})
+                    return this.setState({setLike: true,like:like})
                 }
             }))
             .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.reviews.map(review=>{
                 if(review.typeId===this.state.artistId) {
-                    this.setState({rating:review.stars,reviewId:review.id})
+                    return this.setState({rating:review.stars,reviewId:review.id})
                 }
             }))
+    }
 
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
+
+    afterOpenModal() {
+        this.subtitle.style.color = '#fff';
+    }
+
+    closeModal() {
+        this.setState({modalIsOpen: false});
     }
 
     likeArtist(){
@@ -115,13 +114,12 @@ class ArtistSpotify extends React.Component{
             }
         }
         else{
-            alert("First Login")
+            this.openModal()
         }
     }
 
     showTopTracks(){
-
-            this.setState({ttavail:true})
+        this.setState({ttavail:true})
     }
 
     clearReview(){
@@ -130,17 +128,14 @@ class ArtistSpotify extends React.Component{
     }
 
     addReview(rating){
-
         if(this.state.user.userName!=='CANNOT FIND'){
             this.setState({rating:rating});
             this.artistService.addReview(this.state.user.id,this.state.artistId,rating,this.state.artist.name,this.state.artist.images[0].url)
                 .then(review=>this.setState({review:review}))
         }
         else{
-            alert("First Login")
+            this.openModal()
         }
-
-
     }
 
     render(){
@@ -148,9 +143,20 @@ class ArtistSpotify extends React.Component{
         return(
             <div style={{marginTop:"5%"}}>
                 <div style={{textAlign:'center'}}>
-                    <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Artist Details</b></u></td>
-                    {this.state.artist.images!==undefined && <img src={this.state.artist.images[0].url} width="300px" height="300px" style={{borderRadius:"150px"}}/>}
+                    <div className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Artist Details</b></u></div>
+                    {this.state.artist.images!==undefined && <img src={this.state.artist.images[0].url} width="300px" height="300px" style={{borderRadius:"150px"}}
+                    alt="artist img"/>}
                 </div>
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onAfterOpen={this.afterOpenModal}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
+                    contentLabel="Example Modal" ariaHideApp={false}>
+
+                    <h4 ref={subtitle => this.subtitle = subtitle} style={{textAlign:"center",marginLeft:"10px",marginRight:"10px"}}>Please Login</h4>
+                    <button onClick={this.closeModal} className="btn btn-outline-light">close</button>
+                </Modal>
                 <br/>
                 <div className="row">
                     <div className="col-5" style={{textAlign:'center'}}>
@@ -199,7 +205,7 @@ class ArtistSpotify extends React.Component{
                     </div>
                 </div>
                 <br/>
-                <td className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Related Artists</b></u></td>
+                <div className="container" style={{color:"#363636",fontSize:"large"}}><u><b>Related Artists</b></u></div>
                 <RelatedArtists accessToken={this.state.accessToken} artistId={this.state.artistId}/>
                 <br/>
             </div>
@@ -208,5 +214,18 @@ class ArtistSpotify extends React.Component{
     }
 
 }
+
+const customStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)',
+        background:'#363636',
+        borderRadius:'10px'
+    }
+};
 
 export default ArtistSpotify;

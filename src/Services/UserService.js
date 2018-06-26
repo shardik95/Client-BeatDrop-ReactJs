@@ -121,7 +121,12 @@ class UserService{
             method:'put',
             body:JSON.stringify(user)
         }).then(response=>response.json())
+    }
 
+    getSession(){
+        return fetch("https://beatdrop.herokuapp.com/api/profile",{
+            credentials: 'include',
+        }).then((response)=>response.json())
     }
 
 }

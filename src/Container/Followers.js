@@ -8,7 +8,8 @@ class Followers extends React.Component{
         super(props);
         this.state={
             userId:'',
-            user:''
+            user:'',
+            follow:''
         }
         this.followUser=this.followUser.bind(this);
         this.unFollow=this.unFollow.bind(this);
@@ -18,48 +19,43 @@ class Followers extends React.Component{
     componentDidMount(){
         let userId=this.props.match.params.userId;
         this.setState({userId:userId});
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json})))
     }
 
     componentWillReceiveProps(newProps){
         let userId=newProps.match.params.userId;
         this.setState({userId:userId});
-        fetch("https://beatdrop.herokuapp.com/api/profile",{
-            credentials: 'include',
-        }).then((response)=>response.json())
+        this.userService.getSession()
             .then((json)=>(this.setState({user:json})))
     }
 
     unFollow(followingId,myId){
-        this.userService.unfollow(followingId,followingId)
-            .then(()=>fetch("https://beatdrop.herokuapp.com/api/profile",{
-                    credentials: 'include',
-                }).then(response=> (
-                    response.json()
-                )).then(json=> {
-                    if (json.userName !== 'CANNOT FIND'){
-                        this.setState({user:json,userId:json.id,showFollow:true})
-                    }})
-            )
+
+         let followerId=0;
+         this.userService.findUserById(myId)
+            .then(user=>user.followers.map(follow=>{
+           if(follow.userName==this.state.user.userName){
+                followerId=follow.id
+           }
+        })).then(()=>this.userService.unfollow(followerId,followerId)
+             .then(()=>this.userService.getSession().then(json=> {
+                     if (json.userName !== 'CANNOT FIND'){
+                         this.setState({user:json,userId:json.id,follow:true})
+                     }})
+             )
+         )
+
 
     }
 
-
     followUser(profileId){
-       //console.log(profileId)
         if(this.state.user!==''){
             this.userService.followUser(this.state.user,profileId)
                 .then(()=>(
-                    fetch("http://localhost:8080/api/profile",{
-                        credentials: 'include',
-                    }).then(response=> (
-                        response.json()
-                    )).then(json=> {
+                    this.userService.getSession().then(json=> {
                         if (json.userName !== 'CANNOT FIND'){
-                            this.setState({user:json,userId:json.id})
+                            this.setState({user:json,userId:json.id,follow:false})
                         }
                     })
 
@@ -88,11 +84,13 @@ class Followers extends React.Component{
                                     }
                                 }
                         }
-                        return <li className="list-group-item" key={index}>
+                        return <li className="list-group-item" key={index} style={{background: 'linear-gradient(#fff2f2, white)'}}>
                             <i className="fa fa-user"/>&emsp;
                             <Link to={`/user/${follower.myid}/profile`}>{follower.firstName}</Link>
-                            <button className="btn btn-outline-dark float-right" hidden={follow} onClick={()=>this.followUser(follower.myid)}>Follow</button>
-                            <button className="btn btn-outline-dark float-right" hidden={!follow} onClick={()=>this.unFollow(follower.id,follower.myId)}>UnFollow</button>
+                                {this.state.user.type==='User' &&
+                                <button className="btn btn-outline-dark float-right" hidden={follow} onClick={()=>this.followUser(follower.myid)}>Follow</button>}
+                                {this.state.user.type==='User'&&
+                                <button className="btn btn-outline-dark float-right" hidden={!follow} onClick={()=>this.unFollow(follower.id,follower.myid)}>UnFollow</button>}
                         </li>
                     })}
                 </ul>
