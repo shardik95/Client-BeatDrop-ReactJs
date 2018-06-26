@@ -40,12 +40,22 @@ class Song extends React.Component{
         let trackId=this.props.match.params.trackId;
         this.setState({trackId:trackId})
 
-        this.spotifyService.getAccessToken()
-            .then(response=> (this.setState({accessToken: response.access_token})))
-            .then(()=>this.spotifyService.getTrackById(this.state.trackId,this.state.access_token))
+        fetch("https://beatdrop.herokuapp.com/api/accessToken")
+            .then(response=>(
+                response.json()
+            )).then(response=> {
+            return this.setState({accessToken: response.access_token})
+        }).then(()=>fetch('https://api.spotify.com/v1/tracks/'+this.state.trackId,{
+            headers:{
+                'Authorization':'Bearer '+this.state.accessToken
+            }
+        }))
+            .then((response)=>response.json())
             .then((song)=>this.setState({song:song}))
 
-        this.userService.getSession()
+        fetch("https://beatdrop.herokuapp.com/api/profile",{
+            credentials: 'include',
+        }).then((response)=>response.json())
             .then((json)=>(this.setState({user:json})))
             .then(()=>this.state.user.userName!=='CANNOT FIND'&&this.state.user.likes.map(like=>{
                 if(like.typeId===this.state.trackId) {
