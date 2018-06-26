@@ -87,7 +87,6 @@ class Feed extends React.Component{
                                 <div className="card-header bg-dark" style={{color:"#fff"}}>
                                     <i className="fa fa-lg fa-user-circle"/>&nbsp;{this.state.user.userName === feed.username && "you"}
                                     {this.state.user.userName !== feed.username && feed.username}
-                                    {feed.type === 'Artist' && <i className="fa fa-check-circle" style={{color:'#2C8AFF'}}/>}
                                 </div>
                                 <div className="card-body">
                                     <div className="row">

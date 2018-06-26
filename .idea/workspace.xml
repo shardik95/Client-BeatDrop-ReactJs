@@ -2,40 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4eba67c0-d493-4487-ae1f-4a2dfe1f1b29" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/FeaturedPlaylists.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/FeaturedPlaylists.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/HomeFeed.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/HomeFeed.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/RelatedArtists.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/RelatedArtists.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/TopAlbums.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/TopAlbums.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/TopTracks.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/TopTracks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/Account.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/Account.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/Admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/Admin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Container/Album.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/Album.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Container/ArtistSpotify.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/ArtistSpotify.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Container/Feed.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/Feed.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/Followers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/Followers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/Following.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/Following.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/LandingPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/LandingPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/Party.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/Party.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/Playlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/Playlist.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/PublicFeed.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/PublicFeed.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/PublicFollowers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/PublicFollowers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/PublicFollowing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/PublicFollowing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/PublicParty.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/PublicParty.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/PublicTicket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/PublicTicket.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/SignUp.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Container/Song.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/Song.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/Ticket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/Ticket.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/UserPrivateProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/UserPrivateProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Container/UserPublicProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/UserPublicProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Services/PlaylistService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/PlaylistService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Services/SpotifyService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/SpotifyService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Services/UserService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/UserService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -49,6 +19,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="Album.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Container/Album.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="88" column="62" selection-start-line="88" selection-start-column="62" selection-end-line="88" selection-end-column="62" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="SpotifyService.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Services/SpotifyService.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -76,7 +58,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HomeFeed.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HomeFeed.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Components/HomeFeed.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="225">
@@ -88,47 +70,50 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FollowingService.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Services/FollowingService.js">
+      <file leaf-file-name="Song.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Container/Song.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="52" selection-start-line="15" selection-start-column="52" selection-end-line="15" selection-end-column="52" />
+            <state relative-caret-position="292">
+              <caret line="63" column="64" lean-forward="true" selection-start-line="63" selection-start-column="64" selection-end-line="63" selection-end-column="64" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HostPlaylistService.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Services/HostPlaylistService.js">
+      <file leaf-file-name="ArtistSpotify.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Container/ArtistSpotify.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="52" selection-start-line="15" selection-start-column="52" selection-end-line="15" selection-end-column="52" />
+            <state relative-caret-position="596">
+              <caret line="69" column="62" selection-start-line="69" selection-start-column="62" selection-end-line="69" selection-end-column="62" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HostService.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Services/HostService.js">
+      <file leaf-file-name="Playlist.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Container/Playlist.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="52" selection-start-line="15" selection-start-column="52" selection-end-line="15" selection-end-column="52" />
+            <state relative-caret-position="584">
+              <caret line="92" column="48" selection-start-line="92" selection-start-column="29" selection-end-line="92" selection-end-column="48" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PartyService.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Services/PartyService.js">
+      <file leaf-file-name="Feed.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Container/Feed.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="52" selection-start-line="15" selection-start-column="52" selection-end-line="15" selection-end-column="52" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PlaylistService.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Services/PlaylistService.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="47">
-              <caret line="14" column="52" selection-start-line="14" selection-start-column="52" selection-end-line="14" selection-end-column="52" />
+            <state relative-caret-position="139">
+              <caret line="88" column="97" selection-start-line="88" selection-start-column="97" selection-end-line="88" selection-end-column="97" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -178,9 +163,6 @@
         <option value="$PROJECT_DIR$/src/Components/TopAlbums.js" />
         <option value="$PROJECT_DIR$/src/Components/TopTracks.js" />
         <option value="$PROJECT_DIR$/src/Container/Account.js" />
-        <option value="$PROJECT_DIR$/src/Container/Album.js" />
-        <option value="$PROJECT_DIR$/src/Container/ArtistSpotify.js" />
-        <option value="$PROJECT_DIR$/src/Container/Feed.js" />
         <option value="$PROJECT_DIR$/src/Container/Followers.js" />
         <option value="$PROJECT_DIR$/src/Container/Following.js" />
         <option value="$PROJECT_DIR$/src/Container/Home.js" />
@@ -190,7 +172,6 @@
         <option value="$PROJECT_DIR$/src/Container/PublicFollowing.js" />
         <option value="$PROJECT_DIR$/src/Container/PublicParty.js" />
         <option value="$PROJECT_DIR$/src/Container/PublicTicket.js" />
-        <option value="$PROJECT_DIR$/src/Container/Song.js" />
         <option value="$PROJECT_DIR$/src/Container/Ticket.js" />
         <option value="$PROJECT_DIR$/src/Container/UserPrivateProfile.js" />
         <option value="$PROJECT_DIR$/src/Container/UserPublicProfile.js" />
@@ -208,6 +189,10 @@
         <option value="$PROJECT_DIR$/src/Services/UserService.js" />
         <option value="$PROJECT_DIR$/src/Container/Admin.js" />
         <option value="$PROJECT_DIR$/src/Components/HomeFeed.js" />
+        <option value="$PROJECT_DIR$/src/Container/Feed.js" />
+        <option value="$PROJECT_DIR$/src/Container/Song.js" />
+        <option value="$PROJECT_DIR$/src/Container/Album.js" />
+        <option value="$PROJECT_DIR$/src/Container/ArtistSpotify.js" />
       </list>
     </option>
   </component>
@@ -317,12 +302,12 @@
       <workItem from="1529121799086" duration="41000" />
       <workItem from="1529122530182" duration="232000" />
       <workItem from="1529125079068" duration="3435000" />
-      <workItem from="1529435179604" duration="167217000" />
+      <workItem from="1529435179604" duration="168348000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="170959000" />
+    <option name="totallyTimeSpent" value="172090000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="6" />
@@ -485,36 +470,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Container/Album.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="40" column="44" selection-start-line="40" selection-start-column="44" selection-end-line="40" selection-end-column="44" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Container/ArtistSpotify.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="68" column="40" lean-forward="true" selection-start-line="68" selection-start-column="40" selection-end-line="68" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Container/Feed.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="42" column="15" lean-forward="true" selection-start-line="42" selection-start-column="15" selection-end-line="42" selection-end-column="15" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Container/Followers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="422">
@@ -569,16 +524,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1348">
           <caret line="63" column="90" selection-start-line="63" selection-start-column="90" selection-end-line="63" selection-end-column="90" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Container/Playlist.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-988">
-          <caret line="87" column="93" selection-start-line="87" selection-start-column="93" selection-end-line="87" selection-end-column="93" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -649,16 +594,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1470">
           <caret line="98" column="33" selection-start-line="98" selection-start-column="33" selection-end-line="98" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Container/Song.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-58">
-          <caret line="171" column="97" selection-start-line="171" selection-start-column="97" selection-end-line="171" selection-end-column="97" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -783,6 +718,56 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Container/Playlist.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="584">
+          <caret line="92" column="48" selection-start-line="92" selection-start-column="29" selection-end-line="92" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Container/Feed.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="88" column="97" selection-start-line="88" selection-start-column="97" selection-end-line="88" selection-end-column="97" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Container/Album.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="88" column="62" selection-start-line="88" selection-start-column="62" selection-end-line="88" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Container/Song.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="63" column="64" lean-forward="true" selection-start-line="63" selection-start-column="64" selection-end-line="63" selection-end-column="64" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Container/ArtistSpotify.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="596">
+          <caret line="69" column="62" selection-start-line="69" selection-start-column="62" selection-end-line="69" selection-end-column="62" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>

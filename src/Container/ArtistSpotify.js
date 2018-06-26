@@ -67,7 +67,7 @@ class ArtistSpotify extends React.Component{
     }
 
     componentWillReceiveProps(newProps){
-        this.setState({like:'',setLike:true,review:''})
+        this.setState({like:'',setLike:true,review:'',rating:0})
         let artistId=newProps.match.params.artistId;
         this.setState({artistId:artistId})
 

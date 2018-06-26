@@ -86,7 +86,7 @@ class Album extends React.Component{
     }
 
     componentWillReceiveProps(newProps){
-        this.setState({like:'',setLike:true,review:''})
+        this.setState({like:'',setLike:true,review:'',rating:0})
         let albumId=newProps.match.params.albumId;
         this.setState({albumId:albumId})
 
