@@ -7,16 +7,18 @@ Server deploy Link: 
 https://beatdrop.herokuapp.com/
 
 The server repository can be found at: 
-https://github.com/shardik95/webdev-summer1-team2020
+https://github.com/shardik95/Server-BeatDrop
+
+First open the Server Deploy link (this might take some time)
+Then open the Client Deploy link. 
 
 The project is created with reactJs.
 
+The screenshots for the app can be found in screenshot folder in this repository.
 
 #BeatDrop - Music For All : 
 
-
 A web application where users can share their playlists with the host of the party and the host can thereby merge all the playlists shared by the users following them, and hence create a single playlist based on the song's popularity, that integrates everyone's music taste.
-
 
 
 Role1: alice (anonymous user)
