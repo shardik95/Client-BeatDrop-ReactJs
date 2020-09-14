@@ -1,5 +1,7 @@
 # BeatDrop Client 
 
+![](Screeshots/MainApp.png)
+
 Client deployLink: 
 https://beatdropapp.herokuapp.com/
 
