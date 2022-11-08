@@ -12,7 +12,7 @@
     "react-load-script": "0.0.6",
     "react-modal": "^3.4.5",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.4",
+    "react-scripts": "5.0.1",
     "react-star-ratings": "^2.2.0"
   },
   "scripts": {
